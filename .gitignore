@@ -1,7 +1,22 @@
+### Java ###
+*.class
+.mtj.tmp/
+*.jar
+*.war
+*.ear
+*.nar
+hs_err_pid*
+replay_pid*
+
 ### IntelliJ IDEA ###
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+.idea/
+.idea_modules/
+*.iml
+*.ipr
+*.iws
 
 ### Eclipse ###
 .apt_generated
@@ -14,6 +29,15 @@ out/
 bin/
 !**/src/main/**/bin/
 !**/src/test/**/bin/
+.settings/
+tmp/
+.metadata
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.loadpath
 
 ### NetBeans ###
 /nbproject/private/
@@ -21,9 +45,20 @@ bin/
 /dist/
 /nbdist/
 /.nb-gradle/
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
 
 ### VS Code ###
 .vscode/
+.code-workspace
 
 ### Mac OS ###
 .DS_Store
+
+### Miscellaneous ###
+*.log
