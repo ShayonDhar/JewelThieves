@@ -5,7 +5,7 @@ package game.entity;
  * It provides shared state such as position, direction, and movement blocking.
  * Subclasses must implement specific behavior such as movement logic.
  *
- * @author Shayon Dhar
+ * @author Shayon Dhar, Keyan Jaf
  * @version 1.0.0
  */
 public abstract class Entity {
@@ -82,6 +82,17 @@ public abstract class Entity {
     }
 
     /**
+     * Sets the position of the entity. (Convenient to do in one call)
+     * @param x new x coordinate
+     * @param y new y coordinate
+     */
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    /**
      * Checks if the entity blocks movement of other entities.
      *
      * @return true if the entity blocks movement, false otherwise
@@ -142,6 +153,45 @@ public abstract class Entity {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    /**
+     * Turns the entity to the left (useful for floor following thief)
+     *
+     */
+    public void turnLeft() {
+        switch (direction) {
+            case NORTH -> direction = Direction.NORTH;
+            case EAST -> direction = Direction.NORTH;
+            case SOUTH -> direction = Direction.EAST;
+            case WEST -> direction = Direction.SOUTH;
+        }
+    }
+
+    /**
+     * Turns the entity to the right (useful for floor following thief)
+     *
+     */
+    public void turnRight() {
+        switch (direction) {
+            case NORTH -> direction = Direction.EAST;
+            case EAST -> direction = Direction.SOUTH;
+            case SOUTH -> direction = Direction.WEST;
+            case WEST -> direction = Direction.NORTH;
+        }
+    }
+
+    /**
+     * Turns the entity 180 degrees. Essentially flying assassin's movement pattern.
+     */
+    public void turnAround() {
+        switch (direction) {
+            case NORTH -> direction = Direction.SOUTH;
+            case EAST -> direction = Direction.WEST;
+            case SOUTH -> direction = Direction.NORTH;
+            case WEST -> direction = Direction.EAST;
+        }
+
     }
 
     /**
