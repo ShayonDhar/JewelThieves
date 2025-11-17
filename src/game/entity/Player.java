@@ -1,5 +1,8 @@
 package game.entity;
 
+import game.level.Level;
+import game.level.Tile;
+
 /**
  * Represents the player entity in the game.
  * The Player class extends the generic Entity class and provides
