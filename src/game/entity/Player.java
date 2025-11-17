@@ -31,6 +31,11 @@ public class Player extends Entity {
         super(entityID, ENTITY_NAME, y, x, direction, alive, blocksMovement);
     }
 
+    /**
+     * Attempts to move the player in their current direction, applying movement
+     * rules, collecting items, triggering bombs, handling collisions, and checking
+     * exit conditions.
+     */
     @Override
     public void move() {
         /*
