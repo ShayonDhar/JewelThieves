@@ -10,9 +10,9 @@ package game.entity;
  */
 public abstract class Entity {
 
+    protected int entityID;
     private final boolean blocksMovement;
     private String entityName;
-    private int entityID;
     private int x;
     private int y;
     private Direction direction;
@@ -29,7 +29,7 @@ public abstract class Entity {
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    public Entity(int entityID, String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+    protected Entity(int entityID, String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
         this.entityID = entityID;
         this.entityName = entityName;
         this.y = y;
@@ -161,7 +161,7 @@ public abstract class Entity {
      */
     public void turnLeft() {
         switch (direction) {
-            case NORTH -> direction = Direction.NORTH;
+            case NORTH -> direction = Direction.WEST;
             case EAST -> direction = Direction.NORTH;
             case SOUTH -> direction = Direction.EAST;
             case WEST -> direction = Direction.SOUTH;
@@ -191,7 +191,6 @@ public abstract class Entity {
             case SOUTH -> direction = Direction.NORTH;
             case WEST -> direction = Direction.EAST;
         }
-
     }
 
     /**
