@@ -32,7 +32,7 @@ import java.util.Objects;
  */
 public class Main extends Application {
 	// The dimensions of the window
-	private static final int WINDOW_WIDTH = 800;
+	private static final int WINDOW_WIDTH = 700;
 	private static final int WINDOW_HEIGHT = 500;
 
 	// The dimensions of the canvas
