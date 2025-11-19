@@ -76,6 +76,14 @@ public class Level {
     public Tile getTile(int y, int x){
         return levelGrid[y][x];
     }
+
+    /**
+     * Gets the item at a specific coordinate
+     * on the level.
+     * @param y the y-coordinate
+     * @param x the x-coordinate
+     * @return gets the item on at that grid
+     */
     public Item getItemAt(int y, int x){
         return itemsGrid[y][x];
     }
