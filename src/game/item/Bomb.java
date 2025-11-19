@@ -1,4 +1,5 @@
 package game.item;
+import game.level.Level;
 
 public class Bomb extends Item {
     private static final int BOMB_COUNTDOWN = 3;
@@ -38,8 +39,6 @@ public class Bomb extends Item {
                     state = BombState.EXPLODED;
                 }
                 break;
-                case EXPLODED:
-                    break;
         }
 
 
@@ -51,7 +50,7 @@ public class Bomb extends Item {
     }
     public void explode(Level level) {
         state = BombState.EXPLODED;
-        //will add logic in a bit 
+        //TODO: Add explode logic
     }
 
 }
