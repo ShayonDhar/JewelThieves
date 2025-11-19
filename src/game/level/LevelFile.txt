@@ -13,3 +13,39 @@ Level
 # Each tile is a block of 4 colours
 # --------------------------------------------------------------------
 # insert grid here to be finalised
+
+# --------------------------------------------------------------------
+# SECTION 3: ENTITY & ITEM LIST
+# This section defines what entities and items will be in the level,
+# where they will be in the level, and what data they hold
+# --------------------------------------------------------------------
+
+# Player (X, Y, Direction)
+PLAYER 1 1 DOWN
+
+# Thieves & Assassins
+# FlyingAssassin (X, Y, Direction)
+FLYINGASSASSIN 1 1 DOWN
+# SmartThief (X, Y, Direction)
+SMARTTHIEF 1 1 DOWN
+# FloorFollowingThief (X, Y, Direction, Colour)
+FLOORFOLLOWINGTHEIF 1 1 DOWN
+
+# Loot & Clocks
+# Loot (X, Y, Type)
+LOOT 1 1 CENT
+LOOT 1 1 DOLLAR
+LOOT 1 1 RUBY
+LOOT 1 1 DIAMOND
+# Clock (X, Y)
+CLOCK 2 1
+
+# Bombs, Levers, Gates, and Doors
+# Bomb (X, Y)
+BOMB 1 1
+# Lever (X, Y)
+LEVER 1 1 RED
+# Gate (X, Y, Colour)
+GATE 1 1 RED
+# Door (X, Y)
+DOOR 1 1
