@@ -129,6 +129,26 @@ public class Level {
      * @param bomb the bomb to trigger
      */
     public void triggerBomb(Bomb bomb){
+        Tile bombTile = getTile(bomb.getX(), bomb.getY());
+        List<Tile> neighbours = getNeighbourTiles(bombTile);
+
+        boolean shouldTrigger = false;
+
+        for (Tile t : neighbours) {
+            
+            Item item = itemsGrid[t.getY()][t.getX()];
+            if (item != null) {
+                shouldTrigger = true;
+            }
+
+            if (tileHasEntity(t)) {
+                shouldTrigger = true;
+            }
+        }
+
+        if (shouldTrigger) {
+            bomb.trigger();
+        }
     }
 
     /**
