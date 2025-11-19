@@ -207,13 +207,13 @@ public class Level {
         return null;
     }
 
+    public void update(int time){
+    }
     /**
      * Removes an item from the grid.
      * @param x the x-coordinate of the tile
      * @param y the y-coordinate of the tile
      */
-    public void update(int time){
-    }
     private void removeItemFromGrid(int x, int y) {
         itemsGrid[x][y] = null;
     }
