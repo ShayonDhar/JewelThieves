@@ -132,6 +132,45 @@ public class Level {
      */
     public void update(int time){
     }
+    private void removeItemFromGrid(int x, int y) {
+        itemsGrid[x][y] = null;
+    }
+
+    public void destroyTileContent(int x, int y) {
+
+        Item item = itemsGrid[x][y];
+        if (item == null) return;
+
+        // Bombs
+        if (item instanceof Bomb bomb) {
+            if (bomb.getState() == BombState.WAITING ||
+                    bomb.getState() == BombState.COUNTING) {
+                bomb.trigger();
+            }
+            return;
+        }
+
+        // Gates and Doors survive
+        if (item instanceof Gate || item instanceof Door) {
+            return;
+        }
+
+        // Everything else gets destroyed
+        removeItemFromGrid(x, y);
+    }
+
+    public void handleExplosion(int x, int y) {
+        // horizontal blast
+        for (int cx = 0; cx < width; cx++) {
+            destroyTileContent(cx, y);
+        }
+
+        // vertical blast
+        for (int cy = 0; cy < height; cy++) {
+            destroyTileContent(x, cy);
+        }
+    }
+
 
 
 
