@@ -1,5 +1,6 @@
 package game.item;
 import game.level.Level;
+import javafx.scene.canvas.GraphicsContext;
 
 public class Bomb extends Item {
     private static final int BOMB_COUNTDOWN = 3;
@@ -23,6 +24,12 @@ public class Bomb extends Item {
         super(itemName, itemID, x, y, isOn);
         this.state = BombState.WAITING;
     }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+
+    }
+
     public BombState getState() {
         return state;
     }
