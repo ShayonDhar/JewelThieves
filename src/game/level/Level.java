@@ -96,6 +96,19 @@ public class Level {
      * @return a list of neighbouring tiles.
      */
     public List<Tile> getNeighbourTiles(Tile tile) {
+        List<Tile> list = new ArrayList<>();
+
+        Tile up    = getTile(tile.getX(), tile.getY() - 1);
+        Tile down  = getTile(tile.getX(), tile.getY() + 1);
+        Tile left  = getTile(tile.getX() - 1, tile.getY());
+        Tile right = getTile(tile.getX() + 1, tile.getY());
+
+        if (up != null) list.add(up);
+        if (down != null) list.add(down);
+        if (left != null) list.add(left);
+        if (right != null) list.add(right);
+
+        return list;
     }
 
     /**
