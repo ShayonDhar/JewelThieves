@@ -6,3 +6,10 @@ Width
 Height
 Time
 Level
+
+# --------------------------------------------------------------------
+# SECTION 2: TILE COLOUR GRID
+# This section defines the colours of the tiles and the structure of the grid
+# Each tile is a block of 4 colours
+# --------------------------------------------------------------------
+# insert grid here to be finalised
