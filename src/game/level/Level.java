@@ -116,6 +116,12 @@ public class Level {
         //TODO: Loot and Levers collected check logic
         return false;
     }
+    private boolean tileHasEntity(Tile t) {
+        for (Entity e : entities) {
+            if (e.getX() == t.getX() && e.getY() == t.getY()) return true;
+        }
+        return false;
+    }
     /**
      * Triggers the specified bomb.
      * Uses the getNeighbourTiles to check whether the bomb
