@@ -3,6 +3,11 @@ package game.level;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
+import game.item.Bomb;
+import game.item.Item;
+import game.item.Gate;
+import game.item.BombState;
+import game.item.Door;
 
 import java.util.List;
 
