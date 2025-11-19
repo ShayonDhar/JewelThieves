@@ -6,14 +6,11 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="536.0" prefWidth="854.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameController">
    <left>
-      <VBox alignment="CENTER" prefHeight="679.0" prefWidth="149.0" spacing="20.0" BorderPane.alignment="CENTER">
+      <VBox alignment="CENTER" prefHeight="515.0" prefWidth="117.0" spacing="20.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#createCircle" text="RandomCircle" />
-            <Button mnemonicParsing="false" onAction="#createRectangle" text="RandomRectangle" />
-            <Button mnemonicParsing="false" onAction="#quitGame" text="Quit" />
          </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -24,6 +21,6 @@
       </VBox>
    </left>
    <center>
-      <Canvas fx:id="canvas" height="500.0" width="500.0" BorderPane.alignment="CENTER" />
+      <Canvas fx:id="canvas" height="500.0" width="650.0" BorderPane.alignment="CENTER" />
    </center>
 </BorderPane>

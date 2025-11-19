@@ -1,9 +1,11 @@
 package game;
 
+import game.level.Level;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * Class that links the MainApplication to the SceneBuilder FXML controlling aspect
@@ -11,40 +13,31 @@ import javafx.scene.canvas.GraphicsContext;
 public class GameController {
 
     public Canvas canvas;
-    private GraphicsContext gc;
-    // private Level level;
+    public GraphicsContext gc;
+    public Level level;
 
     /**
-     * Method that runs immediately after initialising the program
+     * Method that initialises the game.
      */
     @FXML
     public void initialize() {
+        // Drawing the canvas background
         gc = canvas.getGraphicsContext2D();
-        // NOTE TO SELF: Go to the GraphicsContext JavaDoc
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight()); // Draw the background
+        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
-        /*
-        - Call a method to load the Level attributes to build a level (the Level class needs a draw(GraphicsContext)
-        method
-        - add level object to the canvas
-        - Call a method to load the Tiles to build the tiles with the colours
-
-         */
+        // Drawing the level background
+        level = new Level("LevelFile.txt");
+        level.draw(gc);
     }
 
+    /**
+     * Tester method
+     * @param actionEvent on pressing the "Random Circle" button
+     */
     @FXML
     public void createCircle(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void createRectangle(ActionEvent actionEvent) {
-
-    }
-
-    @FXML
-    public void quitGame(ActionEvent actionEvent) {
-
+        gc.setFill(Color.PURPLE);
+        gc.fillOval(100,100,50,50);
     }
 
 }

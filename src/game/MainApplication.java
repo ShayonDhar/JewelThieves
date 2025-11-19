@@ -20,7 +20,8 @@ public class MainApplication extends Application {
      * The method that launches the JavaFX application.
      *
      * @param args command-line parameter passed to the application
-     */    public static void main(String[] args) {
+     */
+    public static void main(String[] args) {
         launch(args);
     }
 
@@ -41,7 +42,7 @@ public class MainApplication extends Application {
         try {
             // Loading the pane onto the scene
             Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
-            Scene scene = new Scene(root,700,700);
+            Scene scene = new Scene(root,854.0,536.0); // w and h from .fxml file
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
