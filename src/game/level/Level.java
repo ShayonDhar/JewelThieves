@@ -285,7 +285,7 @@ public class Level {
     }
 
     /**
-     * Renders the game onto the JavaFX application.
+     * Renders the level onto the JavaFX application.
      *
      * @author Antoni Wachowiak
      * @param gc The graphics context used within the JavaFX application
