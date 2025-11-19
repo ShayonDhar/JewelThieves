@@ -27,6 +27,6 @@ public class Tile {
      */
     private boolean hasEntity;
     private boolean isExit;
-
-
+    private int xCoordinate;
+    private int yCoordinate;
 }
