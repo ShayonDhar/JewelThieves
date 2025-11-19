@@ -87,6 +87,13 @@ public class Level {
     public Item getItemAt(int y, int x){
         return itemsGrid[y][x];
     }
+
+    /**
+     * Sets the item at a specific coordinate
+     * @param y the y-coordinate of the tile
+     * @param x the x-coordinate of the tile
+     * @param item the item being added 
+     */
     private void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
     }
