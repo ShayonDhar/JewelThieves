@@ -73,6 +73,13 @@ public class Level {
      * @return the tile.
      */
     public Tile getTile(int y, int x){
+        return levelGrid[y][x];
+    }
+    public Item getItemAt(int y, int x){
+        return itemsGrid[y][x];
+    }
+    private void setItemAt(int y, int x,Item item){
+        itemsGrid[y][x] = item;
     }
 
     /**
