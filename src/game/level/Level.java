@@ -232,7 +232,13 @@ public class Level {
             destroyTileContent(x, cy);
         }
     }
-    public void updateLevel() {
+    /**
+     * Updates the state of the level by the specified time step.
+     * This includes decreasing remaining time, updating NPC movement,
+     * processing bomb countdowns and explosions, and checking win or loss conditions.
+     * @param time the time step (in seconds or ticks) to advance the level state by
+     */
+    public void updateLevel(int time) {
         /* TODO:
         1. Reduce Remaining Time
         2. update NPCs
