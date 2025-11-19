@@ -2,6 +2,8 @@ package game.entity;
 
 import game.level.Level;
 import game.level.Tile;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 /**
  * Represents the player entity in the game.
@@ -97,6 +99,20 @@ public class Player extends Entity {
         }
 
          */
+    }
+
+    /**
+     * Renders the entity onto the JavaFX application.
+     *
+     * @param gc The graphics context used within the JavaFX application
+     * @author Antoni Wachowiak
+     */
+    @Override
+    public void draw(GraphicsContext gc) {
+
+        // Drawing the level background
+        gc.setFill(Color.RED);
+        gc.fillOval(60, 40, 10, 10);
     }
 }
 

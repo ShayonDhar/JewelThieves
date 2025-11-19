@@ -1,5 +1,6 @@
 package game;
 
+import game.entity.Player;
 import game.level.Level;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ public class GameController {
     public Canvas canvas;
     public GraphicsContext gc;
     public Level level;
+    public Player player;
 
     /**
      * Method that initialises the game.
@@ -28,6 +30,10 @@ public class GameController {
         // Drawing the level background
         level = new Level("LevelFile.txt");
         level.draw(gc);
+
+        // Spawning the player
+        // player = new Player();
+        // player.draw(gc);
     }
 
     /**
