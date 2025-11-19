@@ -42,6 +42,7 @@ public class Level {
     private boolean levelFailed;
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
+    private Item[][] itemsGrid;
 
     /**
      * Constructor which loads the level from the level file.
