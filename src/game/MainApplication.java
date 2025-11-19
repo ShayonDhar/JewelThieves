@@ -42,7 +42,7 @@ public class MainApplication extends Application {
         try {
             // Loading the pane onto the scene
             Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
-            Scene scene = new Scene(root,854.0,536.0); // w and h from .fxml file
+            Scene scene = new Scene(root,950,700); // w and h from .fxml file
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
