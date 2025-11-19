@@ -218,6 +218,12 @@ public class Level {
         itemsGrid[x][y] = null;
     }
 
+    /**
+     * Destroys the item located at the specified tile coordinates
+     * as part of a bomb explosion.
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     */
     public void destroyTileContent(int x, int y) {
 
         Item item = itemsGrid[x][y];
