@@ -1,5 +1,11 @@
 package game.level;
+
+import game.entity.NPC;
+import game.item.Gate;
+import game.item.Item;
 import javafx.scene.paint.Color;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Represents a single tile within the game level grid. Each tile has a fixed
@@ -16,17 +22,33 @@ import javafx.scene.paint.Color;
  * @author Alex Samuel
  */
 
-
 public class Tile {
+
+    private final int x;
+    private final int y;
+
     private Color[] colours;
-    /*
-    Uncomment once item/npc/gate class has been created.
+
     private Item item;
-    private NPC npcs;
     private Gate gate;
-     */
-    private boolean hasEntity;
     private boolean isExit;
 
+    private List<NPC> npcs = new ArrayList<>();
 
+    public Tile(int x, int y, Color[] colours) {
+        this.x = x;
+        this.y = y;
+        this.colours = colours;
+    }
+
+    public int getX() { return x; }
+    public int getY() { return y; }
+
+    public boolean hasGate() { return gate != null; }
+    public boolean isExit() { return isExit; }
+
+    public Item getItem() { return item; }
+    public void setItem(Item item) { this.item = item; }
+
+    public List<NPC> getNpcs() { return npcs; }
 }
