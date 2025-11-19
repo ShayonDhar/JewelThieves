@@ -145,6 +145,12 @@ public class Level {
         //TODO: Loot and Levers collected check logic
         return false;
     }
+
+    /**
+     * Checks whether a tile has an entity.
+     * @param t the tile object
+     * @return does the tile contain an entity
+     */
     private boolean tileHasEntity(Tile t) {
         for (Entity e : entities) {
             if (e.getX() == t.getX() && e.getY() == t.getY()) return true;
