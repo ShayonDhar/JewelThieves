@@ -247,6 +247,12 @@ public class Level {
         removeItemFromGrid(x, y);
     }
 
+    /**
+     * Handles the explosion of a bomb
+     * @param x x-coordinate of the tile
+     * @param y y-coordinate of the tile.
+     */
+
     public void handleExplosion(int x, int y) {
         // horizontal blast
         for (int cx = 0; cx < width; cx++) {
