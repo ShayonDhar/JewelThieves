@@ -62,6 +62,8 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
+        // TODO: implement colour-based movement rules
+        return null;
     }
 
     /**
@@ -96,6 +98,7 @@ public class Level {
      * @param c the colour of gates to open
      */
     public void openGatesOfColour(Colour c){
+        //TODO: Open gate logic
     }
     /**
      * Checks whether all loot and levers present in the level have been collected.
@@ -103,6 +106,8 @@ public class Level {
      * @return true if no loot or levers remain in the level, false otherwise
      */
     public boolean allLootAndLeversCollected(){
+        //TODO: Loot and Levers collected check logic
+        return false;
     }
     /**
      * Triggers the specified bomb.
