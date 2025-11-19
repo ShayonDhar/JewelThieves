@@ -49,5 +49,9 @@ public class Bomb extends Item {
             state = BombState.COUNTING;
         }
     }
+    public void explode(Level level) {
+        state = BombState.EXPLODED;
+        //will add logic in a bit 
+    }
 
 }
