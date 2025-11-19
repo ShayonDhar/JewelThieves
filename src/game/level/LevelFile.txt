@@ -1,0 +1,8 @@
+# --------------------------------------------------------------------
+# SECTION 1: DIMENSIONS & METADATA
+# This section defines the size of the level and the time limit
+# --------------------------------------------------------------------
+Width
+Height
+Time
+Level
