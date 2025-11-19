@@ -208,10 +208,9 @@ public class Level {
     }
 
     /**
-     * Updates the state of the level by the specified time step.
-     * This includes decreasing remaining time, updating NPC movement,
-     * processing bomb countdowns and explosions, and checking win or loss conditions.
-     * @param time the time step (in seconds or ticks) to advance the level state by
+     * Removes an item from the grid.
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
      */
     public void update(int time){
     }
