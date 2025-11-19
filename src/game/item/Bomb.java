@@ -44,5 +44,10 @@ public class Bomb extends Item {
 
 
     }
+    public void trigger() {
+        if (state == BombState.WAITING) {
+            state = BombState.COUNTING;
+        }
+    }
 
 }
