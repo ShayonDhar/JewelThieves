@@ -1,5 +1,7 @@
 package game.entity;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * This class represents a generic entity in the game.
  * It provides shared state such as position, direction, and movement blocking.
@@ -252,5 +254,13 @@ public abstract class Entity {
                 ", alive=" + alive +
                 '}';
     }
+
+    /**
+     * Renders the entity onto the JavaFX application.
+     *
+     * @author Antoni Wachowiak
+     * @param gc The graphics context used within the JavaFX application
+     */
+    public abstract void draw(GraphicsContext gc);
 
 }
