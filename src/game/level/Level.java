@@ -9,6 +9,7 @@ import game.item.Gate;
 import game.item.BombState;
 import game.item.Door;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -148,7 +149,7 @@ public class Level {
         boolean shouldTrigger = false;
 
         for (Tile t : neighbours) {
-            
+
             Item item = itemsGrid[t.getY()][t.getX()];
             if (item != null) {
                 shouldTrigger = true;
@@ -171,6 +172,8 @@ public class Level {
      * @return the tile the NPC should move to, or null if no valid move exists
      */
     public Tile getNextTileForNpc(Entity npc){
+        //TODO: NPC Logic
+        return null;
     }
     /**
      * Finds the shortest path between loot, lever and exit tile.
@@ -179,6 +182,8 @@ public class Level {
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
     public Tile findShortestPathTarget(Tile source){
+        //TODO: pathfinding for smart thief
+        return null;
     }
 
     /**
@@ -226,6 +231,14 @@ public class Level {
         for (int cy = 0; cy < height; cy++) {
             destroyTileContent(x, cy);
         }
+    }
+    public void updateLevel() {
+        /* TODO:
+        1. Reduce Remaining Time
+        2. update NPCs
+        3. tick bombs
+        4. check win/loss
+         */
     }
 
 
