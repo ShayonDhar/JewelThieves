@@ -5,14 +5,14 @@ package game.entity;
  * It provides shared state such as position, direction, and movement blocking.
  * Subclasses must implement specific behavior such as movement logic.
  *
- * @author Shayon Dhar
+ * @author Shayon Dhar, Keyan Jaf
  * @version 1.0.0
  */
 public abstract class Entity {
 
+    protected int entityID;
     private final boolean blocksMovement;
     private String entityName;
-    private int entityID;
     private int x;
     private int y;
     private Direction direction;
@@ -29,7 +29,7 @@ public abstract class Entity {
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    public Entity(int entityID, String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+    protected Entity(int entityID, String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
         this.entityID = entityID;
         this.entityName = entityName;
         this.y = y;
@@ -79,6 +79,17 @@ public abstract class Entity {
      */
     public void setX(int x) {
         this.x = x;
+    }
+
+    /**
+     * Sets the position of the entity. (Convenient to do in one call)
+     * @param x new x coordinate
+     * @param y new y coordinate
+     */
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
     }
 
     /**
@@ -142,6 +153,44 @@ public abstract class Entity {
      */
     public void setDirection(Direction direction) {
         this.direction = direction;
+    }
+
+    /**
+     * Turns the entity to the left (useful for floor following thief)
+     *
+     */
+    public void turnLeft() {
+        switch (direction) {
+            case NORTH -> direction = Direction.WEST;
+            case EAST -> direction = Direction.NORTH;
+            case SOUTH -> direction = Direction.EAST;
+            case WEST -> direction = Direction.SOUTH;
+        }
+    }
+
+    /**
+     * Turns the entity to the right (useful for floor following thief)
+     *
+     */
+    public void turnRight() {
+        switch (direction) {
+            case NORTH -> direction = Direction.EAST;
+            case EAST -> direction = Direction.SOUTH;
+            case SOUTH -> direction = Direction.WEST;
+            case WEST -> direction = Direction.NORTH;
+        }
+    }
+
+    /**
+     * Turns the entity 180 degrees. Essentially flying assassin's movement pattern.
+     */
+    public void turnAround() {
+        switch (direction) {
+            case NORTH -> direction = Direction.SOUTH;
+            case EAST -> direction = Direction.WEST;
+            case SOUTH -> direction = Direction.NORTH;
+            case WEST -> direction = Direction.EAST;
+        }
     }
 
     /**

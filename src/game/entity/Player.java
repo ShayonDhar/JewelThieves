@@ -1,5 +1,8 @@
 package game.entity;
 
+import game.level.Level;
+import game.level.Tile;
+
 /**
  * Represents the player entity in the game.
  * The Player class extends the generic Entity class and provides
@@ -28,9 +31,72 @@ public class Player extends Entity {
         super(entityID, ENTITY_NAME, y, x, direction, alive, blocksMovement);
     }
 
+    /**
+     * Attempts to move the player in their current direction, applying movement
+     * rules, collecting items, triggering bombs, handling collisions, and checking
+     * exit conditions.
+     */
     @Override
     public void move() {
-        //TODO: implementation
+        /*
+        Direction moveDirection = getDirection();
+
+        Tile currentTile = Level.getTile(getY(), getX());
+        Tile targetTile = Level.findNextValidTile(currentTile, moveDirection);
+
+        if (targetTile == null) {
+            return;
+        }
+        if (targetTile.hasGate()) {
+            return;
+        }
+
+
+        if (targetTile.containsDangerousNpc()) {
+            game.gameOver();
+            return;
+        }
+
+        setX(targetTile.getX());
+        setY(targetTile.getY());
+
+        Item item = targetTile.getItem();
+        if (item != null) {
+            switch (item.getType()) {
+                case LOOT:
+                    score.add(item.getValue());
+                    break;
+
+                case CLOCK:
+                    timer.add(item.getTimeBonus());
+                    break;
+
+                case LEVER:
+                    level.openGatesOfColor(item.getColor());
+                    break;
+
+                case BOMB:
+                    // Player cannot stand on a bomb tile,
+                    // but if the tile next to it contains a bomb, trigger it.
+                    break;
+            }
+            targetTile.removeItem();
+        }
+
+        // Bomb triggering logic
+        for (Tile neighbour : level.getNeighbours(targetTile)) {
+            if (neighbour.hasBomb()) {
+                neighbour.getBomb().trigger();
+            }
+        }
+        //Handles exit logic
+        if (targetTile.isExitTile()) {
+            if (level.allLootAndLeversCollected()) {
+                game.finishLevel();
+            }
+        }
+
+         */
     }
 }
 
