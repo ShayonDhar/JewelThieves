@@ -30,7 +30,7 @@ public class Bomb extends Item {
     }
     public void updateBombState() {
         switch (state) {
-            case WAITING:
+            case WAITING, EXPLODED:
                 break;
             case COUNTING:
                 countdown--;
