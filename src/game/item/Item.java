@@ -41,6 +41,18 @@ public abstract class Item {
         this.y = y;
         this.isOn = isOn;
     }
+    public String getItemName() {
+        return itemName;
+    }
+    public int getItemID() {
+        return itemID;
+    }
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 
 
 }

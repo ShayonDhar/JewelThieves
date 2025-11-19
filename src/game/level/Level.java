@@ -3,7 +3,13 @@ package game.level;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
+import game.item.Bomb;
+import game.item.Item;
+import game.item.Gate;
+import game.item.BombState;
+import game.item.Door;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -37,6 +43,7 @@ public class Level {
     private boolean levelFailed;
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
+    private Item[][] itemsGrid;
 
     /**
      * Constructor which loads the level from the level file.
@@ -56,6 +63,8 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
+        // TODO: implement colour-based movement rules
+        return null;
     }
 
     /**
@@ -65,6 +74,28 @@ public class Level {
      * @return the tile.
      */
     public Tile getTile(int y, int x){
+        return levelGrid[y][x];
+    }
+
+    /**
+     * Gets the item at a specific coordinate
+     * on the level.
+     * @param y the y-coordinate
+     * @param x the x-coordinate
+     * @return gets the item on at that grid
+     */
+    public Item getItemAt(int y, int x){
+        return itemsGrid[y][x];
+    }
+
+    /**
+     * Sets the item at a specific coordinate
+     * @param y the y-coordinate of the tile
+     * @param x the x-coordinate of the tile
+     * @param item the item being added 
+     */
+    private void setItemAt(int y, int x,Item item){
+        itemsGrid[y][x] = item;
     }
 
     /**
@@ -81,6 +112,19 @@ public class Level {
      * @return a list of neighbouring tiles.
      */
     public List<Tile> getNeighbourTiles(Tile tile) {
+        List<Tile> list = new ArrayList<>();
+
+        Tile up    = getTile(tile.getX(), tile.getY() - 1);
+        Tile down  = getTile(tile.getX(), tile.getY() + 1);
+        Tile left  = getTile(tile.getX() - 1, tile.getY());
+        Tile right = getTile(tile.getX() + 1, tile.getY());
+
+        if (up != null) list.add(up);
+        if (down != null) list.add(down);
+        if (left != null) list.add(left);
+        if (right != null) list.add(right);
+
+        return list;
     }
 
     /**
@@ -90,6 +134,7 @@ public class Level {
      * @param c the colour of gates to open
      */
     public void openGatesOfColour(Colour c){
+        //TODO: Open gate logic
     }
     /**
      * Checks whether all loot and levers present in the level have been collected.
@@ -97,6 +142,20 @@ public class Level {
      * @return true if no loot or levers remain in the level, false otherwise
      */
     public boolean allLootAndLeversCollected(){
+        //TODO: Loot and Levers collected check logic
+        return false;
+    }
+
+    /**
+     * Checks whether a tile has an entity.
+     * @param t the tile object
+     * @return does the tile contain an entity
+     */
+    private boolean tileHasEntity(Tile t) {
+        for (Entity e : entities) {
+            if (e.getX() == t.getX() && e.getY() == t.getY()) return true;
+        }
+        return false;
     }
     /**
      * Triggers the specified bomb.
@@ -105,6 +164,26 @@ public class Level {
      * @param bomb the bomb to trigger
      */
     public void triggerBomb(Bomb bomb){
+        Tile bombTile = getTile(bomb.getX(), bomb.getY());
+        List<Tile> neighbours = getNeighbourTiles(bombTile);
+
+        boolean shouldTrigger = false;
+
+        for (Tile t : neighbours) {
+
+            Item item = itemsGrid[t.getY()][t.getX()];
+            if (item != null) {
+                shouldTrigger = true;
+            }
+
+            if (tileHasEntity(t)) {
+                shouldTrigger = true;
+            }
+        }
+
+        if (shouldTrigger) {
+            bomb.trigger();
+        }
     }
 
     /**
@@ -114,6 +193,8 @@ public class Level {
      * @return the tile the NPC should move to, or null if no valid move exists
      */
     public Tile getNextTileForNpc(Entity npc){
+        //TODO: NPC Logic
+        return null;
     }
     /**
      * Finds the shortest path between loot, lever and exit tile.
@@ -122,16 +203,82 @@ public class Level {
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
     public Tile findShortestPathTarget(Tile source){
+        //TODO: pathfinding for smart thief
+        return null;
     }
 
+    public void update(int time){
+    }
+    /**
+     * Removes an item from the grid.
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     */
+    private void removeItemFromGrid(int x, int y) {
+        itemsGrid[x][y] = null;
+    }
+
+    /**
+     * Destroys the item located at the specified tile coordinates
+     * as part of a bomb explosion.
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     */
+    public void destroyTileContent(int x, int y) {
+
+        Item item = itemsGrid[x][y];
+        if (item == null) return;
+
+        // Bombs
+        if (item instanceof Bomb bomb) {
+            if (bomb.getState() == BombState.WAITING ||
+                    bomb.getState() == BombState.COUNTING) {
+                bomb.trigger();
+            }
+            return;
+        }
+
+        // Gates and Doors survive
+        if (item instanceof Gate || item instanceof Door) {
+            return;
+        }
+
+        // Everything else gets destroyed
+        removeItemFromGrid(x, y);
+    }
+
+    /**
+     * Handles the explosion of a bomb
+     * @param x x-coordinate of the tile
+     * @param y y-coordinate of the tile.
+     */
+
+    public void handleExplosion(int x, int y) {
+        // horizontal blast
+        for (int cx = 0; cx < width; cx++) {
+            destroyTileContent(cx, y);
+        }
+
+        // vertical blast
+        for (int cy = 0; cy < height; cy++) {
+            destroyTileContent(x, cy);
+        }
+    }
     /**
      * Updates the state of the level by the specified time step.
      * This includes decreasing remaining time, updating NPC movement,
      * processing bomb countdowns and explosions, and checking win or loss conditions.
      * @param time the time step (in seconds or ticks) to advance the level state by
      */
-    public void update(int time){
+    public void updateLevel(int time) {
+        /* TODO:
+        1. Reduce Remaining Time
+        2. update NPCs
+        3. tick bombs
+        4. check win/loss
+         */
     }
+
 
 
 
