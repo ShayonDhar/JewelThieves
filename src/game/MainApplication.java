@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 
 public class MainApplication extends Application {
 
+    // The dimensions of the window
+    private static final int WINDOW_WIDTH = 700;
+    private static final int WINDOW_HEIGHT = 700;
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -32,7 +36,7 @@ public class MainApplication extends Application {
 
         try {
             Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
-            Scene scene = new Scene(root,700,700);
+            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
 
             primaryStage.setScene(scene);
             primaryStage.setTitle("Jewel Thieves Group 01");
