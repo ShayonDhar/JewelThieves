@@ -114,7 +114,8 @@ public class Main extends Application {
 		// Consume the event. This means we mark it as dealt with. This stops other GUI nodes (buttons etc.) responding to it.
 		event.consume();
 	}
-	
+
+	// TODO
 	/**
 	 * Draw the game on the canvas.
 	 */
@@ -195,7 +196,8 @@ public class Main extends Application {
     	// Draw the image so the center is where we dropped.
     	// gc.drawImage(iconImage, x - iconImage.getWidth() / 2.0, y - iconImage.getHeight() / 2.0);
 	}
-	
+
+	// TODO
 	/**
 	 * Create the GUI.
 	 * @return The panel that contains the created GUI.
