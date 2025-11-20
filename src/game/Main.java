@@ -31,26 +31,27 @@ import java.util.Objects;
  * @author Liam O'Reilly
  */
 public class Main extends Application {
+
+	// IMPLEMENTED IN MAINAPPLICATION
 	// The dimensions of the window
 	private static final int WINDOW_WIDTH = 700;
 	private static final int WINDOW_HEIGHT = 500;
-
+	// IMPLEMENTED IN GAMECONTROLLER
 	// The dimensions of the canvas
 	private static final int CANVAS_WIDTH = 600;
 	private static final int CANVAS_HEIGHT = 400;
 
+	// SUGGESTED TO BE IMPLEMENTED IN LEVEL / TILE
 	// The width and height (in pixels) of each cell that makes up the game.
 	private static final int GRID_CELL_WIDTH = 50;
 	private static final int GRID_CELL_HEIGHT = 50;
-	
 	// The width of the grid in number of cells.
 	private static final int GRID_WIDTH = 12;
-	
+
+	// IMPLEMENTED IN GAMECONTROLLER
 	// The canvas in the GUI. This needs to be a global variable
-	// (in this setup) as we need to access it in different methods.
-	// We could use FXML to place code in the controller instead.
 	private Canvas canvas;
-		
+
 	// Loaded images
 	private Image playerImage;
 	private Image dirtImage;
