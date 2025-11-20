@@ -16,6 +16,10 @@ import javafx.stage.Stage;
  */
 public class MainApplication extends Application {
 
+    // Constants for the window dimensions
+    private static final int WINDOW_WIDTH = 950;
+    private static final int WINDOW_HEIGHT = 700;
+
     /**
      * The method that launches the JavaFX application.
      *
@@ -40,9 +44,22 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         try {
-            // Loading the pane onto the scene
-            Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
-            Scene scene = new Scene(root,950,700); // w and h from .fxml file
+            // TODO: Add a load image method below
+            // Load images. Note we use png images with a transparent background.
+//            playerImage = new Image("player.png");
+//            dirtImage = new Image("dirt.png");
+//            iconImage = new Image("icon.png");
+
+            // Load FXML using FXMLLoader instance (not static)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
+            Pane root = loader.load();
+            GameController controller = loader.getController();
+
+            // Load the scene onto the GUI
+            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT); // w and h from .fxml file
+
+            // Register key input
+            scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
@@ -51,6 +68,5 @@ public class MainApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
