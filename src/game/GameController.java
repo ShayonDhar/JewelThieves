@@ -1,8 +1,8 @@
 package game;
 
+import game.entity.Direction;
 import game.entity.Player;
 import game.level.Level;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
@@ -20,8 +20,6 @@ public class GameController {
     public Level level;
     public Player player;
 
-    private Timeline tickTimeline;
-
     /**
      * Method that initialises the game.
      */
@@ -35,10 +33,10 @@ public class GameController {
         level = new Level("LevelFile.txt");
         level.draw(gc);
 
-        /* TODO: Drawing the player
-         player = new Player();
-         player.draw(gc);
-        */
+        // TODO: Temp code Drawing the player
+        player = new Player(45, 40, 20, Direction.NORTH, true, true);
+        player.draw(gc);
+
 
     }
 

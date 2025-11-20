@@ -56,9 +56,9 @@ public class MainApplication extends Application {
             GameController controller = loader.getController();
 
             // Load the scene onto the GUI
-            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT); // w and h from .fxml file
+            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
 
-            // Register key input
+            // Register key input into the GameController
             scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Setting the scene and displaying it
