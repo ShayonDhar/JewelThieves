@@ -9,7 +9,8 @@ import javafx.stage.Stage;
 
 /**
  * This class provides the initialisation of the program.
- * It launches the args, and initialises the GUI canvas that plays the game.
+ * It loads the FXML, shows the stage, and passes the scene to GameController.
+ * Does not include any game logic.
  *
  * @author Antoni Wachowiak
  * @version 1.0
@@ -44,12 +45,6 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         try {
-            // TODO: Add a load image method below
-            // Load images. Note we use png images with a transparent background.
-//            playerImage = new Image("player.png");
-//            dirtImage = new Image("dirt.png");
-//            iconImage = new Image("icon.png");
-
             // Load FXML using FXMLLoader instance (not static)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
             Pane root = loader.load();

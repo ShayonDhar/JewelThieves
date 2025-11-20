@@ -114,7 +114,7 @@ public class Player extends Entity {
     public void draw(GraphicsContext gc) {
 
         // Drawing the level background
-        gc.drawImage(playerImage, 50, 60, 40, 40);
+        gc.drawImage(playerImage, getX(), getY(), 40, 40);
     }
 }
 
