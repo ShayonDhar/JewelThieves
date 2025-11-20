@@ -1,5 +1,7 @@
 package game.item;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public class Gate extends Item{
     /**
      * Constructor that all the items will use.
@@ -15,5 +17,10 @@ public class Gate extends Item{
      */
     public Gate(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+
     }
 }

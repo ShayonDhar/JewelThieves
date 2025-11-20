@@ -8,6 +8,8 @@ import game.item.Item;
 import game.item.Gate;
 import game.item.BombState;
 import game.item.Door;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +37,8 @@ public class Level {
     private Tile[][] levelGrid;
     private List<Entity> entities;
     private Player player;
-    private int width;
-    private int height;
+    private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
+    private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
     private int remainingTime;
     private int initialTime;
     private boolean levelComplete;
@@ -45,11 +47,13 @@ public class Level {
     private List<Tile> exitTiles;
     private Item[][] itemsGrid;
 
+    private static final double CANVAS_WIDTH = 650;
+    private static final double CANVAS_HEIGHT = 650;
+
     /**
      * Constructor which loads the level from the level file.
      * @param LevelFile The file which stores the level data.
      */
-
     public Level(String LevelFile) {
         loadFromFile(LevelFile);
     }
@@ -207,6 +211,7 @@ public class Level {
         return null;
     }
 
+    // TODO: Note from Anton, would this be here or updated via draw() method in the Item class?
     public void update(int time){
     }
     /**
@@ -255,12 +260,12 @@ public class Level {
 
     public void handleExplosion(int x, int y) {
         // horizontal blast
-        for (int cx = 0; cx < width; cx++) {
+        for (int cx = 0; cx < levelWidth; cx++) {
             destroyTileContent(cx, y);
         }
 
         // vertical blast
-        for (int cy = 0; cy < height; cy++) {
+        for (int cy = 0; cy < levelHeight; cy++) {
             destroyTileContent(x, cy);
         }
     }
@@ -279,11 +284,25 @@ public class Level {
          */
     }
 
+    /**
+     * Renders the level onto the JavaFX application.
+     *
+     * @author Antoni Wachowiak
+     * @param gc The graphics context used within the JavaFX application
+     */
+    public void draw(GraphicsContext gc) {
+        // TODO: Temp code setting the levelWidth and levelHeight
+        levelWidth = 300;
+        levelHeight = 400;
 
+        // Calculating where the level background should appear within the canvas
+        double canvasWidth = gc.getCanvas().getWidth();
+        double canvasHeight = gc.getCanvas().getHeight();
+        double x = (canvasWidth - levelWidth) / 2;
+        double y = (canvasHeight - levelHeight) / 2;
 
-
-
-
-
-
+        // Drawing the level background
+        gc.setFill(Color.GRAY);
+        gc.fillRect(x, y, levelWidth, levelHeight);
+    }
 }

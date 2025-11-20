@@ -1,5 +1,7 @@
 package game.item;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * Item Class
  * Contains all the items that the player and NPCs can interact with
@@ -54,5 +56,5 @@ public abstract class Item {
         return y;
     }
 
-
+    public abstract void draw(GraphicsContext gc);
 }
