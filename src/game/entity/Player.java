@@ -1,9 +1,9 @@
 package game.entity;
 
-import game.level.Level;
-import game.level.Tile;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
+import javafx.scene.image.Image;
+
+import java.util.Objects;
 
 /**
  * Represents the player entity in the game.
@@ -16,6 +16,9 @@ import javafx.scene.paint.Color;
  * @version 1.0.0
  */
 public class Player extends Entity {
+
+    private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
+            "/game/resources/player.png")).toExternalForm());
 
     private static final String ENTITY_NAME = "Player";
 
@@ -111,8 +114,7 @@ public class Player extends Entity {
     public void draw(GraphicsContext gc) {
 
         // Drawing the level background
-        gc.setFill(Color.RED);
-        gc.fillOval(60, 40, 10, 10);
+        gc.drawImage(playerImage, 50, 60, 40, 40);
     }
 }
 
