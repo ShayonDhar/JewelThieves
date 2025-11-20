@@ -10,7 +10,6 @@ package game.entity;
  */
 public abstract class Entity {
 
-    protected int entityID;
     private final boolean blocksMovement;
     private String entityName;
     private int x;
@@ -21,7 +20,6 @@ public abstract class Entity {
     /**
      * Constructor to create an Entity object.
      *
-     * @param entityID unique ID of the entity
      * @param entityName name of the entity
      * @param y y coordinate of the entity
      * @param x x coordinate of the entity
@@ -29,8 +27,7 @@ public abstract class Entity {
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected Entity(int entityID, String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        this.entityID = entityID;
+    protected Entity(String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
         this.entityName = entityName;
         this.y = y;
         this.x = x;
@@ -120,24 +117,6 @@ public abstract class Entity {
     }
 
     /**
-     * Gets the unique ID of the entity.
-     *
-     * @return entity ID
-     */
-    public int getEntityID() {
-        return entityID;
-    }
-
-    /**
-     * Sets the unique ID of the entity.
-     *
-     * @param entityID new entity ID
-     */
-    public void setEntityID(int entityID) {
-        this.entityID = entityID;
-    }
-
-    /**
      * Gets the direction the entity is facing.
      *
      * @return current direction
@@ -212,30 +191,6 @@ public abstract class Entity {
     }
 
     /**
-     * Compares this entity to another object for equality.
-     * Entities are considered equal if they share the same ID.
-     *
-     * @param o the object to compare
-     * @return true if the objects are equal, false otherwise
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Entity other)) return false;
-        return this.entityID == other.entityID;
-    }
-
-    /**
-     * Generates a hash code for the entity based on its ID.
-     *
-     * @return hash code of the entity
-     */
-    @Override
-    public int hashCode() {
-        return Integer.hashCode(entityID);
-    }
-
-    /**
      * Returns a string representation of the entity.
      *
      * @return string containing entity details
@@ -245,7 +200,6 @@ public abstract class Entity {
         return "Entity{" +
                 "blocksMovement=" + blocksMovement +
                 ", entityName='" + entityName + '\'' +
-                ", entityID=" + entityID +
                 ", xCoordinate=" + x +
                 ", yCoordinate=" + y +
                 ", direction=" + direction +
