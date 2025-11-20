@@ -16,6 +16,10 @@ import javafx.stage.Stage;
  */
 public class MainApplication extends Application {
 
+    // The dimensions of the window
+    private static final int WINDOW_WIDTH = 700;
+    private static final int WINDOW_HEIGHT = 700;
+
     /**
      * The method that launches the JavaFX application.
      *
@@ -42,7 +46,7 @@ public class MainApplication extends Application {
         try {
             // Loading the pane onto the scene
             Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
-            Scene scene = new Scene(root,950,700); // w and h from .fxml file
+            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);

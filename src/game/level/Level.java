@@ -50,6 +50,16 @@ public class Level {
     private static final double CANVAS_WIDTH = 650;
     private static final double CANVAS_HEIGHT = 650;
 
+    /* TODO: Consider the following when designing the Tile[][] implementation (love Anton x)
+
+    // The width and height (in pixels) of each cell that makes up the game.
+	private static final int GRID_CELL_WIDTH = 50;
+	private static final int GRID_CELL_HEIGHT = 50;
+
+	// The width of the grid in number of cells.
+	private static final int GRID_WIDTH = 12;
+     */
+
     /**
      * Constructor which loads the level from the level file.
      * @param LevelFile The file which stores the level data.
