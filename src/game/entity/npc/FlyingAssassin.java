@@ -1,6 +1,7 @@
 package game.entity.npc;
 
 import game.entity.Direction;
+import game.entity.EntityName;
 
 /**
  * Represents the Flying Assassin NPC and its unique abilities
@@ -9,6 +10,8 @@ import game.entity.Direction;
  * @version 1.0.0
  */
 public class FlyingAssassin extends NPC {
+
+    private static final String ENTITY_NAME = EntityName.FLYING_ASSASSIN.getDisplayName();
 
     /**
      * Constructor to create an Entity object.
@@ -20,8 +23,8 @@ public class FlyingAssassin extends NPC {
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected FlyingAssassin(String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(entityName, y, x, direction, alive, blocksMovement);
+    protected FlyingAssassin(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+        super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
     }
 
     @Override
