@@ -67,13 +67,21 @@ public class GameController {
     }
 
     /**
-     * Tester method
-     * @param actionEvent on pressing the "Random Circle" button
+     * Method to start the tick timeline
+     * @param actionEvent
      */
     @FXML
-    public void createCircle(ActionEvent actionEvent) {
-        gc.setFill(Color.PURPLE);
-        gc.fillOval(100,100,50,50);
+    public void buttonStartAction(ActionEvent actionEvent) {
+        tickTimeline.play();
+    }
+
+    /**
+     * Method to stop the tick timeline
+     * @param actionEvent
+     */
+    @FXML
+    public void buttonStopAction(ActionEvent actionEvent) {
+        tickTimeline.stop();
     }
 
     public void onKeyPressed(KeyEvent event) {
