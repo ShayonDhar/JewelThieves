@@ -2,6 +2,12 @@ package game.entity.npc;
 
 import game.entity.Direction;
 
+/**
+ * Represents the Flying Assassin NPC and its unique abilities
+ *
+ * @author Shayon Dhar
+ * @version 1.0.0
+ */
 public class FlyingAssassin extends NPC {
 
     /**
