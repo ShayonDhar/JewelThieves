@@ -11,11 +11,11 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 /**
- * Class that links the MainApplication to the SceneBuilder FXML controlling aspect
+ * Class that links the MainApplication to the SceneBuilder FXML controlling aspect.
+ *
  */
 public class GameController {
 
@@ -25,7 +25,6 @@ public class GameController {
     // TODO: Temp code until player is implemented
     public Player player = new Player(45, 40, 20,
             Direction.NORTH, true, true);
-
 
     // Timeline which will cause tick method to be called periodically.
     private Timeline tickTimeline;
@@ -39,8 +38,6 @@ public class GameController {
         tickTimeline = new Timeline(new KeyFrame(
                 Duration.millis(500), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
-        tickTimeline.play();
-
         // Drawing the canvas background
         gc = canvas.getGraphicsContext2D();
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
@@ -67,7 +64,7 @@ public class GameController {
     }
 
     /**
-     * Method to start the tick timeline
+     * Method to start the tick timeline.
      * @param actionEvent
      */
     @FXML
@@ -76,7 +73,7 @@ public class GameController {
     }
 
     /**
-     * Method to stop the tick timeline
+     * Method to stop the tick timeline.
      * @param actionEvent
      */
     @FXML
@@ -86,10 +83,10 @@ public class GameController {
 
     public void onKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
-//            case W -> player.moveUp();
-//            case A -> player.moveLeft();
-//            case S -> player.moveDown();
-//            case D -> player.moveRight();
+            // case W -> player.moveUp();
+            // case A -> player.moveLeft();
+            // case S -> player.moveDown();
+            // case D -> player.moveRight();
         }
 
         // Redraw the scene after moving
