@@ -78,8 +78,8 @@ public class Tile {
         return npc;
     }
 
-    public Color[] getColours() {
-        return colours;
+    public ArrayList<Colour> getColours() {
+        return new ArrayList<>(Arrays.asList(colours));
     }
 
     public void setColours(Colour[] colours) {
