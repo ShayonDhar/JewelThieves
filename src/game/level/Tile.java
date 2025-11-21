@@ -1,6 +1,6 @@
 package game.level;
 
-import game.entity.NPC;
+import game.entity.npc.NPC;
 import game.item.Gate;
 import game.item.Item;
 import javafx.scene.paint.Color;

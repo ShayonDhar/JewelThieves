@@ -12,8 +12,6 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class FlyingAssassin extends NPC {
 
-    private static final String ENTITY_NAME = EntityName.FLYING_ASSASSIN.getDisplayName();
-
     /**
      * Constructor to create an Entity object.
      * @param y              y coordinate of the entity
@@ -22,8 +20,8 @@ public class FlyingAssassin extends NPC {
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected FlyingAssassin(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
+    protected FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+        super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement);
     }
 
     @Override

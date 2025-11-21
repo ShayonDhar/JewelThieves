@@ -13,7 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Entity {
 
     private final boolean blocksMovement;
-    private String entityName;
+    private EntityName entityName;
     private int x;
     private int y;
     private Direction direction;
@@ -29,7 +29,7 @@ public abstract class Entity {
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected Entity(String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+    protected Entity(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
         this.entityName = entityName;
         this.y = y;
         this.x = x;
@@ -105,7 +105,7 @@ public abstract class Entity {
      *
      * @return entity name
      */
-    public String getEntityName() {
+    public EntityName getEntityName() {
         return entityName;
     }
 
@@ -114,7 +114,7 @@ public abstract class Entity {
      *
      * @param entityName new entity name
      */
-    public void setEntityName(String entityName) {
+    public void setEntityName(EntityName entityName) {
         this.entityName = entityName;
     }
 
