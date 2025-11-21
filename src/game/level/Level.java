@@ -101,6 +101,12 @@ public class Level {
                 && nextYCoordinate < levelHeight) {
             Tile next = levelGrid[nextYCoordinate][nextXCoordinate];
 
+            if (next != null && sharesColour(currentTile, next)) {
+                return next;
+            }
+            nextXCoordinate += currentXCoordinate;
+            nextYCoordinate += currentYCoordinate;
+
         }
 
 
