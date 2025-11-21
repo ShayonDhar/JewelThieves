@@ -79,8 +79,46 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
-        // TODO: implement colour-based movement rules
-        return null;
+        int currentXCoordinate = currentTile.getX();
+        int currentYCoordinate = currentTile.getY();
+
+        int nextYCoordinate = 0;
+        int nextXCoordinate = 0;
+
+        if (direction == Direction.NORTH) {
+            nextYCoordinate = currentYCoordinate - 1;
+        } else if (direction == Direction.SOUTH) {
+            nextYCoordinate = currentYCoordinate + 1;
+        } else if (direction == Direction.EAST) {
+            nextXCoordinate = currentXCoordinate + 1;
+        } else if (direction == Direction.WEST) {
+            nextXCoordinate = currentXCoordinate - 1;
+        } else {
+            return null;
+        }
+        while (nextXCoordinate >= 0 && nextYCoordinate >= 0
+                && nextXCoordinate < levelWidth
+                && nextYCoordinate < levelHeight) {
+            Tile next = levelGrid[nextYCoordinate][nextXCoordinate];
+
+        }
+
+
+        }
+
+    /**
+     * Auxiliary method to check whether the
+     * 2 tiles we are checking share a common colour.
+     * @param currentTile the current tile
+     * @param nextTile the tile we are moving to
+     * @return whether they share a colour or not
+     */
+    private boolean sharesColour(Tile currentTile,
+                                 Tile nextTile) {
+        for (Color c : currentTile.getColours()) {
+            return nextTile.getColours().contains(c);
+        }
+        return false;
     }
 
     /**
