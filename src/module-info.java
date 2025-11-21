@@ -7,5 +7,7 @@ module JewelThieves {
     exports game;
     exports game.entity;
     opens game.entity to javafx.fxml, javafx.graphics;
+    exports game.entity.npc;
+    opens game.entity.npc to javafx.fxml, javafx.graphics;
 
 }

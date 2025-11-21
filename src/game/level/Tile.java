@@ -1,6 +1,6 @@
 package game.level;
 
-import game.entity.NPC;
+import game.entity.npc.NPC;
 import game.item.Gate;
 import game.item.Item;
 import javafx.scene.paint.Color;
@@ -39,12 +39,16 @@ public class Tile {
     private List<NPC> npc = new ArrayList<>();
 
     public Tile(int x, int y, Color[] colours) {
-        if (colours.length > MAX_COLOURS) {
-            throw new IllegalArgumentException("A tile can have at most " + MAX_COLOURS + " colours.");
-        }
+        validateColourSize(colours.length);
         this.x = x;
         this.y = y;
         this.colours = colours;
+    }
+
+    private void validateColourSize(int size) {
+        if (size > MAX_COLOURS) {
+            throw new IllegalArgumentException("A tile can have at most " + MAX_COLOURS + " colours.");
+        }
     }
 
     public int getX() {

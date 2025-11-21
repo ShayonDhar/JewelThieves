@@ -9,15 +9,16 @@ import javafx.stage.Stage;
 
 /**
  * This class provides the initialisation of the program.
- * It launches the args, and initialises the GUI canvas that plays the game.
+ * It loads the FXML, shows the stage, and passes the scene to GameController.
+ * Does not include any game logic.
  *
  * @author Antoni Wachowiak
  * @version 1.0
  */
 public class MainApplication extends Application {
 
-    // The dimensions of the window
-    private static final int WINDOW_WIDTH = 700;
+    // Constants for the window dimensions
+    private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 700;
 
     /**
@@ -44,9 +45,16 @@ public class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         try {
-            // Loading the pane onto the scene
-            Pane root = (Pane) FXMLLoader.load(getClass().getResource("GameGraphics.fxml"));
+            // Load FXML using FXMLLoader instance (not static)
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
+            Pane root = loader.load();
+            GameController controller = loader.getController();
+
+            // Load the scene onto the GUI
             Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
+
+            // Register key input into the GameController
+            scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
@@ -55,6 +63,5 @@ public class MainApplication extends Application {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }

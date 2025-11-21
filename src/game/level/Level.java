@@ -34,13 +34,15 @@ import java.util.List;
 
 
 public class Level {
+    private static final int INITIAL_TIME = 0;
+    private static final int MAX_TIME = 240;
+
     private Tile[][] levelGrid;
     private List<Entity> entities;
     private Player player;
     private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
     private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
     private int remainingTime;
-    private int initialTime;
     private boolean levelComplete;
     private boolean levelFailed;
     private List<Bomb> activeBombs;
