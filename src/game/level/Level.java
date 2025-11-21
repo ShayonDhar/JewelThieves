@@ -115,7 +115,7 @@ public class Level {
      */
     private boolean sharesColour(Tile currentTile,
                                  Tile nextTile) {
-        for (Color c : currentTile.getColours()) {
+        for (Colour c : currentTile.getColours()) {
             return nextTile.getColours().contains(c);
         }
         return false;
