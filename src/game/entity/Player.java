@@ -31,7 +31,7 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int entityID, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
         super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
     }
 
