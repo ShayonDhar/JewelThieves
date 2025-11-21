@@ -1,7 +1,9 @@
 package game.entity;
 
-import game.level.Level;
-import game.level.Tile;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+
+import java.util.Objects;
 
 /**
  * Represents the player entity in the game.
@@ -15,20 +17,22 @@ import game.level.Tile;
  */
 public class Player extends Entity {
 
+    private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
+            "/game/resources/player.png")).toExternalForm());
+
     private static final String ENTITY_NAME = "Player";
 
     /**
      * Constructs a new Player entity.
      *
-     * @param entityID       unique ID of the player
      * @param y              y coordinate of the player
      * @param x              x coordinate of the player
      * @param direction      direction the player is facing
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int entityID, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(entityID, ENTITY_NAME, y, x, direction, alive, blocksMovement);
+    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+        super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
     }
 
     /**
@@ -97,6 +101,19 @@ public class Player extends Entity {
         }
 
          */
+    }
+
+    /**
+     * Renders the entity onto the JavaFX application.
+     *
+     * @param gc The graphics context used within the JavaFX application
+     * @author Antoni Wachowiak
+     */
+    @Override
+    public void draw(GraphicsContext gc) {
+
+        // Drawing the level background
+        gc.drawImage(playerImage, getX(), getY(), 40, 40);
     }
 }
 

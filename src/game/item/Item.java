@@ -1,5 +1,7 @@
 package game.item;
 
+import javafx.scene.canvas.GraphicsContext;
+
 /**
  * Item Class
  * Contains all the items that the player and NPCs can interact with
@@ -27,13 +29,12 @@ public abstract class Item {
      * Constructor that all the items will use.
      * It has all the properties they have in common
      * But each item will have different String, int or boolean for each attribute
-     *
      * @param itemName is the name of the item, e.g. Gate
-     * @param itemID   is the ID of the item, e.g. if there were 5 bombs, one ID would be 4
-     * @param x        is the x coordinate of the location of the item on the map
-     * @param y        is the y coordinate of the location of the item on the map
-     * @param isOn     is a boolean that will either be true or false. It tells us
-     *                 whether the item has been claimed or triggered.
+     * @param itemID is the ID of the item, e.g. if there were 5 bombs, one ID would be 4
+     * @param x is the x coordinate of the location of the item on the map
+     * @param y is the y coordinate of the location of the item on the map
+     * @param isOn is a boolean that will either be true or false. It tells us
+     *             whether the item has been claimed or triggered.
      */
     public Item(String itemName, int itemID, int x, int y, boolean isOn) {
         this.itemName = itemName;
@@ -42,11 +43,18 @@ public abstract class Item {
         this.y = y;
         this.isOn = isOn;
     }
-
-    public void trigger(boolean isOn) {
-        if (isOn) {
-            this.isOn = false;
-        }
+    public String getItemName() {
+        return itemName;
     }
-}
+    public int getItemID() {
+        return itemID;
+    }
+    public int getX() {
+        return x;
+    }
+    public int getY() {
+        return y;
+    }
 
+    public abstract void draw(GraphicsContext gc);
+}

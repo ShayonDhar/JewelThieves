@@ -1,8 +1,8 @@
 package game.item;
 
-public class Lever extends Item {
+import javafx.scene.canvas.GraphicsContext;
 
-    protected String lever;
+public class Lever extends Item{
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -19,4 +19,8 @@ public class Lever extends Item {
         super(itemName, itemID, x, y, isOn);
     }
 
+    @Override
+    public void draw(GraphicsContext gc) {
+
+    }
 }

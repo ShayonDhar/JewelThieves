@@ -1,8 +1,8 @@
 package game.item;
 
-public class Gate extends Item {
-    protected String Gate;
+import javafx.scene.canvas.GraphicsContext;
 
+public class Gate extends Item{
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -20,10 +20,7 @@ public class Gate extends Item {
     }
 
     @Override
-    public void trigger(boolean isOn) {
-        if (isOn) {
-            this.isOn = true;
-        }
-    }
+    public void draw(GraphicsContext gc) {
 
+    }
 }

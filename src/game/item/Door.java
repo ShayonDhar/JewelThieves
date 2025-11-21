@@ -1,5 +1,7 @@
 package game.item;
 
+import javafx.scene.canvas.GraphicsContext;
+
 public class Door extends Item {
     /**
      * Constructor that all the items will use.
@@ -17,4 +19,8 @@ public class Door extends Item {
         super(itemName, itemID, x, y, isOn);
     }
 
+    @Override
+    public void draw(GraphicsContext gc) {
+
+    }
 }

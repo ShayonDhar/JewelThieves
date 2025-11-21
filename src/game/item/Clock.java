@@ -1,6 +1,8 @@
 package game.item;
 
-public class Clock extends Item {
+import javafx.scene.canvas.GraphicsContext;
+
+public class Clock extends Item{
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -15,6 +17,10 @@ public class Clock extends Item {
      */
     public Clock(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn);
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
 
     }
 }
