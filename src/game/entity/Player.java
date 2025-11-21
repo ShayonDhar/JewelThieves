@@ -22,6 +22,8 @@ public class Player extends Entity {
 
     private static final String ENTITY_NAME = "Player";
 
+    private int highscore;
+
     /**
      * Constructs a new Player entity.
      *
@@ -114,6 +116,11 @@ public class Player extends Entity {
 
         // Drawing the level background
         gc.drawImage(playerImage, getX(), getY(), 40, 40);
+    }
+
+    @Override
+    public void addToHighscore(int value) {
+        this.highscore += value;
     }
 }
 
