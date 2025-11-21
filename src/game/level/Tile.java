@@ -18,8 +18,6 @@ import javafx.scene.paint.Color;
 
 
 public class Tile {
-    private int xCoordinate;
-    private int yCoordinate;
     private Color[] colours;
     /*
     Uncomment once item/npc/gate class has been created.
