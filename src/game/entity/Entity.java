@@ -137,44 +137,6 @@ public abstract class Entity {
     }
 
     /**
-     * Turns the entity to the left (useful for floor following thief)
-     *
-     */
-    public void turnLeft() {
-        switch (direction) {
-            case NORTH -> direction = Direction.WEST;
-            case EAST -> direction = Direction.NORTH;
-            case SOUTH -> direction = Direction.EAST;
-            case WEST -> direction = Direction.SOUTH;
-        }
-    }
-
-    /**
-     * Turns the entity to the right (useful for floor following thief)
-     *
-     */
-    public void turnRight() {
-        switch (direction) {
-            case NORTH -> direction = Direction.EAST;
-            case EAST -> direction = Direction.SOUTH;
-            case SOUTH -> direction = Direction.WEST;
-            case WEST -> direction = Direction.NORTH;
-        }
-    }
-
-    /**
-     * Turns the entity 180 degrees. Essentially flying assassin's movement pattern.
-     */
-    public void turnAround() {
-        switch (direction) {
-            case NORTH -> direction = Direction.SOUTH;
-            case EAST -> direction = Direction.WEST;
-            case SOUTH -> direction = Direction.NORTH;
-            case WEST -> direction = Direction.EAST;
-        }
-    }
-
-    /**
      * Checks if the entity is alive.
      *
      * @return true if alive, false otherwise
