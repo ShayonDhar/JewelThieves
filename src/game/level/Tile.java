@@ -38,7 +38,7 @@ public class Tile {
 
     private List<NPC> npc = new ArrayList<>();
 
-    public Tile(int x, int y, Color[] colours) {
+    public Tile(int x, int y, Colour[] colours) {
         validateColourSize(colours.length);
         this.x = x;
         this.y = y;
