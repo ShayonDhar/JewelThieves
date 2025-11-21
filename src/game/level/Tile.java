@@ -82,7 +82,7 @@ public class Tile {
         return colours;
     }
 
-    public void setColours(Color[] colours) {
+    public void setColours(Colour[] colours) {
         this.colours = colours;
     }
 
