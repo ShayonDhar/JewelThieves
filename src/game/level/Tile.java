@@ -30,7 +30,7 @@ public class Tile {
     private final int x;
     private final int y;
 
-    private Color[] colours;
+    private Colour[] colours;
 
     private Item item;
     private Gate gate;
