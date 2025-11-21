@@ -2,6 +2,7 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.EntityName;
+import javafx.scene.canvas.GraphicsContext;
 
 /**
  * Represents the Flying Assassin NPC and its unique abilities
@@ -15,8 +16,6 @@ public class FlyingAssassin extends NPC {
 
     /**
      * Constructor to create an Entity object.
-     *
-     * @param entityName     name of the entity
      * @param y              y coordinate of the entity
      * @param x              x coordinate of the entity
      * @param direction      direction the entity is facing
@@ -30,5 +29,10 @@ public class FlyingAssassin extends NPC {
     @Override
     public void move() {
         //TODO: Flying Assassin movement implementation requires tiles
+    }
+
+    @Override
+    public void draw(GraphicsContext gc) {
+
     }
 }
