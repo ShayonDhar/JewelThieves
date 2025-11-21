@@ -1,6 +1,8 @@
 package game.item;
 
 public class Lever extends Item {
+
+    protected String lever;
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -16,6 +18,5 @@ public class Lever extends Item {
     public Lever(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn);
     }
-
 
 }

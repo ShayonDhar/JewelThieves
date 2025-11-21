@@ -1,6 +1,8 @@
 package game.item;
 
 public class Gate extends Item {
+    protected String Gate;
+
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -15,6 +17,13 @@ public class Gate extends Item {
      */
     public Gate(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn);
+    }
+
+    @Override
+    public void trigger(boolean isOn) {
+        if (isOn) {
+            this.isOn = true;
+        }
     }
 
 }
