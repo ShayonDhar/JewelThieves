@@ -214,7 +214,14 @@ public class Level {
     }
 
     // TODO: Note from Anton, would this be here or updated via draw() method in the Item class?
+
+    /**
+     * Update time will add or subtract the time provided by the clock
+     * based on whether the player or thieves collected it.
+     * @param time
+     */
     public void update(int time){
+        remainingTime += time;
     }
     /**
      * Removes an item from the grid.
