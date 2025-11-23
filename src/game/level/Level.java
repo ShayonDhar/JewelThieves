@@ -355,4 +355,5 @@ public class Level {
         gc.setFill(Color.GRAY);
         gc.fillRect(x, y, levelWidth, levelHeight);
     }
+    public void moveNPCs() {}
 }
