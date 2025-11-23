@@ -10,9 +10,7 @@ import game.item.BombState;
 import game.item.Door;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -64,10 +62,10 @@ public class Level {
 
     /**
      * Constructor which loads the level from the level file.
-     * @param LevelFile The file which stores the level data.
+     * @param levelFile The file which stores the level data.
      */
-    public Level(String LevelFile) {
-        loadFromFile(LevelFile);
+    public Level(String levelFile) {
+        loadFromFile(levelFile);
     }
 
     /**
@@ -109,7 +107,7 @@ public class Level {
 
         }
         return null;
-        }
+    }
 
     /**
      * Auxiliary method to check whether the
@@ -118,12 +116,9 @@ public class Level {
      * @param nextTile the tile we are moving to
      * @return whether they share a colour or not
      */
-    private boolean sharesColour(Tile currentTile,
-                                 Tile nextTile) {
-        for (Colour c : currentTile.getColours()) {
-            return nextTile.getColours().contains(c);
-        }
-        return false;
+    private boolean sharesColour(Tile currentTile, Tile nextTile) {
+        return Arrays.stream(currentTile.getColours())
+                .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
 
     /**
@@ -246,7 +241,7 @@ public class Level {
     }
 
     /**
-     * Determines the next tile that an NPC should move to based on that NPC's
+     * Determines the next tile that an NPC should move to based on that NPCs
      * movement rules.
      * @param npc the NPC requesting its next tile
      * @return the tile the NPC should move to, or null if no valid move exists

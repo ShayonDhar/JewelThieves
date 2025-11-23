@@ -6,6 +6,7 @@ import game.item.Item;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -78,8 +79,12 @@ public class Tile {
         return npc;
     }
 
-    public ArrayList<Colour> getColours() {
-        return new ArrayList<>(Arrays.asList(colours));
+    public Colour[] getColours() {
+        return colours;
+    }
+
+    public Collection<Colour> getColoursAsList() {
+        return Arrays.asList(colours);
     }
 
     public void setColours(Colour[] colours) {
