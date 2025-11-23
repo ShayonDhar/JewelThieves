@@ -1,5 +1,8 @@
 package game.item;
 
+import game.entity.Entity;
+import game.entity.EntityName;
+import game.entity.Player;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Loot extends Item {
@@ -15,6 +18,9 @@ public class Loot extends Item {
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
+
+    private LootType value;
+
     public Loot(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn, ItemType.LOOT);
     }
@@ -22,5 +28,20 @@ public class Loot extends Item {
     @Override
     public void draw(GraphicsContext gc) {
 
+    }
+
+    @Override
+    public void collectItem(Entity entityName) {
+        if (!isOn) {
+            return;
+        }
+
+        if (entityName.getX() == x && entityName.getY() == y) {
+            if (entityName.getEntityName().equals("PLAYER")) {
+                entityName.addToHighscore(value.getValue());
+            }
+
+            isOn = false;
+        }
     }
 }

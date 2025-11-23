@@ -10,9 +10,7 @@ import game.item.BombState;
 import game.item.Door;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -34,13 +32,15 @@ import java.util.List;
 
 
 public class Level {
+    private static final int INITIAL_TIME = 0;
+    private static final int MAX_TIME = 240;
+
     private Tile[][] levelGrid;
     private List<Entity> entities;
     private Player player;
     private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
     private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
     private int remainingTime;
-    private int initialTime;
     private boolean levelComplete;
     private boolean levelFailed;
     private List<Bomb> activeBombs;
@@ -50,12 +50,22 @@ public class Level {
     private static final double CANVAS_WIDTH = 650;
     private static final double CANVAS_HEIGHT = 650;
 
+    /* TODO: Consider the following when designing the Tile[][] implementation (love Anton x)
+
+    // The width and height (in pixels) of each cell that makes up the game.
+	private static final int GRID_CELL_WIDTH = 50;
+	private static final int GRID_CELL_HEIGHT = 50;
+
+	// The width of the grid in number of cells.
+	private static final int GRID_WIDTH = 12;
+     */
+
     /**
      * Constructor which loads the level from the level file.
-     * @param LevelFile The file which stores the level data.
+     * @param levelFile The file which stores the level data.
      */
-    public Level(String LevelFile) {
-        loadFromFile(LevelFile);
+    public Level(String levelFile) {
+        loadFromFile(levelFile);
     }
 
     /**
@@ -67,8 +77,48 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
-        // TODO: implement colour-based movement rules
+        int currentXCoordinate = currentTile.getX();
+        int currentYCoordinate = currentTile.getY();
+
+        int nextYCoordinate = 0;
+        int nextXCoordinate = 0;
+
+        if (direction == Direction.NORTH) {
+            nextYCoordinate = currentYCoordinate - 1;
+        } else if (direction == Direction.SOUTH) {
+            nextYCoordinate = currentYCoordinate + 1;
+        } else if (direction == Direction.EAST) {
+            nextXCoordinate = currentXCoordinate + 1;
+        } else if (direction == Direction.WEST) {
+            nextXCoordinate = currentXCoordinate - 1;
+        } else {
+            return null;
+        }
+        while (nextXCoordinate >= 0 && nextYCoordinate >= 0
+                && nextXCoordinate < levelWidth
+                && nextYCoordinate < levelHeight) {
+            Tile next = levelGrid[nextYCoordinate][nextXCoordinate];
+
+            if (next != null && sharesColour(currentTile, next)) {
+                return next;
+            }
+            nextXCoordinate += currentXCoordinate;
+            nextYCoordinate += currentYCoordinate;
+
+        }
         return null;
+    }
+
+    /**
+     * Auxiliary method to check whether the
+     * 2 tiles we are checking share a common colour.
+     * @param currentTile the current tile
+     * @param nextTile the tile we are moving to
+     * @return whether they share a colour or not
+     */
+    private boolean sharesColour(Tile currentTile, Tile nextTile) {
+        return Arrays.stream(currentTile.getColours())
+                .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
 
     /**
@@ -191,7 +241,7 @@ public class Level {
     }
 
     /**
-     * Determines the next tile that an NPC should move to based on that NPC's
+     * Determines the next tile that an NPC should move to based on that NPCs
      * movement rules.
      * @param npc the NPC requesting its next tile
      * @return the tile the NPC should move to, or null if no valid move exists
