@@ -78,6 +78,14 @@ public class Tile {
     public List<NPC> getNpc() {
         return npc;
     }
+    public boolean containsFlyingAssassin() {
+        for (Entity npc : getNpc()) {
+            if (npc.getEntityName() == EntityName.FLYING_ASSASSIN) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Colour[] getColours() {
         return colours;
