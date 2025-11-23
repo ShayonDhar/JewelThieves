@@ -19,9 +19,7 @@ public class Player extends Entity {
 
     private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
             "/game/resources/player.png")).toExternalForm());
-
-    private static final String ENTITY_NAME = "Player";
-
+    private static final EntityName ENTITY_NAME = EntityName.PLAYER;
     private int highscore;
 
     /**
