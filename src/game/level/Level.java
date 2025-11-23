@@ -116,7 +116,7 @@ public class Level {
      * @param nextTile the tile we are moving to
      * @return whether they share a colour or not
      */
-    private boolean sharesColour(Tile currentTile, Tile nextTile) {
+    private static boolean sharesColour(Tile currentTile, Tile nextTile) {
         return Arrays.stream(currentTile.getColours())
                 .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
