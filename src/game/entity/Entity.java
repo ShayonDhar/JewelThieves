@@ -179,4 +179,5 @@ public abstract class Entity {
      */
     public abstract void draw(GraphicsContext gc);
 
+    public abstract void addToHighscore(int value);
 }
