@@ -35,7 +35,7 @@ public class Level {
     private static final int INITIAL_TIME = 0;
     private static final int MAX_TIME = 240;
 
-    private Tile[][] levelGrid;
+    private static Tile[][] levelGrid;
     private List<Entity> entities;
     private Player player;
     private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
