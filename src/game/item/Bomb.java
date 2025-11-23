@@ -21,7 +21,7 @@ public class Bomb extends Item {
      *                 whether the item has been claimed or triggered.
      */
     public Bomb(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.BOMB);
         this.state = BombState.WAITING;
     }
 

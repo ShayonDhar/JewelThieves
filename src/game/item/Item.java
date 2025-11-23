@@ -24,6 +24,7 @@ public abstract class Item {
     protected int x;
     protected int y;
     protected boolean isOn;
+    protected ItemType itemType;
 
     /**
      * Constructor that all the items will use.
@@ -36,12 +37,13 @@ public abstract class Item {
      * @param isOn is a boolean that will either be true or false. It tells us
      *             whether the item has been claimed or triggered.
      */
-    public Item(String itemName, int itemID, int x, int y, boolean isOn) {
+    public Item(String itemName, int itemID, int x, int y, boolean isOn, ItemType itemType) {
         this.itemName = itemName;
         this.itemID = itemID;
         this.x = x;
         this.y = y;
         this.isOn = isOn;
+        this.itemType = itemType;
     }
     public String getItemName() {
         return itemName;
@@ -54,6 +56,9 @@ public abstract class Item {
     }
     public int getY() {
         return y;
+    }
+    public ItemType getItemType() {
+        return itemType;
     }
 
     public abstract void draw(GraphicsContext gc);

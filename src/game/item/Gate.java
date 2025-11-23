@@ -15,8 +15,8 @@ public class Gate extends Item{
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
-    public Gate(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+    public Gate(String itemName, int itemID, int x, int y, boolean isOn, ItemType itemType) {
+        super(itemName, itemID, x, y, isOn, ItemType.GATE);
     }
 
     @Override

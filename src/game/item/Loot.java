@@ -16,7 +16,7 @@ public class Loot extends Item {
      *                 whether the item has been claimed or triggered.
      */
     public Loot(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.LOOT);
     }
 
     @Override
