@@ -27,7 +27,7 @@ public class GameController {
             Direction.NORTH, true, true);
 
     // Timeline which will cause tick method to be called periodically.
-    private Timeline tickTimeline;
+    private static Timeline tickTimeline;
 
     /**
      * Method that initialises the game.
