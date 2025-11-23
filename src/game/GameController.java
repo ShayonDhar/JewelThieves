@@ -97,5 +97,28 @@ public class GameController {
         // Marking the event as being "done dealt with"
         event.consume();
     }
+    // Called when the player dies (Flying Assassin, timer expires, etc.)
+    public static void gameOver() {
+        tickTimeline.stop();
+        System.out.println("GAME OVER");
+
+        //TODO: Switch over to a game over screen
+    }
+    // Called when the player reaches an exit AND all loot + levers collected
+    public void finishLevel() {
+        tickTimeline.stop();
+        System.out.println("LEVEL COMPLETE");
+
+        //TODO: Create a finish level screen 
+    }
+    // Called when starting gameplay (after pressing Start)
+    public void startLevel() {
+        level.draw(gc);
+        player.draw(gc);
+        tickTimeline.play();
+    }
+
+
+
 
 }
