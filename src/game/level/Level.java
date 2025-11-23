@@ -127,7 +127,7 @@ public class Level {
      * @param x x-coordinate.
      * @return the tile.
      */
-    public Tile getTile(int y, int x){
+    public static Tile getTile(int y, int x){
         return levelGrid[y][x];
     }
 
