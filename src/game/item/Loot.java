@@ -23,6 +23,7 @@ public class Loot extends Item {
 
     public Loot(String itemName, int itemID, int x, int y, boolean isOn, LootType value) {
         super(itemName, itemID, x, y, isOn, ItemType.LOOT);
+        this.value = value;
     }
 
     @Override
