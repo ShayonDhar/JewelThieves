@@ -76,7 +76,7 @@ public class Level {
      * @param direction  the direction in which movement is attempted.
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
-    public Tile findNextValidTile(Tile currentTile, Direction direction) {
+    public static Tile findNextValidTile(Tile currentTile, Direction direction) {
         int currentXCoordinate = currentTile.getX();
         int currentYCoordinate = currentTile.getY();
 
