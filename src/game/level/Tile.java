@@ -6,6 +6,7 @@ import game.item.Item;
 import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class Tile {
     private final int x;
     private final int y;
 
-    private Color[] colours;
+    private Colour[] colours;
 
     private Item item;
     private Gate gate;
@@ -38,13 +39,17 @@ public class Tile {
 
     private List<NPC> npc = new ArrayList<>();
 
-    public Tile(int x, int y, Color[] colours) {
-        if (colours.length > MAX_COLOURS) {
-            throw new IllegalArgumentException("A tile can have at most " + MAX_COLOURS + " colours.");
-        }
+    public Tile(int x, int y, Colour[] colours) {
+        validateColourSize(colours.length);
         this.x = x;
         this.y = y;
         this.colours = colours;
+    }
+
+    private void validateColourSize(int size) {
+        if (size > MAX_COLOURS) {
+            throw new IllegalArgumentException("A tile can have at most " + MAX_COLOURS + " colours.");
+        }
     }
 
     public int getX() {
@@ -73,12 +78,24 @@ public class Tile {
     public List<NPC> getNpc() {
         return npc;
     }
+    public boolean containsFlyingAssassin() {
+        for (Entity npc : getNpc()) {
+            if (npc.getEntityName() == EntityName.FLYING_ASSASSIN) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-    public Color[] getColours() {
+    public Colour[] getColours() {
         return colours;
     }
 
-    public void setColours(Color[] colours) {
+    public Collection<Colour> getColoursAsList() {
+        return Arrays.asList(colours);
+    }
+
+    public void setColours(Colour[] colours) {
         this.colours = colours;
     }
 

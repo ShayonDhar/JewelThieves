@@ -16,7 +16,7 @@ public class Door extends Item {
      *                 whether the item has been claimed or triggered.
      */
     public Door(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.DOOR);
     }
 
     @Override

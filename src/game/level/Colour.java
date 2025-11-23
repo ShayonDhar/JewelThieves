@@ -1,15 +1,11 @@
 package game.level;
 
 public enum Colour {
-    YELLOW,
+    RED,
     GREEN,
     BLUE,
-    RED,
+    YELLOW,
     CYAN,
-    PURPLE,
-    PINK,
-    GRAY,
-    BLACK,
-    WHITE,
     MAGENTA
 }
+

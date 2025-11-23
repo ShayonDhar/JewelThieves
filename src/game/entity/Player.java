@@ -1,5 +1,10 @@
 package game.entity;
 
+import game.item.Item;
+import game.item.Loot;
+import game.item.LootType;
+import game.level.Tile;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -19,6 +24,8 @@ public class Player extends Entity {
 
     private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
             "/game/resources/player.png")).toExternalForm());
+    private static final EntityName ENTITY_NAME = EntityName.PLAYER;
+    private int highscore;
 
     /**
      * Constructs a new Player entity.
@@ -29,8 +36,8 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
-        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
+    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+        super(ENTITY_NAME, x, y, direction, alive, blocksMovement);
     }
 
     /**
@@ -54,8 +61,8 @@ public class Player extends Entity {
         }
 
 
-        if (targetTile.containsDangerousNpc()) {
-            game.gameOver();
+        if (targetTile.containsFlyingAssassin()) {
+            game.GameController.gameOver();
             return;
         }
 
@@ -64,9 +71,10 @@ public class Player extends Entity {
 
         Item item = targetTile.getItem();
         if (item != null) {
-            switch (item.getType()) {
+            switch (item.getItemType()) {
                 case LOOT:
-                    score.add(item.getValue());
+                    Loot loot = (Loot) item;
+                    score.add(loot.getLootValue());
                     break;
 
                 case CLOCK:
@@ -97,7 +105,6 @@ public class Player extends Entity {
                 game.finishLevel();
             }
         }
-
          */
     }
 
@@ -112,6 +119,11 @@ public class Player extends Entity {
 
         // Drawing the level background
         gc.drawImage(playerImage, getX(), getY(), 40, 40);
+    }
+
+    @Override
+    public void addToHighscore(int value) {
+        this.highscore += value;
     }
 }
 

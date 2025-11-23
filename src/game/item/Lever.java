@@ -1,5 +1,6 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Lever extends Item{
@@ -16,11 +17,16 @@ public class Lever extends Item{
      *                 whether the item has been claimed or triggered.
      */
     public Lever(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.LEVER);
     }
 
     @Override
     public void draw(GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void collectItem(Entity entityName) {
 
     }
 }

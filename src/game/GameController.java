@@ -27,7 +27,7 @@ public class GameController {
             Direction.NORTH, true, true);
 
     // Timeline which will cause tick method to be called periodically.
-    private Timeline tickTimeline;
+    private static Timeline tickTimeline;
 
     /**
      * Method that initialises the game.
@@ -53,7 +53,8 @@ public class GameController {
      * Updates periodically to update the entity positions, the state of items, and the game time
      */
     public void tick() {
-        // TODO: Implement entity movement in here
+        //Level.moveNPCs();
+        player.move();
         player.setX(player.getX() + 30);
         if (player.getX() > canvas.getWidth()) {
             player.setX(0);
@@ -96,5 +97,28 @@ public class GameController {
         // Marking the event as being "done dealt with"
         event.consume();
     }
+    // Called when the player dies (Flying Assassin, timer expires, etc.)
+    public static void gameOver() {
+        tickTimeline.stop();
+        System.out.println("GAME OVER");
+
+        //TODO: Switch over to a game over screen
+    }
+    // Called when the player reaches an exit AND all loot + levers collected
+    public void finishLevel() {
+        tickTimeline.stop();
+        System.out.println("LEVEL COMPLETE");
+
+        //TODO: Create a finish level screen 
+    }
+    // Called when starting gameplay (after pressing Start)
+    public void startLevel() {
+        level.draw(gc);
+        player.draw(gc);
+        tickTimeline.play();
+    }
+
+
+
 
 }

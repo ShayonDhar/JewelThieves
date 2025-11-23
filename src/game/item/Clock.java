@@ -16,7 +16,7 @@ public class Clock extends Item{
      *                 whether the item has been claimed or triggered.
      */
     public Clock(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
     }
 
     @Override
