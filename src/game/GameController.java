@@ -23,7 +23,7 @@ public class GameController {
     public GraphicsContext gc;
     public Level level;
     // TODO: Temp code until player is implemented
-    public Player player = new Player(40, 20,
+    public Player player = new Player(40, 45,
             Direction.NORTH, true, true);
 
     // Timeline which will cause tick method to be called periodically.

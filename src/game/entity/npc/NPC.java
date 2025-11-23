@@ -2,6 +2,7 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.Entity;
+import game.entity.EntityName;
 
 public abstract class NPC extends Entity {
     /**
@@ -14,7 +15,7 @@ public abstract class NPC extends Entity {
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected NPC(String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(entityName, y, x, direction, alive, blocksMovement);
+    protected NPC(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+        super(entityName, x, y, direction, alive, blocksMovement);
     }
 }
