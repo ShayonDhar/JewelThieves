@@ -1,5 +1,10 @@
 package game.entity;
 
+import game.item.Item;
+import game.item.Loot;
+import game.item.LootType;
+import game.level.Tile;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
@@ -66,9 +71,10 @@ public class Player extends Entity {
 
         Item item = targetTile.getItem();
         if (item != null) {
-            switch (item.getType()) {
+            switch (item.getItemType()) {
                 case LOOT:
-                    score.add(item.getValue());
+                    Loot loot = (Loot) item;
+                    score.add(loot.getLootValue());
                     break;
 
                 case CLOCK:
@@ -99,7 +105,6 @@ public class Player extends Entity {
                 game.finishLevel();
             }
         }
-
          */
     }
 
