@@ -61,8 +61,8 @@ public class Player extends Entity {
         }
 
 
-        if (targetTile.containsDangerousNpc()) {
-            game.gameOver();
+        if (targetTile.containsFlyingAssassin()) {
+            game.GameController.gameOver();
             return;
         }
 
