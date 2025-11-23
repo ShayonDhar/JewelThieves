@@ -21,7 +21,7 @@ public class Loot extends Item {
 
     private final LootType value;
 
-    public Loot(String itemName, int itemID, int x, int y, boolean isOn) {
+    public Loot(String itemName, int itemID, int x, int y, boolean isOn, LootType value) {
         super(itemName, itemID, x, y, isOn, ItemType.LOOT);
     }
 
