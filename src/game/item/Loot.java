@@ -44,4 +44,7 @@ public class Loot extends Item {
             isOn = false;
         }
     }
+    public LootType getLootValue() {
+        return value;
+    }
 }
