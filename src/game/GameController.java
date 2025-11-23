@@ -53,7 +53,8 @@ public class GameController {
      * Updates periodically to update the entity positions, the state of items, and the game time
      */
     public void tick() {
-        // TODO: Implement entity movement in here
+        //Level.moveNPCs();
+        player.move();
         player.setX(player.getX() + 30);
         if (player.getX() > canvas.getWidth()) {
             player.setX(0);
