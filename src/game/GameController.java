@@ -118,6 +118,9 @@ public class GameController {
         player.draw(gc);
         tickTimeline.play();
     }
+    public void addScore(int score) {
+        this.score += score;
+    }
 
 
 
