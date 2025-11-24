@@ -2,6 +2,8 @@ package game;
 
 import game.entity.Direction;
 import game.entity.Player;
+import game.item.Item;
+import game.item.Loot;
 import game.level.Level;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
