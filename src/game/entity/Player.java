@@ -1,8 +1,7 @@
 package game.entity;
 
-import game.item.Item;
-import game.item.Loot;
-import game.item.LootType;
+import game.GameController;
+import game.item.*;
 import game.level.Tile;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
@@ -26,6 +25,9 @@ public class Player extends Entity {
             "/game/resources/player.png")).toExternalForm());
     private static final EntityName ENTITY_NAME = EntityName.PLAYER;
     private int highscore;
+    private GameController controller;
+    private Level level;
+
 
     /**
      * Constructs a new Player entity.
@@ -36,9 +38,13 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
+    public Player(int y, int x, Direction direction, boolean alive,
+                  boolean blocksMovement, GameController controller, Level level) {
         super(ENTITY_NAME, x, y, direction, alive, blocksMovement);
+        this.controller = controller;
+        this.level = level;
     }
+
 
     /**
      * Attempts to move the player in their current direction, applying movement
@@ -47,7 +53,7 @@ public class Player extends Entity {
      */
     @Override
     public void move() {
-        /*
+
         Direction moveDirection = getDirection();
 
         Tile currentTile = Level.getTile(getY(), getX());
@@ -74,38 +80,39 @@ public class Player extends Entity {
             switch (item.getItemType()) {
                 case LOOT:
                     Loot loot = (Loot) item;
-                    score.add(loot.getLootValue());
+                    controller.addScore(loot.getLootType().getValue());
                     break;
 
                 case CLOCK:
-                    timer.add(item.getTimeBonus());
+                    Clock clock = (Clock) item;
+                    level.update(clock.getTimeBonus());
                     break;
 
                 case LEVER:
-                    level.openGatesOfColor(item.getColor());
+                    Lever lever = (Lever) item;
+                    level.openGatesOfColour(lever.getColour());
                     break;
 
                 case BOMB:
-                    // Player cannot stand on a bomb tile,
-                    // but if the tile next to it contains a bomb, trigger it.
+                    // Player cannot stand on a bomb tile.
                     break;
             }
             targetTile.removeItem();
         }
 
         // Bomb triggering logic
-        for (Tile neighbour : level.getNeighbours(targetTile)) {
+        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
             if (neighbour.hasBomb()) {
                 neighbour.getBomb().trigger();
             }
         }
         //Handles exit logic
-        if (targetTile.isExitTile()) {
+        if (targetTile.isExit()) {
             if (level.allLootAndLeversCollected()) {
-                game.finishLevel();
+                controller.finishLevel();
             }
         }
-         */
+
     }
 
     /**
