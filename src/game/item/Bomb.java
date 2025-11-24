@@ -30,6 +30,11 @@ public class Bomb extends Item {
 
     }
 
+    @Override
+    public void collectItem(Entity entityName) {
+        
+    }
+
     public BombState getState() {
         return state;
     }
