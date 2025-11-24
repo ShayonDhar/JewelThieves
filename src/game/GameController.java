@@ -60,6 +60,12 @@ public class GameController {
         if (player.getX() > canvas.getWidth()) {
             player.setX(0);
         }
+        // Check for loot collection
+        Item item = level.getItemAt(player.getX(), player.getY());
+        if (item instanceof Loot loot) {
+            addScore(loot.getLootValue().getValue());
+            level.removeItemFromGrid(player.getX(), player.getY());
+        }
 
         // Redraw the whole canvas
         player.draw(gc);
