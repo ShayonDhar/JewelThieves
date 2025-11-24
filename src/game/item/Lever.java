@@ -1,9 +1,11 @@
 package game.item;
 
 import game.entity.Entity;
+import game.level.Colour;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Lever extends Item{
+    private final Colour colour;
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -16,8 +18,12 @@ public class Lever extends Item{
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
-    public Lever(String itemName, int itemID, int x, int y, boolean isOn) {
+    public Lever(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
         super(itemName, itemID, x, y, isOn, ItemType.LEVER);
+        this.colour = colour;
+    }
+    public Colour getColour() {
+        return colour;
     }
 
     @Override
