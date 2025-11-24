@@ -28,6 +28,7 @@ public class GameController {
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
+    private int score = 0;
 
     /**
      * Method that initialises the game.
