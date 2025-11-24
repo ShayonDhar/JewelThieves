@@ -23,4 +23,9 @@ public class Clock extends Item{
     public void draw(GraphicsContext gc) {
 
     }
+
+    @Override
+    public void collectItem(Entity entityName) {
+        
+    }
 }
