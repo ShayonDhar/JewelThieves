@@ -1,5 +1,7 @@
 package game.level;
 
+import game.entity.Entity;
+import game.entity.EntityName;
 import game.entity.npc.NPC;
 import game.item.Gate;
 import game.item.Item;
