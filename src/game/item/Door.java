@@ -1,5 +1,6 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Door extends Item {
@@ -21,6 +22,11 @@ public class Door extends Item {
 
     @Override
     public void draw(GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void collectItem(Entity entityName) {
 
     }
 }

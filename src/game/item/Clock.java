@@ -1,5 +1,6 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Clock extends Item{
@@ -16,7 +17,7 @@ public class Clock extends Item{
      *                 whether the item has been claimed or triggered.
      */
     public Clock(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+        super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
     }
 
     @Override
@@ -26,6 +27,6 @@ public class Clock extends Item{
 
     @Override
     public void collectItem(Entity entityName) {
-        
+
     }
 }

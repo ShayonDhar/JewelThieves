@@ -30,10 +30,8 @@ public class Bomb extends Item {
     public void draw(GraphicsContext gc) {
 
     }
-
     @Override
     public void collectItem(Entity entityName) {
-        
     }
 
     public BombState getState() {
