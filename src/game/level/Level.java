@@ -276,7 +276,7 @@ public class Level {
      * @param x the x-coordinate of the tile
      * @param y the y-coordinate of the tile
      */
-    private void removeItemFromGrid(int x, int y) {
+    public void removeItemFromGrid(int x, int y) {
         itemsGrid[x][y] = null;
     }
 
