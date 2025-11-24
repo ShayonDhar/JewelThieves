@@ -1,5 +1,6 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Gate extends Item{
