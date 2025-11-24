@@ -43,6 +43,11 @@ public class FlyingAssassin extends NPC {
 
     }
 
+    @Override
+    public void addToHighscore(int value) {
+        
+    }
+
     /* TODO: Check tile/level boundariesH
        (example/framework code)
        boolean canMove = Level.canMoveTo(nextX, nextY)
