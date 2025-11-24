@@ -121,6 +121,9 @@ public class GameController {
     public void addScore(int score) {
         this.score += score;
     }
+    public int getScore() {
+        return score;
+    }
 
 
 
