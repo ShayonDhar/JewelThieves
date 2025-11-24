@@ -187,8 +187,20 @@ public class Level {
      * that corresponds to the same colour.
      * @param c the colour of gates to open
      */
-    public void openGatesOfColour(Colour c){
-        //TODO: Open gate logic
+    public void openGatesOfColour(Colour c) {
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile t = levelGrid[y][x];
+
+                if (t != null && t.hasGate()) {
+                    Gate gate = t.getGate();
+
+                    if (gate.getColour() == c) {
+                        t.removeItem();
+                    }
+                }
+            }
+        }
     }
     /**
      * Checks whether all loot and levers present in the level have been collected.
