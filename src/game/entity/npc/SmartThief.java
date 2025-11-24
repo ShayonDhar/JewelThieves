@@ -33,6 +33,11 @@ public class SmartThief extends NPC {
     }
 
     @Override
+    public void addToHighscore(int value) {
+        
+    }
+
+    @Override
     public void move()
     {
         /*
