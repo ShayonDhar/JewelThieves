@@ -23,10 +23,10 @@ public class GameController {
 
     public Canvas canvas;
     public GraphicsContext gc;
-    public Level level;
+    public Level level = new Level("LevelFile.txt");
     // TODO: Temp code until player is implemented
-    public Player player = new Player(40, 45,
-            Direction.NORTH, true, true);
+    public Player player = new Player(40, 45, Direction.NORTH,
+            true, true, this,level );
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
@@ -65,7 +65,7 @@ public class GameController {
         // Check for loot collection
         Item item = level.getItemAt(player.getX(), player.getY());
         if (item instanceof Loot loot) {
-            addScore(loot.getLootValue().getValue());
+            addScore(loot.getLootType().getValue());
             level.removeItemFromGrid(player.getX(), player.getY());
         }
 
