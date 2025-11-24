@@ -1,4 +1,5 @@
 package game.item;
+import game.entity.Entity;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
