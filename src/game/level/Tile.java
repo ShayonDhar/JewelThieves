@@ -123,6 +123,9 @@ public class Tile {
     public void setBomb(Bomb bomb) {
         this.bomb = bomb;
     }
+    public void removeItem() {
+        item = null;
+    }
 
     public void setGate(Gate gate) {
         this.gate = gate;
