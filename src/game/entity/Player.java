@@ -24,7 +24,6 @@ public class Player extends Entity {
 
     private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
             "/game/resources/player.png")).toExternalForm());
-    private static final EntityName ENTITY_NAME = EntityName.PLAYER;
     private int highscore;
 
     /**
@@ -37,7 +36,7 @@ public class Player extends Entity {
      * @param blocksMovement whether the player blocks movement of other entities
      */
     public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(ENTITY_NAME, x, y, direction, alive, blocksMovement);
+        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
     }
 
     /**
@@ -106,6 +105,14 @@ public class Player extends Entity {
             }
         }
          */
+    }
+
+    public int getHighscore() {
+        return highscore;
+    }
+
+    public void setHighscore(int highscore) {
+        this.highscore = highscore;
     }
 
     /**
