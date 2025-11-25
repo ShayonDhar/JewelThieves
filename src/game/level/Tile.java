@@ -3,6 +3,7 @@ package game.level;
 import game.entity.Entity;
 import game.entity.EntityName;
 import game.entity.npc.NPC;
+import game.item.Bomb;
 import game.item.Gate;
 import game.item.Item;
 import javafx.scene.paint.Color;
@@ -38,6 +39,7 @@ public class Tile {
     private Item item;
     private Gate gate;
     private boolean isExit;
+    private Bomb bomb;
 
     private List<NPC> npc = new ArrayList<>();
 
@@ -80,6 +82,9 @@ public class Tile {
     public List<NPC> getNpc() {
         return npc;
     }
+    public boolean hasBomb() {
+        return bomb != null;
+    }
     public boolean containsFlyingAssassin() {
         for (Entity npc : getNpc()) {
             if (npc.getEntityName() == EntityName.FLYING_ASSASSIN) {
@@ -112,6 +117,15 @@ public class Tile {
     public Gate getGate() {
         return gate;
     }
+    public Bomb getBomb() {
+        return bomb;
+    }
+    public void setBomb(Bomb bomb) {
+        this.bomb = bomb;
+    }
+    public void removeItem() {
+        item = null;
+    }
 
     public void setGate(Gate gate) {
         this.gate = gate;
@@ -125,6 +139,7 @@ public class Tile {
                 ", colours=" + Arrays.toString(colours) +
                 ", item=" + item +
                 ", gate=" + gate +
+                ", bomb=" + bomb +
                 ", isExit=" + isExit +
                 ", npc=" + npc +
                 '}';

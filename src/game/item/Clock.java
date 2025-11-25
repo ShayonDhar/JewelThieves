@@ -1,8 +1,10 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Clock extends Item{
+    private final int timeBonus;
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -15,12 +17,21 @@ public class Clock extends Item{
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
-    public Clock(String itemName, int itemID, int x, int y, boolean isOn) {
+    public Clock(String itemName, int itemID, int x, int y, boolean isOn, int timeBonus) {
         super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
+        this.timeBonus = timeBonus;
+    }
+    public int getTimeBonus() {
+        return timeBonus;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void collectItem(Entity entityName) {
 
     }
 }

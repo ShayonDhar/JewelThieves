@@ -2,6 +2,8 @@ package game;
 
 import game.entity.Direction;
 import game.entity.Player;
+import game.item.Item;
+import game.item.Loot;
 import game.level.Level;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -21,13 +23,14 @@ public class GameController {
 
     public Canvas canvas;
     public GraphicsContext gc;
-    public Level level;
+    public Level level = new Level("LevelFile.txt");
     // TODO: Temp code until player is implemented
-    public Player player = new Player(40, 45,
-            Direction.NORTH, true, true);
+    public Player player = new Player(40, 45, Direction.NORTH,
+            true, true, this,level );
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
+    private int score = 0;
 
     /**
      * Method that initialises the game.
@@ -58,6 +61,12 @@ public class GameController {
         player.setX(player.getX() + 30);
         if (player.getX() > canvas.getWidth()) {
             player.setX(0);
+        }
+        // Check for loot collection
+        Item item = level.getItemAt(player.getX(), player.getY());
+        if (item instanceof Loot loot) {
+            addScore(loot.getLootType().getValue());
+            level.removeItemFromGrid(player.getX(), player.getY());
         }
 
         // Redraw the whole canvas
@@ -116,6 +125,12 @@ public class GameController {
         level.draw(gc);
         player.draw(gc);
         tickTimeline.play();
+    }
+    public void addScore(int score) {
+        this.score += score;
+    }
+    public int getScore() {
+        return score;
     }
 
 

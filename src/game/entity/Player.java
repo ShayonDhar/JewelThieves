@@ -1,8 +1,7 @@
 package game.entity;
 
-import game.item.Item;
-import game.item.Loot;
-import game.item.LootType;
+import game.GameController;
+import game.item.*;
 import game.level.Tile;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
@@ -24,7 +23,11 @@ public class Player extends Entity {
 
     private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
             "/game/resources/player.png")).toExternalForm());
+    private static final EntityName ENTITY_NAME = EntityName.PLAYER;
     private int highscore;
+    private GameController controller;
+    private Level level;
+
 
     /**
      * Constructs a new Player entity.
@@ -35,9 +38,13 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
+    public Player(int y, int x, Direction direction, boolean alive,
+                  boolean blocksMovement, GameController controller, Level level) {
+        super(ENTITY_NAME, x, y, direction, alive, blocksMovement);
+        this.controller = controller;
+        this.level = level;
     }
+
 
     /**
      * Attempts to move the player in their current direction, applying movement
@@ -46,68 +53,66 @@ public class Player extends Entity {
      */
     @Override
     public void move() {
-        Direction dir = getDirection();
-        int newX = getX();
-        int newY = getY();
 
-        switch (getDirection()) {
-            case NORTH -> newY += 1;  // up
-            case SOUTH -> newY -= 1;  // down
-            case WEST  -> newX -= 1;  // left
-            case EAST  -> newX += 1;  // right
-        }
+        Direction moveDirection = getDirection();
 
         Tile currentTile = Level.getTile(getY(), getX());
-        Tile targetTile = Level.getTile(newY, newX);
+        Tile targetTile = Level.findNextValidTile(currentTile, moveDirection);
 
-        if (targetTile == null) return;          // Off map
-        if (targetTile.hasGate()) return;        // Closed gate
+        if (targetTile == null) {
+            return;
+        }
+        if (targetTile.hasGate()) {
+            return;
+        }
+
+
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
             return;
         }
 
-        // Move player
-        setX(newX);
-        setY(newY);
+        setX(targetTile.getX());
+        setY(targetTile.getY());
 
-//        // Handle items
-//        Item item = targetTile.getItem();
-//        if (item != null) {
-//            switch (item.getItemType()) {
-//                case LOOT -> {
-//                    Loot loot = (Loot) item;
-//                    addToHighscore(loot.getLootValue());
-//                }
-//                case CLOCK -> timer.add(item.getTimeBonus());
-//                case LEVER -> level.openGatesOfColor(item.getColor());
-//                case BOMB -> { /* bombs handled after */ }
-//            }
-//            targetTile.removeItem();
-//        }
-//
-//
-//
-//        // Trigger bombs around player
-//        for (Tile neighbour : level.getNeighbours(targetTile)) {
-//            if (neighbour.hasBomb()) {
-//                neighbour.getBomb().trigger();
-//            }
-//        }
-//
-//        // Exit tile logic
-//        if (targetTile.isExitTile() && level.allLootAndLeversCollected()) {
-//            game.finishLevel();
-//        }
-//
-    }
+        Item item = targetTile.getItem();
+        if (item != null) {
+            switch (item.getItemType()) {
+                case LOOT:
+                    Loot loot = (Loot) item;
+                    controller.addScore(loot.getLootType().getValue());
+                    break;
 
-    public int getHighscore() {
-        return highscore;
-    }
+                case CLOCK:
+                    Clock clock = (Clock) item;
+                    level.update(clock.getTimeBonus());
+                    break;
 
-    public void setHighscore(int highscore) {
-        this.highscore = highscore;
+                case LEVER:
+                    Lever lever = (Lever) item;
+                    level.openGatesOfColour(lever.getColour());
+                    break;
+
+                case BOMB:
+                    // Player cannot stand on a bomb tile.
+                    break;
+            }
+            targetTile.removeItem();
+        }
+
+        // Bomb triggering logic
+        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
+            if (neighbour.hasBomb()) {
+                neighbour.getBomb().trigger();
+            }
+        }
+        //Handles exit logic
+        if (targetTile.isExit()) {
+            if (level.allLootAndLeversCollected()) {
+                controller.finishLevel();
+            }
+        }
+
     }
 
     /**

@@ -1,5 +1,7 @@
 package game.item;
 
+import game.entity.Entity;
+import game.level.Colour;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Gate extends Item{
@@ -15,12 +17,22 @@ public class Gate extends Item{
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
-    public Gate(String itemName, int itemID, int x, int y, boolean isOn, ItemType itemType) {
+    private final Colour colour;
+    public Gate(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
         super(itemName, itemID, x, y, isOn, ItemType.GATE);
+        this.colour = colour;
+    }
+    public Colour getColour() {
+        return colour;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
+
+    }
+
+    @Override
+    public void collectItem(Entity entityName) {
 
     }
 }

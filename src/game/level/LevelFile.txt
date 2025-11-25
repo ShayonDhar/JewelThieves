@@ -1,51 +1,28 @@
-# --------------------------------------------------------------------
-# SECTION 1: DIMENSIONS & METADATA
-# This section defines the size of the level and the time limit
-# --------------------------------------------------------------------
-Width
-Height
-Time
-Level
+5 4
+RRGG RRYB YYGB GGBR BRRY
+RYGB YGBR RRYY GGRB RGBY
+BBRR GGRY YRGB RYGY YYRR
+RGBY BRRG GYRR YYGB RRGY
 
-# --------------------------------------------------------------------
-# SECTION 2: TILE COLOUR GRID
-# This section defines the colours of the tiles and the structure of the grid
-# Each tile is a block of 4 colours
-# --------------------------------------------------------------------
-# insert grid here to be finalised
+# Player start
+PLAYER 1 1 NORTH
 
-# --------------------------------------------------------------------
-# SECTION 3: ENTITY & ITEM LIST
-# This section defines what entities and items will be in the level,
-# where they will be in the level, and what data they hold
-# --------------------------------------------------------------------
+# NPCs
+FLOORFOLLOWINGTHIEF 3 2 EAST BLUE
+ASSASSIN 4 1 SOUTH
 
-# Player (X, Y, Direction)
-PLAYER 1 1 DOWN
+# Items
+LOOT 2 2 CENT
+LOOT 4 3 DOLLAR
+CLOCK 1 3 +10
+LEVER 0 2 RED
+GATE 0 1 RED
+GATE 3 3 RED
+BOMB 2 1
 
-# Thieves & Assassins
-# FlyingAssassin (X, Y, Direction)
-FLYINGASSASSIN 1 1 DOWN
-# SmartThief (X, Y, Direction)
-SMARTTHIEF 1 1 DOWN
-# FloorFollowingThief (X, Y, Direction, Colour)
-FLOORFOLLOWINGTHEIF 1 1 DOWN
+# Exit tiles
+EXIT 4 0
+EXIT 4 3
 
-# Loot & Clocks
-# Loot (X, Y, Type)
-LOOT 1 1 CENT
-LOOT 1 1 DOLLAR
-LOOT 1 1 RUBY
-LOOT 1 1 DIAMOND
-# Clock (X, Y)
-CLOCK 2 1
-
-# Bombs, Levers, Gates, and Doors
-# Bomb (X, Y)
-BOMB 1 1
-# Lever (X, Y)
-LEVER 1 1 RED
-# Gate (X, Y, Colour)
-GATE 1 1 RED
-# Door (X, Y)
-DOOR 1 1
+# Time limit
+TIME 90

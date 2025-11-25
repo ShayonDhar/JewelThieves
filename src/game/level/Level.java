@@ -187,8 +187,20 @@ public class Level {
      * that corresponds to the same colour.
      * @param c the colour of gates to open
      */
-    public void openGatesOfColour(Colour c){
-        //TODO: Open gate logic
+    public void openGatesOfColour(Colour c) {
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile t = levelGrid[y][x];
+
+                if (t != null && t.hasGate()) {
+                    Gate gate = t.getGate();
+
+                    if (gate.getColour() == c) {
+                        t.removeItem();
+                    }
+                }
+            }
+        }
     }
     /**
      * Checks whether all loot and levers present in the level have been collected.
@@ -262,14 +274,21 @@ public class Level {
     }
 
     // TODO: Note from Anton, would this be here or updated via draw() method in the Item class?
+
+    /**
+     * Update time will add or subtract the time provided by the clock
+     * based on whether the player or thieves collected it.
+     * @param time
+     */
     public void update(int time){
+        remainingTime += time;
     }
     /**
      * Removes an item from the grid.
      * @param x the x-coordinate of the tile
      * @param y the y-coordinate of the tile
      */
-    private void removeItemFromGrid(int x, int y) {
+    public void removeItemFromGrid(int x, int y) {
         itemsGrid[x][y] = null;
     }
 
