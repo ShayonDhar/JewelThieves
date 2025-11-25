@@ -13,6 +13,7 @@ import javafx.scene.canvas.GraphicsContext;
  * Possible Enumerated classes required to hold the states and properties of the items
  *
  * @author Elijah Ogunjebe
+ * @author Talal Alshammari
  * @version 1.0.0
  */
 public abstract class Item {

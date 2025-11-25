@@ -1,26 +1,99 @@
 package game.item;
 
+import game.entity.Entity;
 import javafx.scene.canvas.GraphicsContext;
+import game.level.Colour;
 
-public class Gate extends Item{
+/**
+ * Gate class represents a gate item that blocks movement.
+ * Gates can be unlocked by levers of the same color.
+ */
+public class Gate extends Item {
+
+    private Colour colour;
+    private boolean isLocked;
+
     /**
-     * Constructor that all the items will use.
-     * It has all the properties they have in common
-     * But each item will have different String, int or boolean for each attribute
+     * Constructor for Gate.
      *
-     * @param itemName is the name of the item, e.g. Gate
-     * @param itemID   is the ID of the item, e.g. if there were 5 bombs, one ID would be 4
-     * @param x        is the x coordinate of the location of the item on the map
-     * @param y        is the y coordinate of the location of the item on the map
-     * @param isOn     is a boolean that will either be true or false. It tells us
-     *                 whether the item has been claimed or triggered.
+     * @param itemName the name of the item
+     * @param itemID   the ID of the item
+     * @param x        x coordinate on the map
+     * @param y        y coordinate on the map
+     * @param isOn     whether the item is active
      */
     public Gate(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn);
+        this.isLocked = true;
+    }
+
+    /**
+     * Constructor for Gate with color.
+     *
+     * @param itemName the name of the item
+     * @param itemID   the ID of the item
+     * @param x        x coordinate on the map
+     * @param y        y coordinate on the map
+     * @param isOn     whether the item is active
+     * @param colour   the color of the gate
+     */
+    public Gate(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
+        super(itemName, itemID, x, y, isOn);
+        this.colour = colour;
+        this.isLocked = true;
     }
 
     @Override
     public void draw(GraphicsContext gc) {
+        // TODO: Implement drawing logic
+    }
 
+    @Override
+    public void collectItem(Entity entityName) {
+
+    }
+
+    /**
+     * Unlocks the gate.
+     */
+    public void unlock() {
+        this.isLocked = false;
+        this.isOn = false;
+    }
+
+    /**
+     * Locks the gate.
+     */
+    public void lock() {
+        this.isLocked = true;
+        this.isOn = true;
+    }
+
+    /**
+     * @return true if locked, false otherwise
+     */
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    /**
+     * @return the colour of the gate
+     */
+    public Colour getColour() {
+        return colour;
+    }
+
+    /**
+     * @param colour the colour for the gate
+     */
+    public void setColour(Colour colour) {
+        this.colour = colour;
+    }
+
+    /**
+     * @return true if entities can pass through, false otherwise
+     */
+    public boolean canPassThrough() {
+        return !isLocked;
     }
 }
