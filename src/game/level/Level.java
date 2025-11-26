@@ -46,6 +46,7 @@ public class Level {
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
     private Item[][] itemsGrid;
+    private GameController controller;
 
     private static final double CANVAS_WIDTH = 650;
     private static final double CANVAS_HEIGHT = 650;
