@@ -24,6 +24,8 @@ public enum Colour {
             case 'G' -> GREEN;
             case 'B' -> BLUE;
             case 'Y' -> YELLOW;
+            case 'C' -> CYAN;
+            case 'M' -> MAGENTA;
             default -> throw new IllegalArgumentException("Unknown colour: " + c);
         };
     }
