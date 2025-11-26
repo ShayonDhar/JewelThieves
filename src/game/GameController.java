@@ -16,6 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
 /**
@@ -24,8 +25,11 @@ import javafx.util.Duration;
  */
 public class GameController {
 
+    private static final String UNHANDLED_KEY = "Unhandled key: ";
+    private static final String LEVEL_FILE = "LevelFile.txt";
+
     public TilePane boardTilePane;
-    public Level level = new Level("LevelFile.txt");
+    public Level level = new Level(LEVEL_FILE);
     // TODO: Temp code until player is implemented
     public Player player = new Player(40, 45, Direction.NORTH,
             true, true, this,level );
@@ -112,11 +116,17 @@ public class GameController {
 
     public void onKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
-            // case W -> player.moveUp();
-            // case A -> player.moveLeft();
-            // case S -> player.moveDown();
-            // case D -> player.moveRight();
+            case W -> player.setDirection(Direction.NORTH);
+            case A -> player.setDirection(Direction.WEST);
+            case S -> player.setDirection(Direction.SOUTH);
+            case D -> player.setDirection(Direction.EAST);
+            default -> {
+                System.out.println(UNHANDLED_KEY + event.getCode());
+            }
         }
+
+        // Now perform the move based on the direction we just set
+        player.move();
 
         // Redraw the scene after moving
         drawGame();
