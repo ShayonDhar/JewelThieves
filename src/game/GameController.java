@@ -5,6 +5,7 @@ import game.entity.Player;
 import game.item.Item;
 import game.item.Loot;
 import game.level.Level;
+import game.level.Tile;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -13,6 +14,8 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 
 /**
@@ -21,8 +24,7 @@ import javafx.util.Duration;
  */
 public class GameController {
 
-    public Canvas canvas;
-    public GraphicsContext gc;
+    public TilePane boardTilePane;
     public Level level = new Level("LevelFile.txt");
     // TODO: Temp code until player is implemented
     public Player player = new Player(40, 45, Direction.NORTH,
@@ -41,14 +43,10 @@ public class GameController {
         tickTimeline = new Timeline(new KeyFrame(
                 Duration.millis(500), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
-        // Drawing the canvas background
-        gc = canvas.getGraphicsContext2D();
-        gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Drawing the game
         level = new Level("LevelFile.txt");
-        level.draw(gc);
-        player.draw(gc);
+        drawGame();
     }
 
     /**
@@ -59,9 +57,10 @@ public class GameController {
         //Level.moveNPCs();
         player.move();
         player.setX(player.getX() + 30);
-        if (player.getX() > canvas.getWidth()) {
-            player.setX(0);
-        }
+        // TODO: Change canvas in this method
+//        if (player.getX() > canvas.getWidth()) {
+//            player.setX(0);
+//        }
         // Check for loot collection
         Item item = level.getItemAt(player.getX(), player.getY());
         if (item instanceof Loot loot) {
@@ -70,7 +69,27 @@ public class GameController {
         }
 
         // Redraw the whole canvas
-        player.draw(gc);
+        drawGame();
+    }
+
+    public void drawGame() {
+
+        // Clear the tilePane
+        boardTilePane.getChildren().clear();
+
+        // 2D array that stores the tiles
+        GridPane[][] tilesGridPane = new GridPane[Level.getLevelWidth()][Level.getLevelHeight()];
+
+        // Looping through height/width of tilePane
+        for (int x = 0; x < Level.getLevelHeight(); x++) {
+            for (int y = 0; y < Level.getLevelWidth(); y++) {
+
+                // Gets the tile object from the level, and converts the colours/item/entity to a gridPane
+                // Tile tile = level.getTile[]
+
+            }
+        }
+
     }
 
     /**
@@ -83,7 +102,7 @@ public class GameController {
     }
 
     /**
-     * Method to stop the tick timeline.
+     * Method to stop the tick timeline when the STOP button is pressed.
      * @param actionEvent
      */
     @FXML
@@ -100,12 +119,12 @@ public class GameController {
         }
 
         // Redraw the scene after moving
-        level.draw(gc);
-        player.draw(gc);
+        drawGame();
 
         // Marking the event as being "done dealt with"
         event.consume();
     }
+
     // Called when the player dies (Flying Assassin, timer expires, etc.)
     public static void gameOver() {
         tickTimeline.stop();
@@ -113,6 +132,7 @@ public class GameController {
 
         //TODO: Switch over to a game over screen
     }
+
     // Called when the player reaches an exit AND all loot + levers collected
     public void finishLevel() {
         tickTimeline.stop();
@@ -120,20 +140,18 @@ public class GameController {
 
         //TODO: Create a finish level screen 
     }
+
     // Called when starting gameplay (after pressing Start)
     public void startLevel() {
-        level.draw(gc);
-        player.draw(gc);
+        drawGame();
         tickTimeline.play();
     }
+
     public void addScore(int score) {
         this.score += score;
     }
+
     public int getScore() {
         return score;
     }
-
-
-
-
 }

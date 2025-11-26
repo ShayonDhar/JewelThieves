@@ -38,8 +38,6 @@ public class Level {
     private static Tile[][] levelGrid;
     private List<Entity> entities;
     private Player player;
-    private static int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
-    private static int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
     private int remainingTime;
     private boolean levelComplete;
     private boolean levelFailed;
@@ -47,8 +45,8 @@ public class Level {
     private List<Tile> exitTiles;
     private Item[][] itemsGrid;
 
-    private static final double CANVAS_WIDTH = 650;
-    private static final double CANVAS_HEIGHT = 650;
+    private static int levelWidth = 15;
+    private static int levelHeight = 7;
 
     /* TODO: Consider the following when designing the Tile[][] implementation (love Anton x)
 
@@ -150,6 +148,14 @@ public class Level {
      */
     private void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
+    }
+
+    public static int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public static int getLevelHeight() {
+        return levelHeight;
     }
 
     /**
