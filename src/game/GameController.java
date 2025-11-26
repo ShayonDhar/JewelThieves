@@ -21,10 +21,12 @@ import javafx.util.Duration;
  */
 public class GameController {
 
+    private static final String UNHANDLED_KEY = "Unhandled key: ";
+    private static final String LEVEL_FILE = "LevelFile.txt";
+
     public Canvas canvas;
     public GraphicsContext gc;
-    public Level level = new Level("LevelFile.txt");
-    // TODO: Temp code until player is implemented
+    public Level level = new Level(LEVEL_FILE);
     public Player player = new Player(40, 45, Direction.NORTH,
             true, true, this,level );
 
@@ -97,6 +99,9 @@ public class GameController {
             case A -> player.setDirection(Direction.WEST);
             case S -> player.setDirection(Direction.SOUTH);
             case D -> player.setDirection(Direction.EAST);
+            default -> {
+                System.out.println(UNHANDLED_KEY + event.getCode());
+            }
         }
 
         // Now perform the move based on the direction we just set

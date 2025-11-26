@@ -21,9 +21,9 @@ import java.util.Objects;
  */
 public class Player extends Entity {
 
+    private static final String PLAYER_PNG = "/game/resources/player.png";
     private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
-            "/game/resources/player.png")).toExternalForm());
-    private static final EntityName ENTITY_NAME = EntityName.PLAYER;
+            PLAYER_PNG)).toExternalForm());
     private int highscore;
     private GameController controller;
     private Level level;
@@ -40,7 +40,7 @@ public class Player extends Entity {
      */
     public Player(int y, int x, Direction direction, boolean alive,
                   boolean blocksMovement, GameController controller, Level level) {
-        super(ENTITY_NAME, x, y, direction, alive, blocksMovement);
+        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
         this.controller = controller;
         this.level = level;
     }
@@ -62,10 +62,10 @@ public class Player extends Entity {
         if (targetTile == null) {
             return;
         }
+
         if (targetTile.hasGate()) {
             return;
         }
-
 
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
@@ -75,7 +75,21 @@ public class Player extends Entity {
         setX(targetTile.getX());
         setY(targetTile.getY());
 
-        Item item = targetTile.getItem();
+        updateScore(targetTile.getItem(), targetTile);
+
+        // Bomb triggering logic
+        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
+            if (neighbour.hasBomb()) {
+                neighbour.getBomb().trigger();
+            }
+        }
+        //Handles exit logic
+        if (targetTile.isExit() && level.allLootAndLeversCollected()) {
+                controller.finishLevel();
+        }
+    }
+
+    private void updateScore(Item item, Tile targetTile) {
         if (item != null) {
             switch (item.getItemType()) {
                 case LOOT:
@@ -99,20 +113,6 @@ public class Player extends Entity {
             }
             targetTile.removeItem();
         }
-
-        // Bomb triggering logic
-        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
-            if (neighbour.hasBomb()) {
-                neighbour.getBomb().trigger();
-            }
-        }
-        //Handles exit logic
-        if (targetTile.isExit()) {
-            if (level.allLootAndLeversCollected()) {
-                controller.finishLevel();
-            }
-        }
-
     }
 
     /**
@@ -123,7 +123,6 @@ public class Player extends Entity {
      */
     @Override
     public void draw(GraphicsContext gc) {
-
         // Drawing the level background
         gc.drawImage(playerImage, getX(), getY(), 40, 40);
     }
