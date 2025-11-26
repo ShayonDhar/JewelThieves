@@ -23,7 +23,6 @@ import javafx.util.Duration;
 
 /**
  * Class that links the MainApplication to the SceneBuilder FXML controlling aspect.
- *
  */
 public class GameController {
 
@@ -89,8 +88,8 @@ public class GameController {
         StackPane[][] tiles = new StackPane[level.getLevelWidth()][level.getLevelHeight()];
 
         // Looping through height/width of tilePane
-        for (int x = 0; x < level.getLevelWidth(); x++) {
-            for (int y = 0; y < level.getLevelHeight(); y++) {
+        for (int y = 0; y < level.getLevelHeight(); y++) {
+            for (int x = 0; x < level.getLevelWidth(); x++) {
 
                 // Gets the tile object from the level, and converts the colours/item/entity to a StackPane
                 Tile tile = level.getTile(y, x);
@@ -109,6 +108,7 @@ public class GameController {
 
     /**
      * Method to start the tick timeline.
+     *
      * @param actionEvent
      */
     @FXML
@@ -118,6 +118,7 @@ public class GameController {
 
     /**
      * Method to stop the tick timeline when the STOP button is pressed.
+     *
      * @param actionEvent
      */
     @FXML
