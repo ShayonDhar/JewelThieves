@@ -66,6 +66,7 @@ public class Level {
      * @param levelFile The file which stores the level data.
      */
     public Level(String levelFile, GameController controller) {
+        this.controller = controller;
         loadFromFile(levelFile);
         this.controller = controller;
     }
