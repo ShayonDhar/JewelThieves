@@ -67,6 +67,7 @@ public class Level {
      */
     public Level(String levelFile, GameController controller) {
         loadFromFile(levelFile);
+        this.controller = controller;
     }
 
     /**
