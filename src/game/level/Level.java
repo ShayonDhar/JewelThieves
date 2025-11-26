@@ -65,7 +65,7 @@ public class Level {
      * Constructor which loads the level from the level file.
      * @param levelFile The file which stores the level data.
      */
-    public Level(String levelFile) {
+    public Level(String levelFile, GameController controller) {
         loadFromFile(levelFile);
     }
 
