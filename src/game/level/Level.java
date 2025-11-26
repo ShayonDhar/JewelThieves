@@ -336,27 +336,6 @@ public class Level {
          */
     }
 
-    /**
-     * Renders the level onto the JavaFX application.
-     *
-     * @author Antoni Wachowiak
-     * @param gc The graphics context used within the JavaFX application
-     */
-    public void draw(GraphicsContext gc) {
-        // TODO: Temp code setting the levelWidth and levelHeight
-        levelWidth = 300;
-        levelHeight = 400;
-
-        // Calculating where the level background should appear within the canvas
-        double canvasWidth = gc.getCanvas().getWidth();
-        double canvasHeight = gc.getCanvas().getHeight();
-        double x = (canvasWidth - levelWidth) / 2;
-        double y = (canvasHeight - levelHeight) / 2;
-
-        // Drawing the level background
-        gc.setFill(Color.GRAY);
-        gc.fillRect(x, y, levelWidth, levelHeight);
-    }
     public Tile[][] getLevelGrid() {
         return levelGrid;
     }
