@@ -46,9 +46,9 @@ public class GameController {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Drawing the game
-        level = new Level("LevelFile.txt", this);
-        level.draw(gc);
-        player.draw(gc);
+        LevelLoader loader = new LevelLoader(this);
+        level = loader.load("LevelFile.txt");
+        player = level.getPlayer();
     }
 
     /**
