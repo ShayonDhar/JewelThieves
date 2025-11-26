@@ -86,14 +86,14 @@ public class GameController {
         boardTilePane.getChildren().clear();
 
         // 2D array that stores the tiles
-        StackPane[][] tiles = new StackPane[Level.getLevelWidth()][Level.getLevelHeight()];
+        StackPane[][] tiles = new StackPane[level.getLevelWidth()][level.getLevelHeight()];
 
         // Looping through height/width of tilePane
-        for (int x = 0; x < Level.getLevelHeight(); x++) {
-            for (int y = 0; y < Level.getLevelWidth(); y++) {
+        for (int x = 0; x < level.getLevelWidth(); x++) {
+            for (int y = 0; y < level.getLevelHeight(); y++) {
 
                 // Gets the tile object from the level, and converts the colours/item/entity to a StackPane
-                Tile tile = Level.getTile(x, y);
+                Tile tile = level.getTile(y, x);
                 StackPane tileStack = tile.toStackPane();
                 tiles[x][y] = tileStack;
 

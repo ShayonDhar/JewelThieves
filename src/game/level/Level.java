@@ -49,9 +49,6 @@ public class Level {
     private Item[][] itemsGrid;
     private GameController controller;
 
-    private static int levelWidth = 15;
-    private static int levelHeight = 7;
-
     /**
      * Constructor which loads the level from the level loader.
      */
@@ -142,14 +139,6 @@ public class Level {
      */
     public void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
-    }
-
-    public static int getLevelWidth() {
-        return levelWidth;
-    }
-
-    public static int getLevelHeight() {
-        return levelHeight;
     }
 
 

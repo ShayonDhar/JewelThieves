@@ -32,7 +32,7 @@ public enum Colour {
         return code;
     }
 
-    public Color getFxColor() {
+    public Color getFXColor() {
         return fxColor;
     }
 

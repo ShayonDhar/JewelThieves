@@ -8,6 +8,7 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
+import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,9 +54,10 @@ public class LevelLoader {
             for (int y = 0; y < level.getLevelHeight(); y++) {
                 for (int x = 0; x < level.getLevelWidth(); x++) {
                     String tileCode = sc.next();
-                    Colour[] colours = new Colour[4];
+                    Color[] colours = new Color[4];
                     for (int i = 0; i < 4; i++) {
-                        colours[i] = Colour.fromChar(tileCode.charAt(i));
+                        Colour enumCol = Colour.fromChar(tileCode.charAt(i));
+                        colours[i] = enumCol.getFXColor(); // convert to JavaFX Color
                     }
                     level.getLevelGrid()[y][x] = new Tile(x, y, colours);
                 }
