@@ -18,6 +18,16 @@ public enum Colour {
         this.fxColor = fxColor;
     }
 
+    public static Colour fromChar(char c) {
+        return switch (c) {
+            case 'R' -> RED;
+            case 'G' -> GREEN;
+            case 'B' -> BLUE;
+            case 'Y' -> YELLOW;
+            default -> throw new IllegalArgumentException("Unknown colour: " + c);
+        };
+    }
+
     public char getCode() {
         return code;
     }
