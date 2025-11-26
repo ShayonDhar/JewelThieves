@@ -5,6 +5,7 @@ import game.entity.Player;
 import game.item.Item;
 import game.item.Loot;
 import game.level.Level;
+import game.level.LevelLoader;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

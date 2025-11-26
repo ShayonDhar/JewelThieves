@@ -1,16 +1,17 @@
 package game.level;
 
+import game.GameController;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
-import game.item.Bomb;
-import game.item.Item;
-import game.item.Gate;
-import game.item.BombState;
-import game.item.Door;
+import game.entity.npc.FloorFollowingThief;
+import game.entity.npc.FlyingAssassin;
+import game.entity.npc.SmartThief;
+import game.item.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.*;
+import java.io.File;
 
 
 /**
@@ -35,11 +36,11 @@ public class Level {
     private static final int INITIAL_TIME = 0;
     private static final int MAX_TIME = 240;
 
-    private static Tile[][] levelGrid;
-    private List<Entity> entities;
+    private Tile[][] levelGrid;
+    private ArrayList<Entity> entities;
     private Player player;
-    private static int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
-    private static int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
+    private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
+    private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
     private int remainingTime;
     private boolean levelComplete;
     private boolean levelFailed;
@@ -51,25 +52,13 @@ public class Level {
     private static final double CANVAS_WIDTH = 650;
     private static final double CANVAS_HEIGHT = 650;
 
-    /* TODO: Consider the following when designing the Tile[][] implementation (love Anton x)
-
-    // The width and height (in pixels) of each cell that makes up the game.
-	private static final int GRID_CELL_WIDTH = 50;
-	private static final int GRID_CELL_HEIGHT = 50;
-
-	// The width of the grid in number of cells.
-	private static final int GRID_WIDTH = 12;
-     */
-
     /**
-     * Constructor which loads the level from the level file.
-     * @param levelFile The file which stores the level data.
+     * Constructor which loads the level from the level loader.
      */
-    public Level(String levelFile, GameController controller) {
-        this.controller = controller;
-        loadFromFile(levelFile);
+    public Level(GameController controller) {
         this.controller = controller;
     }
+
 
     /**
      * Finds the next valid tile in the given direction based on movement rules.
@@ -79,7 +68,7 @@ public class Level {
      * @param direction  the direction in which movement is attempted.
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
-    public static Tile findNextValidTile(Tile currentTile, Direction direction) {
+    public Tile findNextValidTile(Tile currentTile, Direction direction) {
         int currentXCoordinate = currentTile.getX();
         int currentYCoordinate = currentTile.getY();
 
@@ -119,7 +108,7 @@ public class Level {
      * @param nextTile the tile we are moving to
      * @return whether they share a colour or not
      */
-    private static boolean sharesColour(Tile currentTile, Tile nextTile) {
+    private boolean sharesColour(Tile currentTile, Tile nextTile) {
         return Arrays.stream(currentTile.getColours())
                 .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
@@ -130,7 +119,7 @@ public class Level {
      * @param x x-coordinate.
      * @return the tile.
      */
-    public static Tile getTile(int y, int x){
+    public Tile getTile(int y, int x){
         return levelGrid[y][x];
     }
 
@@ -151,16 +140,10 @@ public class Level {
      * @param x the x-coordinate of the tile
      * @param item the item being added 
      */
-    private void setItemAt(int y, int x,Item item){
+    public void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
     }
 
-    /**
-     * Loads all the level data from the level file.
-     * @param filename name of the load file.
-     */
-    public void loadFromFile(String filename) {
-    }
 
     /**
      * Returns the four orthogonally adjacent neighbour tiles of the given tile.
