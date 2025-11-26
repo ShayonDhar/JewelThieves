@@ -93,19 +93,21 @@ public class GameController {
 
     public void onKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
-            // case W -> player.moveUp();
-            // case A -> player.moveLeft();
-            // case S -> player.moveDown();
-            // case D -> player.moveRight();
+            case W -> player.setDirection(Direction.NORTH);
+            case A -> player.setDirection(Direction.WEST);
+            case S -> player.setDirection(Direction.SOUTH);
+            case D -> player.setDirection(Direction.EAST);
         }
 
-        // Redraw the scene after moving
+        // Now perform the move based on the direction we just set
+        player.move();
+
         level.draw(gc);
         player.draw(gc);
 
-        // Marking the event as being "done dealt with"
         event.consume();
     }
+
     // Called when the player dies (Flying Assassin, timer expires, etc.)
     public static void gameOver() {
         tickTimeline.stop();
