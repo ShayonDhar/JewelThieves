@@ -377,5 +377,75 @@ public class Level {
         gc.setFill(Color.GRAY);
         gc.fillRect(x, y, levelWidth, levelHeight);
     }
-    public void moveNPCs() {}
+    public Tile[][] getLevelGrid() {
+        return levelGrid;
+    }
+
+    public void setLevelGrid(Tile[][] grid) {
+        this.levelGrid = grid;
+    }
+
+    public Item[][] getItemsGrid() {
+        return itemsGrid;
+    }
+
+    public void setItemsGrid(Item[][] items) {
+        this.itemsGrid = items;
+    }
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public void setLevelWidth(int width) {
+        this.levelWidth = width;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
+    }
+
+    public void setLevelHeight(int height) {
+        this.levelHeight = height;
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int time) {
+        this.remainingTime = time;
+    }
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<Entity> list) {
+        this.entities = list;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public List<Tile> getExitTiles() {
+        return exitTiles;
+    }
+
+    public void setExitTiles(List<Tile> tiles) {
+        this.exitTiles = tiles;
+    }
+    public List<Bomb> getActiveBombs() {
+        return activeBombs;
+    }
+
+    public void setActiveBombs(List<Bomb> bombs) {
+        this.activeBombs = bombs;
+    }
+
+
+
+
 }
