@@ -20,7 +20,7 @@ public class FlyingAssassin extends NPC {
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+    public FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
         super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement);
     }
 

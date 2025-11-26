@@ -5,6 +5,7 @@ import game.entity.Player;
 import game.item.Item;
 import game.item.Loot;
 import game.level.Level;
+import game.level.LevelLoader;
 import game.level.Tile;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -30,10 +31,8 @@ public class GameController {
     private static final String LEVEL_FILE = "LevelFile.txt";
 
     public TilePane boardTilePane;
-    public Level level = new Level(LEVEL_FILE);
-    // TODO: Temp code until player is implemented
-    public Player player = new Player(40, 45, Direction.NORTH,
-            true, true, this,level );
+    public Level level;
+    public Player player;
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
@@ -51,7 +50,10 @@ public class GameController {
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
 
         // Drawing the game
-        level = new Level("LevelFile.txt");
+        LevelLoader loader = new LevelLoader(this);
+        level = loader.load("LevelFile.txt");
+        player = level.getPlayer();
+
         drawGame();
     }
 

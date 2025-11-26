@@ -27,7 +27,7 @@ public class FloorFollowingThief extends NPC {
      * @param alive          the alive state of the Floor Following Thief
      * @param blocksMovement whether the Floor Following Thief blocks movement of other entities
      */
-    protected FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Colour followingColour) {
+    public FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Colour followingColour) {
         super(EntityName.FLOOR_FOLLOWING_THIEF, x, y, direction, alive, blocksMovement);
         this.followingColour = followingColour;
     }

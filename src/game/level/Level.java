@@ -1,16 +1,17 @@
 package game.level;
 
+import game.GameController;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
-import game.item.Bomb;
-import game.item.Item;
-import game.item.Gate;
-import game.item.BombState;
-import game.item.Door;
+import game.entity.npc.FloorFollowingThief;
+import game.entity.npc.FlyingAssassin;
+import game.entity.npc.SmartThief;
+import game.item.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.*;
+import java.io.File;
 
 
 /**
@@ -35,26 +36,29 @@ public class Level {
     private static final int INITIAL_TIME = 0;
     private static final int MAX_TIME = 240;
 
-    private static Tile[][] levelGrid;
-    private List<Entity> entities;
+    private Tile[][] levelGrid;
+    private ArrayList<Entity> entities;
     private Player player;
+    private int levelWidth;
+    private int levelHeight;
     private int remainingTime;
     private boolean levelComplete;
     private boolean levelFailed;
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
     private Item[][] itemsGrid;
+    private GameController controller;
 
     private static int levelWidth = 15;
     private static int levelHeight = 7;
 
     /**
-     * Constructor which loads the level from the level file.
-     * @param levelFile The file which stores the level data.
+     * Constructor which loads the level from the level loader.
      */
-    public Level(String levelFile) {
-        loadFromFile(levelFile);
+    public Level(GameController controller) {
+        this.controller = controller;
     }
+
 
     /**
      * Finds the next valid tile in the given direction based on movement rules.
@@ -64,7 +68,7 @@ public class Level {
      * @param direction  the direction in which movement is attempted.
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
-    public static Tile findNextValidTile(Tile currentTile, Direction direction) {
+    public Tile findNextValidTile(Tile currentTile, Direction direction) {
         int currentXCoordinate = currentTile.getX();
         int currentYCoordinate = currentTile.getY();
 
@@ -104,7 +108,7 @@ public class Level {
      * @param nextTile the tile we are moving to
      * @return whether they share a colour or not
      */
-    private static boolean sharesColour(Tile currentTile, Tile nextTile) {
+    private boolean sharesColour(Tile currentTile, Tile nextTile) {
         return Arrays.stream(currentTile.getColours())
                 .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
@@ -115,7 +119,7 @@ public class Level {
      * @param x x-coordinate.
      * @return the tile.
      */
-    public static Tile getTile(int y, int x){
+    public Tile getTile(int y, int x){
         return levelGrid[y][x];
     }
 
@@ -136,7 +140,7 @@ public class Level {
      * @param x the x-coordinate of the tile
      * @param item the item being added 
      */
-    private void setItemAt(int y, int x,Item item){
+    public void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
     }
 
@@ -148,13 +152,6 @@ public class Level {
         return levelHeight;
     }
 
-    /**
-     * Loads all the level data from the level file.
-     * @param filename name of the load file.
-     */
-    public void loadFromFile(String filename) {
-
-    }
 
     /**
      * Returns the four orthogonally adjacent neighbour tiles of the given tile.
@@ -371,5 +368,75 @@ public class Level {
         gc.setFill(Color.GRAY);
         gc.fillRect(x, y, levelWidth, levelHeight);
     }
-    public void moveNPCs() {}
+    public Tile[][] getLevelGrid() {
+        return levelGrid;
+    }
+
+    public void setLevelGrid(Tile[][] grid) {
+        this.levelGrid = grid;
+    }
+
+    public Item[][] getItemsGrid() {
+        return itemsGrid;
+    }
+
+    public void setItemsGrid(Item[][] items) {
+        this.itemsGrid = items;
+    }
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public void setLevelWidth(int width) {
+        this.levelWidth = width;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
+    }
+
+    public void setLevelHeight(int height) {
+        this.levelHeight = height;
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int time) {
+        this.remainingTime = time;
+    }
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<Entity> list) {
+        this.entities = list;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public List<Tile> getExitTiles() {
+        return exitTiles;
+    }
+
+    public void setExitTiles(List<Tile> tiles) {
+        this.exitTiles = tiles;
+    }
+    public List<Bomb> getActiveBombs() {
+        return activeBombs;
+    }
+
+    public void setActiveBombs(List<Bomb> bombs) {
+        this.activeBombs = bombs;
+    }
+
+
+
+
 }
