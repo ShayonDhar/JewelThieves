@@ -23,7 +23,7 @@ public class GameController {
 
     public Canvas canvas;
     public GraphicsContext gc;
-    public Level level = new Level("LevelFile.txt");
+    public Level level = new Level("LevelFile.txt", this);
     // TODO: Temp code until player is implemented
     public Player player = new Player(40, 45, Direction.NORTH,
             true, true, this,level );
