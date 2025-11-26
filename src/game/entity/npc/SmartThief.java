@@ -23,7 +23,7 @@ public class SmartThief extends NPC {
      * @param alive          the alive state of the Smart Thief
      * @param blocksMovement whether the SmartThief blocks movement of other entities
      */
-    protected SmartThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+    public SmartThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
         super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement);
     }
 

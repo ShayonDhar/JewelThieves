@@ -1,0 +1,34 @@
+5 4
+RRGG RRYB YYGB GGBR BRRY
+RYGB YGBR RRYY GGRB RGBY
+BBRR GGRY YRGB RYGY YYRR
+RGBY BRRG GYRR YYGB RRGY
+
+# Player start
+
+PLAYER 1 1 NORTH true false
+
+# NPCs
+
+FLOORFOLLOWINGTHIEF 3 2 EAST true false BLUE
+ASSASSIN 4 1 SOUTH true false
+SMARTTHIEF 5 1 EAST true false
+
+# Items
+
+LOOT 1 2 2 false CENT
+LOOT 2 4 3 false DOLLAR
+CLOCK 3 1 3 false 10
+LEVER 4 0 2 false RED
+GATE 5 0 1 false RED
+GATE 6 3 3 false GREEN
+BOMB 7 2 1 false
+
+# Exit tiles
+
+EXIT 4 0
+EXIT 4 3
+
+# Time limit
+
+TIME 90

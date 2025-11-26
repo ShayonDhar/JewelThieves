@@ -56,8 +56,8 @@ public class Player extends Entity {
 
         Direction moveDirection = getDirection();
 
-        Tile currentTile = Level.getTile(getY(), getX());
-        Tile targetTile = Level.findNextValidTile(currentTile, moveDirection);
+        Tile currentTile = level.getTile(getY(), getX());
+        Tile targetTile = level.findNextValidTile(currentTile, moveDirection);
 
         if (targetTile == null) {
             return;

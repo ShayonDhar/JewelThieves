@@ -5,6 +5,7 @@ import game.entity.Player;
 import game.item.Item;
 import game.item.Loot;
 import game.level.Level;
+import game.level.LevelLoader;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -26,9 +27,8 @@ public class GameController {
 
     public Canvas canvas;
     public GraphicsContext gc;
-    public Level level = new Level(LEVEL_FILE);
-    public Player player = new Player(40, 45, Direction.NORTH,
-            true, true, this,level );
+    public Level level;
+    public Player player;
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
@@ -48,9 +48,9 @@ public class GameController {
         gc.fillRect(0, 0, canvas.getWidth(), canvas.getHeight());
 
         // Drawing the game
-        level = new Level("LevelFile.txt");
-        level.draw(gc);
-        player.draw(gc);
+        LevelLoader loader = new LevelLoader(this);
+        level = loader.load("LevelFile.txt");
+        player = level.getPlayer();
     }
 
     /**
@@ -110,6 +110,7 @@ public class GameController {
         level.draw(gc);
         player.draw(gc);
 
+        // Marking the event as being "done dealt with"
         event.consume();
     }
 
