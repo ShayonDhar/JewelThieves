@@ -171,13 +171,5 @@ public abstract class Entity {
                 '}';
     }
 
-    /**
-     * Renders the entity onto the JavaFX application.
-     *
-     * @author Antoni Wachowiak
-     * @param gc The graphics context used within the JavaFX application
-     */
-    public abstract void draw(GraphicsContext gc);
-
     public abstract void addToHighscore(int value);
 }

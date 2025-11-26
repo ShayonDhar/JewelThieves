@@ -6,6 +6,8 @@ import game.level.Tile;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
@@ -21,13 +23,15 @@ import java.util.Objects;
  */
 public class Player extends Entity {
 
-    private static final String PLAYER_PNG = "/game/resources/player.png";
-    private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
-            PLAYER_PNG)).toExternalForm());
     private int highscore;
     private GameController controller;
     private Level level;
 
+    private final ImageView sprite = new ImageView(
+            new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
+
+    private static final String PLAYER_PNG = "/game/resources/player.png";
+    private static final int PLAYER_WIDTH_HEIGHT = 25;
 
     /**
      * Constructs a new Player entity.
@@ -43,6 +47,8 @@ public class Player extends Entity {
         super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
         this.controller = controller;
         this.level = level;
+        sprite.setFitWidth(PLAYER_WIDTH_HEIGHT);
+        sprite.setFitHeight(PLAYER_WIDTH_HEIGHT);
     }
 
 
@@ -116,15 +122,11 @@ public class Player extends Entity {
     }
 
     /**
-     * Renders the entity onto the JavaFX application.
-     *
-     * @param gc The graphics context used within the JavaFX application
-     * @author Antoni Wachowiak
+     * Method to return the player image.
+     * @return image of the player png
      */
-    @Override
-    public void draw(GraphicsContext gc) {
-        // Drawing the level background
-        gc.drawImage(playerImage, getX(), getY(), 40, 40);
+    public ImageView getSprite() {
+        return sprite;
     }
 
     @Override

@@ -6,7 +6,11 @@ import game.entity.npc.NPC;
 import game.item.Bomb;
 import game.item.Gate;
 import game.item.Item;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -34,7 +38,7 @@ public class Tile {
     private final int x;
     private final int y;
 
-    private Colour[] colours;
+    private Color[] colours;
 
     private Item item;
     private Gate gate;
@@ -43,7 +47,9 @@ public class Tile {
 
     private List<NPC> npc = new ArrayList<>();
 
-    public Tile(int x, int y, Colour[] colours) {
+    private static final int TILE_INNER_SQUARE_SIZE = 25;
+
+    public Tile(int x, int y, Color[] colours) {
         validateColourSize(colours.length);
         this.x = x;
         this.y = y;
@@ -94,15 +100,15 @@ public class Tile {
         return false;
     }
 
-    public Colour[] getColours() {
+    public Color[] getColours() {
         return colours;
     }
 
-    public Collection<Colour> getColoursAsList() {
+    public Collection<Color> getColoursAsList() {
         return Arrays.asList(colours);
     }
 
-    public void setColours(Colour[] colours) {
+    public void setColours(Color[] colours) {
         this.colours = colours;
     }
 
@@ -129,6 +135,28 @@ public class Tile {
 
     public void setGate(Gate gate) {
         this.gate = gate;
+    }
+
+    /**
+     * Method to convert a tile into a StackPane JavaFX object.
+     * This allows for a tile to be displayed within a StackPane on the TileGrid.
+     * @return a StackPane object for the GameController to read
+     */
+    public StackPane toStackPane() {
+        StackPane root = new StackPane();
+
+        GridPane gridPane = new GridPane();
+        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
+                colours[0]), 0, 0);
+        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
+                colours[1]), 1, 0);
+        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
+                colours[2]), 0, 1);
+        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
+                colours[3]), 1, 1);
+
+        root.getChildren().add(gridPane);
+        return root;
     }
 
     @Override

@@ -48,16 +48,6 @@ public class Level {
     private static int levelWidth = 15;
     private static int levelHeight = 7;
 
-    /* TODO: Consider the following when designing the Tile[][] implementation (love Anton x)
-
-    // The width and height (in pixels) of each cell that makes up the game.
-	private static final int GRID_CELL_WIDTH = 50;
-	private static final int GRID_CELL_HEIGHT = 50;
-
-	// The width of the grid in number of cells.
-	private static final int GRID_WIDTH = 12;
-     */
-
     /**
      * Constructor which loads the level from the level file.
      * @param levelFile The file which stores the level data.
@@ -163,6 +153,7 @@ public class Level {
      * @param filename name of the load file.
      */
     public void loadFromFile(String filename) {
+
     }
 
     /**

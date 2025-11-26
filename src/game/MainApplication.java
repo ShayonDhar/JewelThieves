@@ -1,5 +1,6 @@
 package game;
 
+import game.level.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

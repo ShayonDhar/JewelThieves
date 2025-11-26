@@ -103,11 +103,6 @@ public class FloorFollowingThief extends NPC {
         };
     }
 
-
-    @Override
-    public void draw(GraphicsContext gc) {
-
-    }
     @Override
     public void addToHighscore(int value) {
     }

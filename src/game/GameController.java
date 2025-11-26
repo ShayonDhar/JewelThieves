@@ -15,6 +15,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
@@ -43,6 +44,7 @@ public class GameController {
      */
     @FXML
     public void initialize() {
+
         // New timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(
                 Duration.millis(500), event -> tick()));
@@ -82,17 +84,24 @@ public class GameController {
         boardTilePane.getChildren().clear();
 
         // 2D array that stores the tiles
-        GridPane[][] tilesGridPane = new GridPane[Level.getLevelWidth()][Level.getLevelHeight()];
+        StackPane[][] tiles = new StackPane[Level.getLevelWidth()][Level.getLevelHeight()];
 
         // Looping through height/width of tilePane
         for (int x = 0; x < Level.getLevelHeight(); x++) {
             for (int y = 0; y < Level.getLevelWidth(); y++) {
 
-                // Gets the tile object from the level, and converts the colours/item/entity to a gridPane
-                // Tile tile = level.getTile[]
+                // Gets the tile object from the level, and converts the colours/item/entity to a StackPane
+                Tile tile = Level.getTile(x, y);
+                StackPane tileStack = tile.toStackPane();
+                tiles[x][y] = tileStack;
 
+                // Displaying the tile pane
+                boardTilePane.getChildren().add(tileStack);
             }
         }
+
+        // Displaying the player at their current tile
+        tiles[player.getX()][player.getY()].getChildren().add(player.getSprite());
 
     }
 
