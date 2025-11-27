@@ -27,7 +27,6 @@ import javafx.util.Duration;
 public class GameController {
 
     private static final String UNHANDLED_KEY = "Unhandled key: ";
-    private static final String LEVEL_FILE = "LevelFile.txt";
 
     public TilePane boardTilePane;
     public Level level;
