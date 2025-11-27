@@ -47,7 +47,7 @@ public class MainApplication extends Application {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics - Copy.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
             Pane root = loader.load();
             GameController controller = loader.getController();
 
