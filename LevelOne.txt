@@ -27,6 +27,7 @@ LEVER 4 0 2 false RED
 GATE 5 0 1 false RED
 GATE 6 3 3 false GREEN
 BOMB 7 2 1 false
+DOOR 8 5 4 false
 
 # Exit tiles
 
