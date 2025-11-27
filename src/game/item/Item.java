@@ -1,7 +1,11 @@
 package game.item;
 
 import game.entity.Entity;
+import game.entity.Player;
+import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 /**
  * Item Class
