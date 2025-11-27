@@ -52,6 +52,7 @@ public class GameController {
         LevelLoader loader = new LevelLoader(this);
         level = loader.load("LevelOne.txt");
         player = level.getPlayer();
+        itemGrid = level.getItemsGrid();
 
         drawGame();
     }
