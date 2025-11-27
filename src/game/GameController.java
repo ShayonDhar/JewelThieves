@@ -95,6 +95,11 @@ public class GameController {
                 StackPane tileStack = tile.toStackPane();
                 tiles[x][y] = tileStack;
 
+                Item item = itemGrid[y][x];
+                if (item != null && item.getSprite() != null) {
+                    tileStack.getChildren().add(item.getSprite());
+                }
+
                 // Displaying the tile pane
                 boardTilePane.getChildren().add(tileStack);
             }
