@@ -122,6 +122,8 @@ public class LevelLoader {
                         LootType lootType = switch (subtype.toUpperCase()) {
                             case "CENT" -> LootType.CENT;
                             case "DOLLAR" -> LootType.DOLLAR;
+                            case "RUBY" -> LootType.RUBY;
+                            case "DIAMOND" -> LootType.DIAMOND;
                             default -> throw new IllegalArgumentException("Unknown loot type: " + subtype);
                         };
 
