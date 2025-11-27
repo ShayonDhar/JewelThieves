@@ -168,6 +168,13 @@ public class LevelLoader {
 
                         level.setItemAt(y, x, new Bomb("Bomb", id, x, y, state));
                     }
+                    case "DOOR" -> {
+                        int id = sc.nextInt();
+                        int x = sc.nextInt();
+                        int y = sc.nextInt();
+                        boolean state = Boolean.parseBoolean(sc.next());
+                        level.setItemAt(y, x, new Door("Door", id, x, y, state));
+                    }
 
                     case "EXIT" -> {
                         int x = sc.nextInt();
