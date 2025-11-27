@@ -10,6 +10,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.StrokeType;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,20 +145,37 @@ public class Tile {
      */
     public StackPane toStackPane() {
         StackPane root = new StackPane();
-
         GridPane gridPane = new GridPane();
-        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
-                colours[0]), 0, 0);
-        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
-                colours[1]), 1, 0);
-        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
-                colours[2]), 0, 1);
-        gridPane.add(new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE,
-                colours[3]), 1, 1);
+
+        Rectangle r0 = createOutlinedRect(colours[0]);
+        Rectangle r1 = createOutlinedRect(colours[1]);
+        Rectangle r2 = createOutlinedRect(colours[2]);
+        Rectangle r3 = createOutlinedRect(colours[3]);
+
+        gridPane.add(r0, 0, 0);
+        gridPane.add(r1, 1, 0);
+        gridPane.add(r2, 0, 1);
+        gridPane.add(r3, 1, 1);
 
         root.getChildren().add(gridPane);
         return root;
     }
+
+    /**
+     * Creates a rectangle with an outline stroke.
+     * @param fill the fill color of the rectangle
+     * @return a Rectangle with stroke applied
+     */
+    private Rectangle createOutlinedRect(Color fill) {
+        Rectangle rect = new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE, fill);
+
+        rect.setStroke(new Color(0, 0, 0, 0.3));
+        rect.setStrokeWidth(1);
+        rect.setStrokeType(StrokeType.INSIDE);
+
+        return rect;
+    }
+
 
     @Override
     public String toString() {

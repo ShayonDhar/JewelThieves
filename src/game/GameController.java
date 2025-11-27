@@ -50,7 +50,7 @@ public class GameController {
 
         // Drawing the game
         LevelLoader loader = new LevelLoader(this);
-        level = loader.load("LevelFile.txt");
+        level = loader.load("LevelOne.txt");
         player = level.getPlayer();
 
         drawGame();
