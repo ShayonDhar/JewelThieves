@@ -26,6 +26,7 @@ public abstract class Item {
     protected int y;
     protected boolean isOn;
     protected ItemType itemType;
+    protected ImageView sprite;
 
     /**
      * Constructor that all the items will use.
