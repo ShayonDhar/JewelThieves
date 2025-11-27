@@ -31,6 +31,7 @@ public class GameController {
     public TilePane boardTilePane;
     public Level level;
     public Player player;
+    public Item [][] itemGrid;
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
