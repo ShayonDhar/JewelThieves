@@ -61,6 +61,15 @@ public abstract class Item {
     public ItemType getItemType() {
         return itemType;
     }
+    public Node getSprite() {
+        if (sprite == null) {
+            sprite = new ImageView (Player.class.getResource("/game/resources/"
+                    + itemName.toLowerCase() + ".png").toExternalForm());
+            sprite.setFitWidth(32);
+            sprite.setFitHeight(32);
+        }
+        return sprite;
+    }
 
     public abstract void draw(GraphicsContext gc);
 
