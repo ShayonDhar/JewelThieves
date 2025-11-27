@@ -60,6 +60,7 @@ public class Player extends Entity {
     @Override
     public void move() {
 
+        System.out.println("Player before move: (" + getX() + ", " + getY() + ")");
         Direction moveDirection = getDirection();
 
         Tile currentTile = level.getTile(getY(), getX());
@@ -67,6 +68,8 @@ public class Player extends Entity {
 
         if (targetTile == null) {
             return;
+        } else {
+            System.out.println("Target tile: (" + targetTile.getX() + ", " + targetTile.getY() + ")");
         }
 
         if (targetTile.hasGate()) {
@@ -93,6 +96,7 @@ public class Player extends Entity {
         if (targetTile.isExit() && level.allLootAndLeversCollected()) {
                 controller.finishLevel();
         }
+        System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
     }
 
     private void updateScore(Item item, Tile targetTile) {

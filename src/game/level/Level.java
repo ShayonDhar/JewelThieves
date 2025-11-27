@@ -66,37 +66,80 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
-        int currentXCoordinate = currentTile.getX();
-        int currentYCoordinate = currentTile.getY();
+        int dx = getOffsetX(direction);
+        int dy = getOffsetY(direction);
 
-        int nextYCoordinate = 0;
-        int nextXCoordinate = 0;
+        if (dx == 0 && dy == 0) return null; // invalid direction
 
-        if (direction == Direction.NORTH) {
-            nextYCoordinate = currentYCoordinate - 1;
-        } else if (direction == Direction.SOUTH) {
-            nextYCoordinate = currentYCoordinate + 1;
-        } else if (direction == Direction.EAST) {
-            nextXCoordinate = currentXCoordinate + 1;
-        } else if (direction == Direction.WEST) {
-            nextXCoordinate = currentXCoordinate - 1;
-        } else {
-            return null;
-        }
-        while (nextXCoordinate >= 0 && nextYCoordinate >= 0
-                && nextXCoordinate < levelWidth
-                && nextYCoordinate < levelHeight) {
-            Tile next = levelGrid[nextYCoordinate][nextXCoordinate];
+        int nextX = currentTile.getX() + dx;
+        int nextY = currentTile.getY() + dy;
 
-            if (next != null && sharesColour(currentTile, next)) {
+        while (isInBounds(nextX, nextY)) {
+            Tile next = levelGrid[nextY][nextX];
+
+            if (isValidNextTile(currentTile, next)) {
                 return next;
             }
-            nextXCoordinate += currentXCoordinate;
-            nextYCoordinate += currentYCoordinate;
 
+            nextX += dx;
+            nextY += dy;
         }
+
         return null;
     }
+
+    /**
+     * Computes the horizontal movement offset for a given direction.
+     *
+     * @param direction the direction to translate
+     * @return +1 for EAST, -1 for WEST, or 0 for NORTH/SOUTH/other
+     */
+    private int getOffsetX(Direction direction) {
+        return switch (direction) {
+            case EAST  -> 1;
+            case WEST  -> -1;
+            default    -> 0;
+        };
+    }
+
+    /**
+     * Computes the vertical movement offset for a given direction.
+     *
+     * @param direction the direction to translate
+     * @return +1 for SOUTH, -1 for NORTH, or 0 for EAST/WEST/other
+     */
+    private int getOffsetY(Direction direction) {
+        return switch (direction) {
+            case SOUTH -> 1;
+            case NORTH -> -1;
+            default    -> 0;
+        };
+    }
+
+    /**
+     * Checks whether the given (x, y) coordinates are within the bounds of the level grid.
+     *
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return true if the coordinates are inside the grid, otherwise false
+     */
+    private boolean isInBounds(int x, int y) {
+        return x >= 0 && y >= 0 && x < levelWidth && y < levelHeight;
+    }
+
+    /**
+     * Determines whether the specified next tile is a valid match for movement.
+     * A tile is valid if it exists (is not null) and shares the same colour
+     * properties as the current tile.
+     *
+     * @param current the tile from which movement started
+     * @param next    the tile being evaluated
+     * @return true if the next tile is not null and matches the colour
+     */
+    private boolean isValidNextTile(Tile current, Tile next) {
+        return next != null && sharesColour(current, next);
+    }
+
 
     /**
      * Auxiliary method to check whether the
@@ -117,6 +160,9 @@ public class Level {
      * @return the tile.
      */
     public Tile getTile(int y, int x){
+        if (y < 0 || y >= levelHeight || x < 0 || x >= levelWidth) {
+            return null;
+        }
         return levelGrid[y][x];
     }
 
@@ -151,10 +197,13 @@ public class Level {
     public List<Tile> getNeighbourTiles(Tile tile) {
         List<Tile> list = new ArrayList<>();
 
-        Tile up    = getTile(tile.getX(), tile.getY() - 1);
-        Tile down  = getTile(tile.getX(), tile.getY() + 1);
-        Tile left  = getTile(tile.getX() - 1, tile.getY());
-        Tile right = getTile(tile.getX() + 1, tile.getY());
+        int y = tile.getY();
+        int x = tile.getX();
+
+        Tile up    = getTile(y + 1, x);
+        Tile down  = getTile(y - 1, x);
+        Tile left  = getTile(y, x - 1);
+        Tile right = getTile(y, x + 1);
 
         if (up != null) list.add(up);
         if (down != null) list.add(down);

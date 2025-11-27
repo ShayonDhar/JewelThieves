@@ -63,7 +63,7 @@ public class GameController {
     public void tick() {
         //Level.moveNPCs();
         player.move();
-        player.setX(player.getX() + 30);
+
         // TODO: Change canvas in this method
 //        if (player.getX() > canvas.getWidth()) {
 //            player.setX(0);
