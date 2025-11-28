@@ -203,6 +203,14 @@ public class Level {
     }
 
     /**
+     * Removes an item from the level's active item list.
+     * @param item The Item object to be removed from the level.
+     */
+    public void removeItem(Item item) {
+        this.items.remove(item);
+    }
+
+    /**
      * Determines the next tile that an NPC should move to based on that NPC's
      * movement rules.
      * @param npc the NPC requesting its next tile
