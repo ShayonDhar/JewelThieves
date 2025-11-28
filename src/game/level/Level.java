@@ -292,8 +292,49 @@ public class Level {
      */
     public Tile getNextTileForNpc(Entity npc){
         //TODO: NPC Logic
+        Tile current = getTile(npc.getY(), npc.getX());
+        if (current == null) {
+            return null;
+        }
+
+        //Flying Assassin
+        if (npc instanceof FlyingAssassin flyingAssassin) {
+
+            Direction flyingDirection = flyingAssassin.getDirection();
+            int dx = getOffsetX(flyingDirection);
+            int dy = getOffsetY(flyingDirection);
+
+            int nextX = current.getX() + dx;
+            int nextY = current.getY() + dy;
+
+            //If the Flying Assassin is about to leave the bounds, turn around
+            if (!isInBounds(nextX, nextY)) {
+                flyingDirection = flyingDirection.opposite(); //Uses the updated Direction Enum helper, far less duplication now
+                flyingAssassin.setDirection(flyingDirection);
+
+                dx = getOffsetX(flyingDirection);
+                dy = getOffsetY(flyingDirection);
+
+                nextX = current.getX() + dx;
+                nextY = current.getY() + dy;
+
+                if (!isInBounds(nextX, nextY)) {
+                    return null; //If it can't move, just don't
+                }
+            }
+
+            Tile flyingTarget = getTile(nextY, nextX);
+            if (flyingTarget == null) {
+                return null;
+            }
+
+            //Ignores all colours, gates, items etc. Only respects level bounds as functional spec says!
+            return flyingTarget;
+        }
         return null;
     }
+
+
     /**
      * Finds the shortest path between loot, lever and exit tile.
      * Typically used for smart thieves.
