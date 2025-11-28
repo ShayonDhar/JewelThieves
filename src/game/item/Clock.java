@@ -41,7 +41,7 @@ public class Clock extends Item{
      * @param entityName the name of the entity, e.g. PLAYER, SMART_THIEF
      */
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
         if (!isOn) {
             return;
         }

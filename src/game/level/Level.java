@@ -39,6 +39,7 @@ public class Level {
 
     private Tile[][] levelGrid;
     private List<Entity> entities;
+    private List<Item> items;
     private Player player;
     private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
     private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
@@ -58,6 +59,7 @@ public class Level {
      */
     public Level(String LevelFile) {
         loadFromFile(LevelFile);
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -190,6 +192,22 @@ public class Level {
         if (shouldTrigger) {
             bomb.trigger();
         }
+    }
+
+    /**
+     * Returns a list of all active items currently on the map.
+     * @return A new List containing all current Item objects.
+     */
+    public List<Item> getAllItems() {
+        return new ArrayList<>(this.items);
+    }
+
+    /**
+     * Removes an item from the level's active item list.
+     * @param item The Item object to be removed from the level.
+     */
+    public void removeItem(Item item) {
+        this.items.remove(item);
     }
 
     /**

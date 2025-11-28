@@ -3,6 +3,7 @@ package game.item;
 import game.entity.Entity;
 import game.entity.EntityName;
 import game.entity.Player;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Loot extends Item {
@@ -31,7 +32,7 @@ public class Loot extends Item {
     }
 
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
         if (!isOn) {
             return;
         }
