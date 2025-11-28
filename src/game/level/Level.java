@@ -39,6 +39,7 @@ public class Level {
 
     private Tile[][] levelGrid;
     private List<Entity> entities;
+    private List<Item> items;
     private Player player;
     private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
     private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
@@ -58,6 +59,7 @@ public class Level {
      */
     public Level(String LevelFile) {
         loadFromFile(LevelFile);
+        this.items = new ArrayList<>();
     }
 
     /**
@@ -190,6 +192,10 @@ public class Level {
         if (shouldTrigger) {
             bomb.trigger();
         }
+    }
+
+    public List<Item> getAllItems() {
+        return new ArrayList<>(this.items);
     }
 
     /**
