@@ -83,7 +83,7 @@ public class Lever extends Item {
      * @param entity the entity collecting the item
      */
     @Override
-    public void collectItem(Entity entity) {
+    public void collectItem(Entity entity, Level level) {
         if (!isOn) {
             return;
         }

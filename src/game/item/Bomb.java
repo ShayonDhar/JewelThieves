@@ -34,7 +34,13 @@ public class Bomb extends Item {
 
     }
 
-    public void collectItem(Entity entityName) {
+    /**
+     * @param entityName
+     * @param level
+     */
+    @Override
+    public void collectItem(Entity entityName, Level level) {
+
     }
 
     public BombState getState() {
@@ -43,7 +49,7 @@ public class Bomb extends Item {
     public void setState(BombState state) {
         this.state = state;
     }
-    public void updateBombState() {
+    public void updateBombState(Level level) {
         switch (state) {
             case WAITING, EXPLODED:
                 break;

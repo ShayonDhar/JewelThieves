@@ -1,6 +1,7 @@
 package game.item;
 
 import game.entity.Entity;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -60,5 +61,5 @@ public abstract class Item {
 
     public abstract void draw(GraphicsContext gc);
 
-    public abstract void collectItem(Entity entityName);
+    public abstract void collectItem(Entity entityName, Level level);
 }
