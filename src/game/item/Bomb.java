@@ -92,6 +92,8 @@ public class Bomb extends Item {
                     }
                 }
 
+            } else if (item instanceof Loot || item instanceof Clock || item instanceof Lever) {
+                level.removeItem(item);
             }
 
         }
