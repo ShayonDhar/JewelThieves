@@ -50,57 +50,12 @@ public class FloorFollowingThief extends NPC {
     public Direction[] getDirectionPriority() {
         Direction current = getDirection();
 
-        Direction left = leftOf(current);
-        Direction right = rightOf(current);
+        Direction left = current.left();
         Direction forward = current;
-        Direction backwards = oppositeOf(current);
+        Direction right = current.right();
+        Direction backwards = current.opposite();
 
         return new Direction[]{left, forward, right, backwards}; //The priority
-    }
-
-    /**
-     * Gives the direction to the left of the returned/current direction,
-     * without actually changing it yet.
-     * @param current the current direction.
-     * @return returns the direction to the left.
-     */
-
-    private Direction leftOf(Direction current) {
-        return switch (current) {
-            case NORTH -> Direction.WEST;
-            case WEST -> Direction.SOUTH;
-            case SOUTH -> Direction.EAST;
-            case EAST -> Direction.NORTH;
-        };
-    }
-
-    /**
-     * Gives the direction to the right of the returned/current direction,
-     * without actually changing it yet.
-     * @param current the current direction.
-     * @return returns the direction to the right.
-     */
-    private Direction rightOf(Direction current) {
-        return switch (current) {
-            case NORTH -> Direction.EAST;
-            case EAST -> Direction.SOUTH;
-            case SOUTH -> Direction.WEST;
-            case WEST -> Direction.NORTH;
-        };
-    }
-
-    /**
-     * Computes the direction opposite the current/given direction.
-     * @param current the current direction/
-     * @return returns the opposite direction.
-     */
-    private Direction oppositeOf(Direction current) {
-        return switch (current) {
-            case NORTH -> Direction.SOUTH;
-            case SOUTH -> Direction.NORTH;
-            case EAST -> Direction.WEST;
-            case WEST -> Direction.EAST;
-        };
     }
 
     @Override
