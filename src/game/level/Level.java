@@ -194,6 +194,10 @@ public class Level {
         }
     }
 
+    /**
+     * Returns a list of all active items currently on the map.
+     * @return A new List containing all current Item objects.
+     */
     public List<Item> getAllItems() {
         return new ArrayList<>(this.items);
     }
