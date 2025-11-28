@@ -35,8 +35,8 @@ public class Bomb extends Item {
     }
 
     /**
-     * @param entityName
-     * @param level
+     * @param entityName Name of the entity being collected
+     * @param level The current active level
      */
     @Override
     public void collectItem(Entity entityName, Level level) {
