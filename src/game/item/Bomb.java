@@ -98,6 +98,7 @@ public class Bomb extends Item {
 
         }
 
+        level.removeItem(this);
     }
 
 }
