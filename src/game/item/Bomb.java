@@ -56,7 +56,7 @@ public class Bomb extends Item {
             case COUNTING:
                 countdown--;
                 if (countdown <= 0) {
-                    state = BombState.EXPLODED;
+                    explode(level);
                 }
                 break;
         }
