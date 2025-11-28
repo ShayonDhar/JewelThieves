@@ -1,6 +1,10 @@
 package game.item;
+import game.entity.Entity;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Bomb extends Item {
     private static final int BOMB_COUNTDOWN = 3;
@@ -30,6 +34,9 @@ public class Bomb extends Item {
 
     }
 
+    public void collectItem(Entity entityName) {
+    }
+
     public BombState getState() {
         return state;
     }
@@ -55,9 +62,40 @@ public class Bomb extends Item {
             state = BombState.COUNTING;
         }
     }
+
     public void explode(Level level) {
-        state = BombState.EXPLODED;
-        //TODO: Add explode logic
+        if (this.state == BombState.EXPLODED) {
+            return;
+        }
+        this.state = BombState.EXPLODED;
+
+        int bombX = this.getX();
+        int bombY  = this.getY();
+
+        List<Item> itemsToExplode = new ArrayList<Item>(level.getAllItems());
+
+        for (Item item : itemsToExplode) {
+            if (item == this) {
+                continue;
+            }
+
+            int itemX = this.getX();
+            int itemY = this.getY();
+
+            if (itemX == bombX || itemY == bombY) {
+
+                if (item instanceof Bomb) {
+                    Bomb otherBomb = (Bomb) item;
+
+                    if (otherBomb.getState() != BombState.EXPLODED) {
+                        otherBomb.explode(level);
+                    }
+                }
+
+            }
+
+        }
+
     }
 
 }
