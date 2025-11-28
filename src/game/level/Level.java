@@ -262,7 +262,7 @@ public class Level {
      * @param bomb the bomb to trigger
      */
     public void triggerBomb(Bomb bomb){
-        Tile bombTile = getTile(bomb.getX(), bomb.getY());
+        Tile bombTile = getTile(bomb.getY(), bomb.getX());
         List<Tile> neighbours = getNeighbourTiles(bombTile);
 
         boolean shouldTrigger = false;
