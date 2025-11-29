@@ -4,6 +4,7 @@ import game.GameController;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
+import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.item.*;
 import javafx.scene.paint.Color;
@@ -324,7 +325,7 @@ public class Level {
      * @return the tile the NPC should move to, or null if no valid move exists
      */
     public Tile getNextTileForNpc(Entity npc){
-        //TODO: NPC Logic
+
         Tile current = getTile(npc.getY(), npc.getX());
         if (current == null) {
             return null;
@@ -364,6 +365,46 @@ public class Level {
             //Ignores all colours, gates, items etc. Only respects level bounds as functional spec says!
             return flyingTarget;
         }
+
+
+
+        //Floor following thief
+        if (npc instanceof FloorFollowingThief floorThief) {
+            //Get tile the thief is currently standing on
+            Tile currentTile = getTile(floorThief.getY(), floorThief.getX());
+            if (currentTile == null) {
+                return null;
+            }
+
+            Colour followingColour = floorThief.getFollowingColour();
+
+            Direction[] directionPriority = floorThief.getDirectionPriority();
+            for (Direction floorDirection : directionPriority) {
+                Tile candidateTile = findNextValidTile(currentTile, floorDirection);
+                if (candidateTile == null) {
+                    continue; //"Nothing valid in this direction so try the next one"
+                }
+
+                //Make sure both current and candidate tiles contain the thief's follow colour
+                if (!tileSharesFollowingColour(currentTile, followingColour)
+                    || !tileSharesFollowingColour(candidateTile, followingColour)) {
+                    continue;
+                }
+
+                //TODO: A "blocksMovement" bool method to be made to do checks for the floorFollowing and smart Thief
+
+                //Found valid tile following colour and left hand rule
+                floorThief.setDirection(floorDirection);
+                return candidateTile;
+            }
+            //No valid direction found this tick
+            return null;
+
+        }
+
+        //TODO: Smart thief movement logic
+
+
         return null;
     }
 
