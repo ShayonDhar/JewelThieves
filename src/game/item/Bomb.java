@@ -41,6 +41,16 @@ public class Bomb extends Item {
     @Override
     public void collectItem(Entity entityName, Level level) {
 
+        if (!isOn) {
+            return;
+        }
+
+        if (entityName.getX() == x && entityName.getY() == y) {
+            trigger();
+            entityName.getLevel().destroyTileContent(entityName.getX(), entityName.getY());
+        }
+
+        isOn = false;
     }
 
     public BombState getState() {
