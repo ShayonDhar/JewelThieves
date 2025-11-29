@@ -4,14 +4,10 @@ import game.GameController;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
-import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
-import game.entity.npc.SmartThief;
 import game.item.*;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import java.util.*;
-import java.io.File;
 
 
 /**
@@ -151,6 +147,43 @@ public class Level {
     private boolean sharesColour(Tile currentTile, Tile nextTile) {
         return Arrays.stream(currentTile.getColours())
                 .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
+    }
+
+    //Need a method that checks whether a tile contains FloorFollowingThief's SPECIFIC following colour
+
+     /**
+     * Auxillary method which checks whether a
+     * tile contains the specific colour that Floor Following Thief's is following.
+     *
+     * @param tile the tile we inspect.
+     * @param followingcolour the specific colour the floor following thief follows.
+     * @return whether the colour matches or not
+     */
+    private boolean tileSharesFollowingColour(Tile tile, Colour followingcolour) {
+
+        //If either tile or required colour is missing, can't be valid
+        if (tile == null || followingcolour == null) {
+            return false;
+        }
+
+        //Tiles store their colours as JavaFX Color objects, so we have to convert the Enum into
+        //that too before comparing
+        Color[] followingColours = tile.getColours();
+        if (followingColours == null){
+            return false;
+        }
+        //Convert Colour Enum to JavaFX Color equivalent
+        Color target = followingcolour.getFXColor();
+
+        //Check every colour the tile contains
+        //If any of them match the thief's follow colour, then the tile is valid
+        for (Color c : followingColours) {
+            if (c.equals (target)) { //The javaFX colour that matches the thief's Enum colour
+                return true;
+            }
+        }
+        //No match found, so tile doesn't contain colour
+        return false;
     }
 
     /**
