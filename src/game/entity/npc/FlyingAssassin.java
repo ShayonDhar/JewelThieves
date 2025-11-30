@@ -2,6 +2,8 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.EntityName;
+import game.level.Level;
+
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -20,8 +22,8 @@ public class FlyingAssassin extends NPC {
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    public FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
-        super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement);
+    public FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
+        super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement, level);
     }
 
     @Override
