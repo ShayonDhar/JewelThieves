@@ -3,6 +3,8 @@ package game.entity;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import game.level.Level;
+
 import java.util.Objects;
 
 /**
@@ -33,8 +35,8 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
+    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement, Level level) {
+        super(ENTITY_NAME, y, x, direction, alive, blocksMovement, level);
     }
 
     /**
