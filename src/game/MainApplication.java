@@ -20,8 +20,8 @@ import javafx.stage.Stage;
 public class MainApplication extends Application {
 
     // Constants for the window dimensions
-    private static final int WINDOW_WIDTH = 950;
-    private static final int WINDOW_HEIGHT = 700;
+    private static final int WINDOW_WIDTH = 600;
+    private static final int WINDOW_HEIGHT = 400;
 
     /**
      * The method that launches the JavaFX application.
@@ -48,21 +48,21 @@ public class MainApplication extends Application {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGraphics.fxml"));
             Pane root = loader.load();
-            GameController controller = loader.getController();
+            MenuController controller = loader.getController();
 
             // Load the scene onto the GUI
             Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
-            root.setStyle("-fx-background-color: black");
-
-            // Register key input into the GameController
-            scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
             primaryStage.setTitle("Jewel Thieves Group 01");
             primaryStage.show();
+
+            // Giving MenuController the control of the stage
+            controller.setStage(primaryStage);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
