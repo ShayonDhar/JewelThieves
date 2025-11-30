@@ -89,7 +89,7 @@ public class LevelLoader {
                         boolean blocks = Boolean.parseBoolean(sc.next());
                         Colour colour = Colour.valueOf(sc.next().toUpperCase());
 
-                        entities.add(new FloorFollowingThief(x, y, dir, alive, blocks, colour));
+                        entities.add(new FloorFollowingThief(x, y, dir, alive, blocks, level, colour));
                     }
 
                     case "ASSASSIN" -> {
@@ -99,7 +99,7 @@ public class LevelLoader {
                         boolean alive = Boolean.parseBoolean(sc.next());
                         boolean blocks = Boolean.parseBoolean(sc.next());
 
-                        entities.add(new FlyingAssassin(x, y, dir, alive, blocks));
+                        entities.add(new FlyingAssassin(x, y, dir, alive, blocks, level));
                     }
 
                     case "SMARTTHIEF" -> {
@@ -109,7 +109,7 @@ public class LevelLoader {
                         boolean alive = Boolean.parseBoolean(sc.next());
                         boolean blocks = Boolean.parseBoolean(sc.next());
 
-                        entities.add(new SmartThief(x, y, dir, alive, blocks));
+                        entities.add(new SmartThief(x, y, dir, alive, blocks, level));
                     }
 
                     case "LOOT" -> {
