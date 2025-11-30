@@ -9,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class Clock extends Item {
     private final int timeBonus;
+
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -34,6 +35,12 @@ public class Clock extends Item {
 
     }
 
+    /**
+     * When a player collects a clock, the value of the time on the clock
+     * will be added to the time remaining for the player to complete the level
+     * @param entityName Name of the entity
+     * @param level The value of the level that the entity is on
+     */
     @Override
     public void collectItem(Entity entityName, Level level) {
 
