@@ -37,7 +37,7 @@ public class Bomb extends Item {
     }
 
     /**
-     * @param entityName Name of the entity being collected
+     * @param entityName The name of the entity being collected
      * @param level The current active level
      */
 
