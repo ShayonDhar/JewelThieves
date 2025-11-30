@@ -1,5 +1,7 @@
 package game.entity;
 
+import game.level.Level;
+
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -18,6 +20,7 @@ public abstract class Entity {
     private int y;
     private Direction direction;
     private boolean alive;
+    private Level level;
 
     /**
      * Constructor to create an Entity object.
@@ -28,14 +31,16 @@ public abstract class Entity {
      * @param direction direction the entity is facing
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
+     * @param level the level that the entity is on
      */
-    protected Entity(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+    protected Entity(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
         this.entityName = entityName;
         this.y = y;
         this.x = x;
         this.direction = direction;
         this.alive = alive;
         this.blocksMovement = blocksMovement;
+        this.level = level;
     }
 
     /**
@@ -152,6 +157,22 @@ public abstract class Entity {
      */
     public void die(boolean aliveState) {
         this.alive = aliveState;
+    }
+
+    /**
+     * Setter that will set the level to the level provided
+     * @param level new level
+     */
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    /**
+     * Getter that tell what level the entity is on
+     * @return
+     */
+    public Level getLevel() {
+        return level;
     }
 
     /**
