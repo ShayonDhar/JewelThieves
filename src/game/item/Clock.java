@@ -1,14 +1,10 @@
 package game.item;
 
 import game.entity.Entity;
-import game.entity.EntityName;
-import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Clock extends Item{
-    private Level level;
-    private int addedTime;
-
+    private final int timeBonus;
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -21,10 +17,12 @@ public class Clock extends Item{
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
-    public Clock(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
-        this.level = level;
-        this.addedTime = addedTime;
+    public Clock(String itemName, int itemID, int x, int y, boolean isOn, int timeBonus) {
+        super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
+        this.timeBonus = timeBonus;
+    }
+    public int getTimeBonus() {
+        return timeBonus;
     }
 
     @Override
@@ -32,40 +30,8 @@ public class Clock extends Item{
 
     }
 
-    /**
-     * If the player collects a clock it will add the additional time provided
-     * by the clock to the time remaining for the player to complete the level.
-     * If a smart thief or floor following thief collects a clock it will
-     * deduct the same value as the additional time provided by the clock to
-     * the time remaining to complete the level
-     * @param entityName the name of the entity, e.g. PLAYER, SMART_THIEF
-     */
     @Override
-    public void collectItem(Entity entityName, Level level) {
-        if (!isOn) {
-            return;
-        }
+    public void collectItem(Entity entityName) {
 
-        if (entityName.getX() == x && entityName.getY() == y) {
-            if (entityName.getEntityName().equals("PLAYER")) {
-                level.updateLevel(addedTime);
-            }
-
-
-            if (entityName.getEntityName().equals("SMART_THIEF") || entityName.getEntityName().equals("FLOOR_FOLLOWING_THIEF")) {
-                level.updateLevel(addedTime * -1);
-            }
-
-        }
-
-        isOn = false;
-    }
-
-    public void setAddedTime(int addedTime) {
-        this.addedTime = addedTime;
-    }
-
-    public int getAddedTime(int addedTime) {
-        return addedTime;
     }
 }

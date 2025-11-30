@@ -1,6 +1,5 @@
 package game.entity;
 
-import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -14,12 +13,11 @@ import javafx.scene.canvas.GraphicsContext;
 public abstract class Entity {
 
     private final boolean blocksMovement;
-    private String entityName;
+    private EntityName entityName;
     private int x;
     private int y;
     private Direction direction;
     private boolean alive;
-    private Level level;
 
     /**
      * Constructor to create an Entity object.
@@ -31,14 +29,13 @@ public abstract class Entity {
      * @param alive the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected Entity(String entityName, int y, int x, Direction direction, boolean alive, boolean blocksMovement, Level level) {
+    protected Entity(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
         this.entityName = entityName;
         this.y = y;
         this.x = x;
         this.direction = direction;
         this.alive = alive;
         this.blocksMovement = blocksMovement;
-        this.level = level;
     }
 
     /**
@@ -108,7 +105,7 @@ public abstract class Entity {
      *
      * @return entity name
      */
-    public String getEntityName() {
+    public EntityName getEntityName() {
         return entityName;
     }
 
@@ -117,7 +114,7 @@ public abstract class Entity {
      *
      * @param entityName new entity name
      */
-    public void setEntityName(String entityName) {
+    public void setEntityName(EntityName entityName) {
         this.entityName = entityName;
     }
 
@@ -158,22 +155,6 @@ public abstract class Entity {
     }
 
     /**
-     * Sets the value of the level
-     * @param level new level
-     */
-    public void setLevel(Level level) {
-        this.level = level;
-    }
-
-    /**
-     * Gets the level that the entity is on
-     * @return current level
-     */
-    public Level getLevel() {
-        return level;
-    }
-
-    /**
      * Returns a string representation of the entity.
      *
      * @return string containing entity details
@@ -189,14 +170,6 @@ public abstract class Entity {
                 ", alive=" + alive +
                 '}';
     }
-
-    /**
-     * Renders the entity onto the JavaFX application.
-     *
-     * @author Antoni Wachowiak
-     * @param gc The graphics context used within the JavaFX application
-     */
-    public abstract void draw(GraphicsContext gc);
 
     public abstract void addToHighscore(int value);
 }

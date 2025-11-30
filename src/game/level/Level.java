@@ -1,18 +1,14 @@
 package game.level;
 
+import game.GameController;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
-import game.item.Bomb;
-import game.item.Item;
-import game.item.Gate;
-import game.item.BombState;
-import game.item.Door;
-import javafx.scene.canvas.GraphicsContext;
+import game.entity.npc.FloorFollowingThief;
+import game.entity.npc.FlyingAssassin;
+import game.item.*;
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -38,29 +34,25 @@ public class Level {
     private static final int MAX_TIME = 240;
 
     private Tile[][] levelGrid;
-    private List<Entity> entities;
-    private List<Item> items;
+    private ArrayList<Entity> entities;
     private Player player;
-    private int levelWidth; // TODO: Note from Anton, levelWidth cannot exceed 650
-    private int levelHeight; // TODO: Note from Anton, levelHeight cannot exceed 500
+    private int levelWidth;
+    private int levelHeight;
     private int remainingTime;
     private boolean levelComplete;
     private boolean levelFailed;
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
     private Item[][] itemsGrid;
-
-    private static final double CANVAS_WIDTH = 650;
-    private static final double CANVAS_HEIGHT = 650;
+    private GameController controller;
 
     /**
-     * Constructor which loads the level from the level file.
-     * @param LevelFile The file which stores the level data.
+     * Constructor which loads the level from the level loader.
      */
-    public Level(String LevelFile) {
-        loadFromFile(LevelFile);
-        this.items = new ArrayList<>();
+    public Level(GameController controller) {
+        this.controller = controller;
     }
+
 
     /**
      * Finds the next valid tile in the given direction based on movement rules.
@@ -71,8 +63,128 @@ public class Level {
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
-        // TODO: implement colour-based movement rules
+        int dx = getOffsetX(direction);
+        int dy = getOffsetY(direction);
+
+        if (dx == 0 && dy == 0) return null; // invalid direction
+
+        int nextX = currentTile.getX() + dx;
+        int nextY = currentTile.getY() + dy;
+
+        while (isInBounds(nextX, nextY)) {
+            Tile next = levelGrid[nextY][nextX];
+
+            if (isValidNextTile(currentTile, next)) {
+                return next;
+            }
+
+            nextX += dx;
+            nextY += dy;
+        }
+
         return null;
+    }
+
+    /**
+     * Computes the horizontal movement offset for a given direction.
+     *
+     * @param direction the direction to translate
+     * @return +1 for EAST, -1 for WEST, or 0 for NORTH/SOUTH/other
+     */
+    private int getOffsetX(Direction direction) {
+        return switch (direction) {
+            case EAST  -> 1;
+            case WEST  -> -1;
+            default    -> 0;
+        };
+    }
+
+    /**
+     * Computes the vertical movement offset for a given direction.
+     *
+     * @param direction the direction to translate
+     * @return +1 for SOUTH, -1 for NORTH, or 0 for EAST/WEST/other
+     */
+    private int getOffsetY(Direction direction) {
+        return switch (direction) {
+            case SOUTH -> 1;
+            case NORTH -> -1;
+            default    -> 0;
+        };
+    }
+
+    /**
+     * Checks whether the given (x, y) coordinates are within the bounds of the level grid.
+     *
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return true if the coordinates are inside the grid, otherwise false
+     */
+    private boolean isInBounds(int x, int y) {
+        return x >= 0 && y >= 0 && x < levelWidth && y < levelHeight;
+    }
+
+    /**
+     * Determines whether the specified next tile is a valid match for movement.
+     * A tile is valid if it exists (is not null) and shares the same colour
+     * properties as the current tile.
+     *
+     * @param current the tile from which movement started
+     * @param next    the tile being evaluated
+     * @return true if the next tile is not null and matches the colour
+     */
+    private boolean isValidNextTile(Tile current, Tile next) {
+        return next != null && sharesColour(current, next);
+    }
+
+
+    /**
+     * Auxiliary method to check whether the
+     * 2 tiles we are checking share a common colour.
+     * @param currentTile the current tile
+     * @param nextTile the tile we are moving to
+     * @return whether they share a colour or not
+     */
+    private boolean sharesColour(Tile currentTile, Tile nextTile) {
+        return Arrays.stream(currentTile.getColours())
+                .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
+    }
+
+    //Need a method that checks whether a tile contains FloorFollowingThief's SPECIFIC following colour
+
+     /**
+     * Auxillary method which checks whether a
+     * tile contains the specific colour that Floor Following Thief's is following.
+     *
+     * @param tile the tile we inspect.
+     * @param followingcolour the specific colour the floor following thief follows.
+     * @return whether the colour matches or not
+     */
+    private boolean tileSharesFollowingColour(Tile tile, Colour followingcolour) {
+
+        //If either tile or required colour is missing, can't be valid
+        if (tile == null || followingcolour == null) {
+            return false;
+        }
+
+        //Tiles store their colours as JavaFX Color objects, so we have to convert the Enum into
+        //that too before comparing
+        Color[] followingColours = tile.getColours();
+        if (followingColours == null){
+            return false;
+        }
+        //Convert Colour Enum to JavaFX Color equivalent
+        Color target = followingcolour.getFXColor();
+
+        //Check every colour the tile contains
+        //If any of them match the thief's follow colour, then the tile is valid
+        for (Color c : followingColours) {
+            if (c.equals (target)) { //The javaFX colour that matches the thief's Enum colour
+                return true;
+            }
+        }
+        //No match found, so tile doesn't contain colour
+        return false;
     }
 
     /**
@@ -82,6 +194,9 @@ public class Level {
      * @return the tile.
      */
     public Tile getTile(int y, int x){
+        if (y < 0 || y >= levelHeight || x < 0 || x >= levelWidth) {
+            return null;
+        }
         return levelGrid[y][x];
     }
 
@@ -102,16 +217,10 @@ public class Level {
      * @param x the x-coordinate of the tile
      * @param item the item being added 
      */
-    private void setItemAt(int y, int x,Item item){
+    public void setItemAt(int y, int x,Item item){
         itemsGrid[y][x] = item;
     }
 
-    /**
-     * Loads all the level data from the level file.
-     * @param filename name of the load file.
-     */
-    public void loadFromFile(String filename) {
-    }
 
     /**
      * Returns the four orthogonally adjacent neighbour tiles of the given tile.
@@ -122,10 +231,13 @@ public class Level {
     public List<Tile> getNeighbourTiles(Tile tile) {
         List<Tile> list = new ArrayList<>();
 
-        Tile up    = getTile(tile.getX(), tile.getY() - 1);
-        Tile down  = getTile(tile.getX(), tile.getY() + 1);
-        Tile left  = getTile(tile.getX() - 1, tile.getY());
-        Tile right = getTile(tile.getX() + 1, tile.getY());
+        int y = tile.getY();
+        int x = tile.getX();
+
+        Tile up    = getTile(y + 1, x);
+        Tile down  = getTile(y - 1, x);
+        Tile left  = getTile(y, x - 1);
+        Tile right = getTile(y, x + 1);
 
         if (up != null) list.add(up);
         if (down != null) list.add(down);
@@ -141,8 +253,20 @@ public class Level {
      * that corresponds to the same colour.
      * @param c the colour of gates to open
      */
-    public void openGatesOfColour(Colour c){
-        //TODO: Open gate logic
+    public void openGatesOfColour(Colour c) {
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile t = levelGrid[y][x];
+
+                if (t != null && t.hasGate()) {
+                    Gate gate = t.getGate();
+
+                    if (gate.getColour() == c) {
+                        t.removeItem();
+                    }
+                }
+            }
+        }
     }
     /**
      * Checks whether all loot and levers present in the level have been collected.
@@ -172,7 +296,7 @@ public class Level {
      * @param bomb the bomb to trigger
      */
     public void triggerBomb(Bomb bomb){
-        Tile bombTile = getTile(bomb.getX(), bomb.getY());
+        Tile bombTile = getTile(bomb.getY(), bomb.getX());
         List<Tile> neighbours = getNeighbourTiles(bombTile);
 
         boolean shouldTrigger = false;
@@ -195,31 +319,96 @@ public class Level {
     }
 
     /**
-     * Returns a list of all active items currently on the map.
-     * @return A new List containing all current Item objects.
-     */
-    public List<Item> getAllItems() {
-        return new ArrayList<>(this.items);
-    }
-
-    /**
-     * Removes an item from the level's active item list.
-     * @param item The Item object to be removed from the level.
-     */
-    public void removeItem(Item item) {
-        this.items.remove(item);
-    }
-
-    /**
-     * Determines the next tile that an NPC should move to based on that NPC's
+     * Determines the next tile that an NPC should move to based on that NPCs
      * movement rules.
      * @param npc the NPC requesting its next tile
      * @return the tile the NPC should move to, or null if no valid move exists
      */
     public Tile getNextTileForNpc(Entity npc){
-        //TODO: NPC Logic
+
+        Tile current = getTile(npc.getY(), npc.getX());
+        if (current == null) {
+            return null;
+        }
+
+        //Flying Assassin
+        if (npc instanceof FlyingAssassin flyingAssassin) {
+
+            Direction flyingDirection = flyingAssassin.getDirection();
+            int dx = getOffsetX(flyingDirection);
+            int dy = getOffsetY(flyingDirection);
+
+            int nextX = current.getX() + dx;
+            int nextY = current.getY() + dy;
+
+            //If the Flying Assassin is about to leave the bounds, turn around
+            if (!isInBounds(nextX, nextY)) {
+                flyingDirection = flyingDirection.opposite(); //Uses the updated Direction Enum helper, far less duplication now
+                flyingAssassin.setDirection(flyingDirection);
+
+                dx = getOffsetX(flyingDirection);
+                dy = getOffsetY(flyingDirection);
+
+                nextX = current.getX() + dx;
+                nextY = current.getY() + dy;
+
+                if (!isInBounds(nextX, nextY)) {
+                    return null; //If it can't move, just don't
+                }
+            }
+
+            Tile flyingTarget = getTile(nextY, nextX);
+            if (flyingTarget == null) {
+                return null;
+            }
+
+            //Ignores all colours, gates, items etc. Only respects level bounds as functional spec says!
+            return flyingTarget;
+        }
+
+
+
+        //Floor following thief
+        if (npc instanceof FloorFollowingThief floorThief) {
+            //Get tile the thief is currently standing on
+            Tile currentTile = getTile(floorThief.getY(), floorThief.getX());
+            if (currentTile == null) {
+                return null;
+            }
+
+            Colour followingColour = floorThief.getFollowingColour();
+
+            Direction[] directionPriority = floorThief.getDirectionPriority();
+            for (Direction floorDirection : directionPriority) {
+                Tile candidateTile = findNextValidTile(currentTile, floorDirection);
+                if (candidateTile == null) {
+                    continue; //"Nothing valid in this direction so try the next one"
+                }
+
+                //Make sure both current and candidate tiles contain the thief's follow colour
+                if (!tileSharesFollowingColour(currentTile, followingColour)
+                    || !tileSharesFollowingColour(candidateTile, followingColour)) {
+                    continue;
+                }
+
+                //TODO: A "blocksMovement" bool method to be made to do checks for the floorFollowing and smart Thief
+
+                //Found valid tile following colour and left hand rule
+                floorThief.setDirection(floorDirection);
+                return candidateTile;
+            }
+            //No valid direction found this tick
+            return null;
+
+        }
+
+        //TODO: Smart thief movement logic
+
+
         return null;
     }
+
+
     /**
      * Finds the shortest path between loot, lever and exit tile.
      * Typically used for smart thieves.
@@ -246,7 +435,7 @@ public class Level {
      * @param x the x-coordinate of the tile
      * @param y the y-coordinate of the tile
      */
-    private void removeItemFromGrid(int x, int y) {
+    public void removeItemFromGrid(int x, int y) {
         itemsGrid[x][y] = null;
     }
 
@@ -311,25 +500,75 @@ public class Level {
          */
     }
 
-    /**
-     * Renders the level onto the JavaFX application.
-     *
-     * @author Antoni Wachowiak
-     * @param gc The graphics context used within the JavaFX application
-     */
-    public void draw(GraphicsContext gc) {
-        // TODO: Temp code setting the levelWidth and levelHeight
-        levelWidth = 300;
-        levelHeight = 400;
-
-        // Calculating where the level background should appear within the canvas
-        double canvasWidth = gc.getCanvas().getWidth();
-        double canvasHeight = gc.getCanvas().getHeight();
-        double x = (canvasWidth - levelWidth) / 2;
-        double y = (canvasHeight - levelHeight) / 2;
-
-        // Drawing the level background
-        gc.setFill(Color.GRAY);
-        gc.fillRect(x, y, levelWidth, levelHeight);
+    public Tile[][] getLevelGrid() {
+        return levelGrid;
     }
+
+    public void setLevelGrid(Tile[][] grid) {
+        this.levelGrid = grid;
+    }
+
+    public Item[][] getItemsGrid() {
+        return itemsGrid;
+    }
+
+    public void setItemsGrid(Item[][] items) {
+        this.itemsGrid = items;
+    }
+    public int getLevelWidth() {
+        return levelWidth;
+    }
+
+    public void setLevelWidth(int width) {
+        this.levelWidth = width;
+    }
+
+    public int getLevelHeight() {
+        return levelHeight;
+    }
+
+    public void setLevelHeight(int height) {
+        this.levelHeight = height;
+    }
+
+    public int getRemainingTime() {
+        return remainingTime;
+    }
+
+    public void setRemainingTime(int time) {
+        this.remainingTime = time;
+    }
+    public List<Entity> getEntities() {
+        return entities;
+    }
+
+    public void setEntities(ArrayList<Entity> list) {
+        this.entities = list;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+    public List<Tile> getExitTiles() {
+        return exitTiles;
+    }
+
+    public void setExitTiles(List<Tile> tiles) {
+        this.exitTiles = tiles;
+    }
+    public List<Bomb> getActiveBombs() {
+        return activeBombs;
+    }
+
+    public void setActiveBombs(List<Bomb> bombs) {
+        this.activeBombs = bombs;
+    }
+
+
+
+
 }

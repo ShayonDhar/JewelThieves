@@ -12,32 +12,30 @@ public enum Direction {
     SOUTH,
     WEST;
 
-    private Direction currentDirection;
-
-    public void turnLeft() {
-        switch (currentDirection) {
-            case NORTH -> currentDirection = Direction.WEST;
-            case EAST -> currentDirection = Direction.NORTH;
-            case SOUTH -> currentDirection = Direction.EAST;
-            case WEST -> currentDirection = Direction.SOUTH;
-        }
+    public Direction left() {
+        return switch (this) {
+            case NORTH -> WEST;
+            case EAST -> NORTH;
+            case SOUTH -> EAST;
+            case WEST -> SOUTH;
+        };
     }
 
-    public void turnRight() {
-        switch (currentDirection) {
-            case NORTH -> currentDirection = Direction.EAST;
-            case EAST -> currentDirection = Direction.SOUTH;
-            case SOUTH -> currentDirection = Direction.WEST;
-            case WEST -> currentDirection = Direction.NORTH;
-        }
+    public Direction right() {
+        return switch (this) {
+            case NORTH -> EAST;
+            case EAST -> SOUTH;
+            case SOUTH -> WEST;
+            case WEST -> NORTH;
+        };
     }
 
-    public void turnAround() {
-        switch (currentDirection) {
-            case NORTH -> currentDirection = Direction.SOUTH;
-            case EAST -> currentDirection = Direction.WEST;
-            case SOUTH -> currentDirection = Direction.NORTH;
-            case WEST -> currentDirection = Direction.EAST;
-        }
+    public Direction opposite() {
+        return switch (this) {
+            case NORTH -> SOUTH;
+            case EAST -> WEST;
+            case SOUTH -> NORTH;
+            case WEST -> EAST;
+        };
     }
 }

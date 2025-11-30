@@ -1,9 +1,13 @@
 package game.entity;
 
+import game.GameController;
+import game.item.*;
+import game.level.Tile;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-
-import game.level.Level;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.Objects;
 
@@ -19,12 +23,15 @@ import java.util.Objects;
  */
 public class Player extends Entity {
 
-    private final Image playerImage = new Image(Objects.requireNonNull(getClass().getResource(
-            "/game/resources/player.png")).toExternalForm());
-
-    private static final String ENTITY_NAME = "Player";
-
     private int highscore;
+    private GameController controller;
+    private Level level;
+
+    private final ImageView sprite = new ImageView(
+            new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
+
+    private static final String PLAYER_PNG = "/game/resources/player.png";
+    private static final int PLAYER_WIDTH_HEIGHT = 25;
 
     /**
      * Constructs a new Player entity.
@@ -35,9 +42,15 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      */
-    public Player(int y, int x, Direction direction, boolean alive, boolean blocksMovement, Level level) {
-        super(ENTITY_NAME, y, x, direction, alive, blocksMovement, level);
+    public Player(int y, int x, Direction direction, boolean alive,
+                  boolean blocksMovement, GameController controller, Level level) {
+        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
+        this.controller = controller;
+        this.level = level;
+        sprite.setFitWidth(PLAYER_WIDTH_HEIGHT);
+        sprite.setFitHeight(PLAYER_WIDTH_HEIGHT);
     }
+
 
     /**
      * Attempts to move the player in their current direction, applying movement
@@ -46,78 +59,78 @@ public class Player extends Entity {
      */
     @Override
     public void move() {
-        /*
+
+        System.out.println("Player before move: (" + getX() + ", " + getY() + ")");
         Direction moveDirection = getDirection();
 
-        Tile currentTile = Level.getTile(getY(), getX());
-        Tile targetTile = Level.findNextValidTile(currentTile, moveDirection);
+        Tile currentTile = level.getTile(getY(), getX());
+        Tile targetTile = level.findNextValidTile(currentTile, moveDirection);
 
         if (targetTile == null) {
             return;
+        } else {
+            System.out.println("Target tile: (" + targetTile.getX() + ", " + targetTile.getY() + ")");
         }
+
         if (targetTile.hasGate()) {
             return;
         }
 
-
-        if (targetTile.containsDangerousNpc()) {
-            game.gameOver();
+        if (targetTile.containsFlyingAssassin()) {
+            game.GameController.gameOver();
             return;
         }
 
         setX(targetTile.getX());
         setY(targetTile.getY());
 
-        Item item = targetTile.getItem();
-        if (item != null) {
-            switch (item.getType()) {
-                case LOOT:
-                    score.add(item.getValue());
-                    break;
-
-                case CLOCK:
-                    timer.add(item.getTimeBonus());
-                    break;
-
-                case LEVER:
-                    level.openGatesOfColor(item.getColor());
-                    break;
-
-                case BOMB:
-                    // Player cannot stand on a bomb tile,
-                    // but if the tile next to it contains a bomb, trigger it.
-                    break;
-            }
-            targetTile.removeItem();
-        }
+        updateScore(targetTile.getItem(), targetTile);
 
         // Bomb triggering logic
-        for (Tile neighbour : level.getNeighbours(targetTile)) {
+        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
             if (neighbour.hasBomb()) {
                 neighbour.getBomb().trigger();
             }
         }
         //Handles exit logic
-        if (targetTile.isExitTile()) {
-            if (level.allLootAndLeversCollected()) {
-                game.finishLevel();
-            }
+        if (targetTile.isExit() && level.allLootAndLeversCollected()) {
+                controller.finishLevel();
         }
+        System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
+    }
 
-         */
+    private void updateScore(Item item, Tile targetTile) {
+        if (item != null) {
+            switch (item.getItemType()) {
+                case LOOT:
+                    Loot loot = (Loot) item;
+                    controller.addScore(loot.getLootType().getValue());
+                    break;
+
+                case CLOCK:
+                    Clock clock = (Clock) item;
+                    level.update(clock.getTimeBonus());
+                    break;
+
+                case LEVER:
+                    Lever lever = (Lever) item;
+                    level.openGatesOfColour(lever.getColour());
+                    break;
+
+                case BOMB:
+                    // Player cannot stand on a bomb tile.
+                    break;
+            }
+            targetTile.removeItem();
+        }
     }
 
     /**
-     * Renders the entity onto the JavaFX application.
-     *
-     * @param gc The graphics context used within the JavaFX application
-     * @author Antoni Wachowiak
+     * Method to return the player image.
+     * @return image of the player png
      */
-    @Override
-    public void draw(GraphicsContext gc) {
-
-        // Drawing the level background
-        gc.drawImage(playerImage, getX(), getY(), 40, 40);
+    public ImageView getSprite() {
+        return sprite;
     }
 
     @Override

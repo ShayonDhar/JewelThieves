@@ -1,9 +1,11 @@
 package game;
 
+import game.level.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 
@@ -52,6 +54,7 @@ public class MainApplication extends Application {
 
             // Load the scene onto the GUI
             Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
+            root.setStyle("-fx-background-color: black");
 
             // Register key input into the GameController
             scene.setOnKeyPressed(controller::onKeyPressed);

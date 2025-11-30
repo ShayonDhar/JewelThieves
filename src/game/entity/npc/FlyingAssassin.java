@@ -12,32 +12,48 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class FlyingAssassin extends NPC {
 
-    private static final String ENTITY_NAME = EntityName.FLYING_ASSASSIN.getDisplayName();
-
     /**
      * Constructor to create an Entity object.
-     * @param y              y coordinate of the entity
      * @param x              x coordinate of the entity
+     * @param y              y coordinate of the entity
      * @param direction      direction the entity is facing
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
      */
-    protected FlyingAssassin(int y, int x, Direction direction, boolean alive, boolean blocksMovement) {
-        super(ENTITY_NAME, y, x, direction, alive, blocksMovement);
+    public FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
+        super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement);
     }
 
     @Override
     public void move() {
         //TODO: Flying Assassin movement implementation requires tiles
+
+        /*
+        Once again depends on Level/Tile
+        - Move in a straight line (horizontal/veritcal)
+          IGNORES floor colour rules
+
+        - When the next step would leave the level bounds, it simply uses turnAround()
+         */
+
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-
-    }
 
     @Override
     public void addToHighscore(int value) {
-
     }
+
+    /* TODO: Check tile/level boundariesH
+       (example/framework code)
+       boolean canMove = Level.canMoveTo(nextX, nextY)
+       if (!canMove) {
+            turnAround();
+            return;
+       }
+     */
+
+    /* TODO: Detect collisions with players or NPCs
+
+     */
+
 }

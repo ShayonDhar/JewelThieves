@@ -9,5 +9,9 @@ module JewelThieves {
     opens game.entity to javafx.fxml, javafx.graphics;
     exports game.entity.npc;
     opens game.entity.npc to javafx.fxml, javafx.graphics;
+    exports game.level;
+    opens game.level to javafx.fxml, javafx.graphics;
+    exports game.item;
+    opens game.item to javafx.fxml, javafx.graphics;
 
 }

@@ -20,10 +20,11 @@ public class Loot extends Item {
      *                 whether the item has been claimed or triggered.
      */
 
-    private LootType value;
+    private final LootType lootType;
 
-    public Loot(String itemName, int itemID, int x, int y, boolean isOn) {
-        super(itemName, itemID, x, y, isOn);
+    public Loot(String itemName, int itemID, int x, int y, boolean isOn, LootType lootType) {
+        super(itemName, itemID, x, y, isOn, ItemType.LOOT);
+        this.lootType = lootType;
     }
 
     @Override
@@ -39,10 +40,13 @@ public class Loot extends Item {
 
         if (entityName.getX() == x && entityName.getY() == y) {
             if (entityName.getEntityName().equals("PLAYER")) {
-                entityName.addToHighscore(value.getValue());
+                entityName.addToHighscore(lootType.getValue());
             }
 
             isOn = false;
         }
+    }
+    public LootType getLootType() {
+        return lootType;
     }
 }
