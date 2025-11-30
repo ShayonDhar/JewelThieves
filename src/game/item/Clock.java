@@ -1,9 +1,13 @@
 package game.item;
 
 import game.entity.Entity;
+import game.entity.EntityName;
+import game.level.Level;
+import game.entity.Player;
+
 import javafx.scene.canvas.GraphicsContext;
 
-public class Clock extends Item{
+public class Clock extends Item {
     private final int timeBonus;
     /**
      * Constructor that all the items will use.
@@ -31,7 +35,16 @@ public class Clock extends Item{
     }
 
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
 
+        if (!isOn) {
+            return;
+        }
+
+        if (entityName.getEntityName().equals(EntityName.PLAYER)) {
+            if (entityName.getX() == x && entityName.getY() == y) {
+                entityName.getLevel().update(timeBonus);
+            }
+        }
     }
 }

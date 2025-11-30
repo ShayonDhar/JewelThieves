@@ -2,9 +2,10 @@ package game.item;
 
 import game.entity.Entity;
 import game.level.Colour;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
-public class Gate extends Item{
+public class Gate extends Item {
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -32,7 +33,7 @@ public class Gate extends Item{
     }
 
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
 
     }
 }

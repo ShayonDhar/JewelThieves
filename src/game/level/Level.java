@@ -43,6 +43,7 @@ public class Level {
     private boolean levelFailed;
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
+    private List<Item> items = new ArrayList<>();
     private Item[][] itemsGrid;
     private GameController controller;
 
@@ -569,6 +570,11 @@ public class Level {
     }
 
 
+    public List<Item> getAllItems() {
+        return items;
+    }
 
+    public void removeItem(Item item) {
 
+    }
 }

@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Bomb extends Item {
+
     private static final int BOMB_COUNTDOWN = 3;
     private BombState state;
     private int countdown = BOMB_COUNTDOWN;
+
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -33,14 +35,12 @@ public class Bomb extends Item {
     public void draw(GraphicsContext gc) {
 
     }
-    @Override
-    public void collectItem(Entity entityName) {
-    }
 
     /**
      * @param entityName Name of the entity being collected
      * @param level The current active level
      */
+
     @Override
     public void collectItem(Entity entityName, Level level) {
 
@@ -50,6 +50,7 @@ public class Bomb extends Item {
 
         if (entityName.getX() == x && entityName.getY() == y) {
             trigger();
+            updateBombState(level);
             entityName.getLevel().destroyTileContent(entityName.getX(), entityName.getY());
         }
 
@@ -81,6 +82,7 @@ public class Bomb extends Item {
             state = BombState.COUNTING;
         }
     }
+
 
     public void explode(Level level) {
         if (this.state == BombState.EXPLODED) {

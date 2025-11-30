@@ -1,6 +1,7 @@
 package game.item;
 
 import game.entity.Entity;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Door extends Item {
@@ -26,7 +27,7 @@ public class Door extends Item {
     }
 
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
 
     }
 }

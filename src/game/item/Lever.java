@@ -2,6 +2,7 @@ package game.item;
 
 import game.entity.Entity;
 import game.level.Colour;
+import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Lever extends Item{
@@ -32,7 +33,7 @@ public class Lever extends Item{
     }
 
     @Override
-    public void collectItem(Entity entityName) {
+    public void collectItem(Entity entityName, Level level) {
 
     }
 }
