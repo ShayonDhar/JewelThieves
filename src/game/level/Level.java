@@ -575,6 +575,6 @@ public class Level {
     }
 
     public void removeItem(Item item) {
-
+        items.remove(item);
     }
 }
