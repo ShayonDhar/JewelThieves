@@ -169,7 +169,7 @@ public abstract class Entity {
 
     /**
      * Getter that tell what level the entity is on
-     * @return
+     * @return current Level
      */
     public Level getLevel() {
         return level;
@@ -192,5 +192,9 @@ public abstract class Entity {
                 '}';
     }
 
+    /**
+     * Adds the value to the Highscore
+     * @param value value to be added to Highscore
+     */
     public abstract void addToHighscore(int value);
 }
