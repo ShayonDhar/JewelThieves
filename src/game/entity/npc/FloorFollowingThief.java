@@ -3,6 +3,8 @@ package game.entity.npc;
 import game.entity.Direction;
 import game.entity.EntityName;
 import game.level.Colour;
+import game.level.Level;
+
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -27,8 +29,8 @@ public class FloorFollowingThief extends NPC {
      * @param alive          the alive state of the Floor Following Thief
      * @param blocksMovement whether the Floor Following Thief blocks movement of other entities
      */
-    public FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Colour followingColour) {
-        super(EntityName.FLOOR_FOLLOWING_THIEF, x, y, direction, alive, blocksMovement);
+    public FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level, Colour followingColour) {
+        super(EntityName.FLOOR_FOLLOWING_THIEF, x, y, direction, alive, blocksMovement, level);
         this.followingColour = followingColour;
     }
 
