@@ -2,6 +2,8 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.EntityName;
+import game.level.Level;
+
 import javafx.scene.canvas.GraphicsContext;
 
 
@@ -23,8 +25,8 @@ public class SmartThief extends NPC {
      * @param alive          the alive state of the Smart Thief
      * @param blocksMovement whether the SmartThief blocks movement of other entities
      */
-    public SmartThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement) {
-        super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement);
+    public SmartThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
+        super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement, level);
     }
 
     @Override
