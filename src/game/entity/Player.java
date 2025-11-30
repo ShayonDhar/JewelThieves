@@ -44,7 +44,7 @@ public class Player extends Entity {
      */
     public Player(int y, int x, Direction direction, boolean alive,
                   boolean blocksMovement, GameController controller, Level level) {
-        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement);
+        super(EntityName.PLAYER, x, y, direction, alive, blocksMovement, level);
         this.controller = controller;
         this.level = level;
         sprite.setFitWidth(PLAYER_WIDTH_HEIGHT);
