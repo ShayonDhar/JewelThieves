@@ -18,7 +18,7 @@
          </padding>
          <Button mnemonicParsing="false" onAction="#buttonNewGame" text="NEW GAME" />
          <Button fx:id="buttonLoadGame" mnemonicParsing="false" text="LOAD GAME" />
-         <Button fx:id="buttonQuit" mnemonicParsing="false" text="QUIT" />
+         <Button mnemonicParsing="false" onAction="#buttonQuit" text="QUIT" />
       </VBox>
    </center>
    <top>

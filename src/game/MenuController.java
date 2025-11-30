@@ -63,4 +63,12 @@ public class MenuController {
         }
 
     }
+
+    /**
+     * Button action to close the stage.
+     */
+    @FXML
+    public void buttonQuit() {
+        System.exit(0);
+    }
 }
