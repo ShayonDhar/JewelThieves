@@ -41,6 +41,7 @@ public class Player extends Entity {
      * @param direction      direction the player is facing
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
+     * @param level          The level that the entity is on
      */
     public Player(int y, int x, Direction direction, boolean alive,
                   boolean blocksMovement, GameController controller, Level level) {
@@ -133,6 +134,10 @@ public class Player extends Entity {
         return sprite;
     }
 
+    /**
+     * Adds value to Highscore
+     * @param value value to be added to Highscore
+     */
     @Override
     public void addToHighscore(int value) {
         this.highscore += value;
