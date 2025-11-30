@@ -59,8 +59,9 @@ public class Level {
      * Finds the next valid tile in the given direction based on movement rules.
      * Movement is determined by checking the next tile which has a common
      * colour with the current tile.
-     * @param currentTile     the tile the entity is currently standing on.
-     * @param direction  the direction in which movement is attempted.
+     *
+     * @param currentTile the tile the entity is currently standing on.
+     * @param direction   the direction in which movement is attempted.
      * @return the next valid tile in that direction, or null if no valid tile exists.
      */
     public Tile findNextValidTile(Tile currentTile, Direction direction) {
@@ -94,9 +95,9 @@ public class Level {
      */
     private int getOffsetX(Direction direction) {
         return switch (direction) {
-            case EAST  -> 1;
-            case WEST  -> -1;
-            default    -> 0;
+            case EAST -> 1;
+            case WEST -> -1;
+            default -> 0;
         };
     }
 
@@ -110,7 +111,7 @@ public class Level {
         return switch (direction) {
             case SOUTH -> 1;
             case NORTH -> -1;
-            default    -> 0;
+            default -> 0;
         };
     }
 
@@ -142,8 +143,9 @@ public class Level {
     /**
      * Auxiliary method to check whether the
      * 2 tiles we are checking share a common colour.
+     *
      * @param currentTile the current tile
-     * @param nextTile the tile we are moving to
+     * @param nextTile    the tile we are moving to
      * @return whether they share a colour or not
      */
     private boolean sharesColour(Tile currentTile, Tile nextTile) {
@@ -153,11 +155,11 @@ public class Level {
 
     //Need a method that checks whether a tile contains FloorFollowingThief's SPECIFIC following colour
 
-     /**
+    /**
      * Auxillary method which checks whether a
      * tile contains the specific colour that Floor Following Thief's is following.
      *
-     * @param tile the tile we inspect.
+     * @param tile            the tile we inspect.
      * @param followingcolour the specific colour the floor following thief follows.
      * @return whether the colour matches or not
      */
@@ -171,7 +173,7 @@ public class Level {
         //Tiles store their colours as JavaFX Color objects, so we have to convert the Enum into
         //that too before comparing
         Color[] followingColours = tile.getColours();
-        if (followingColours == null){
+        if (followingColours == null) {
             return false;
         }
         //Convert Colour Enum to JavaFX Color equivalent
@@ -180,7 +182,7 @@ public class Level {
         //Check every colour the tile contains
         //If any of them match the thief's follow colour, then the tile is valid
         for (Color c : followingColours) {
-            if (c.equals (target)) { //The javaFX colour that matches the thief's Enum colour
+            if (c.equals(target)) { //The javaFX colour that matches the thief's Enum colour
                 return true;
             }
         }
@@ -190,11 +192,12 @@ public class Level {
 
     /**
      * Returns tile at the current grid coordinates.
+     *
      * @param y y-coordinate.
      * @param x x-coordinate.
      * @return the tile.
      */
-    public Tile getTile(int y, int x){
+    public Tile getTile(int y, int x) {
         if (y < 0 || y >= levelHeight || x < 0 || x >= levelWidth) {
             return null;
         }
@@ -204,21 +207,23 @@ public class Level {
     /**
      * Gets the item at a specific coordinate
      * on the level.
+     *
      * @param y the y-coordinate
      * @param x the x-coordinate
      * @return gets the item on at that grid
      */
-    public Item getItemAt(int y, int x){
+    public Item getItemAt(int y, int x) {
         return itemsGrid[y][x];
     }
 
     /**
      * Sets the item at a specific coordinate
-     * @param y the y-coordinate of the tile
-     * @param x the x-coordinate of the tile
-     * @param item the item being added 
+     *
+     * @param y    the y-coordinate of the tile
+     * @param x    the x-coordinate of the tile
+     * @param item the item being added
      */
-    public void setItemAt(int y, int x,Item item){
+    public void setItemAt(int y, int x, Item item) {
         itemsGrid[y][x] = item;
     }
 
@@ -226,6 +231,7 @@ public class Level {
     /**
      * Returns the four orthogonally adjacent neighbour tiles of the given tile.
      * Tiles that are outside the level boundaries are not included in return list.
+     *
      * @param tile the tile whose neighbours are requested.
      * @return a list of neighbouring tiles.
      */
@@ -235,9 +241,9 @@ public class Level {
         int y = tile.getY();
         int x = tile.getX();
 
-        Tile up    = getTile(y + 1, x);
-        Tile down  = getTile(y - 1, x);
-        Tile left  = getTile(y, x - 1);
+        Tile up = getTile(y + 1, x);
+        Tile down = getTile(y - 1, x);
+        Tile left = getTile(y, x - 1);
         Tile right = getTile(y, x + 1);
 
         if (up != null) list.add(up);
@@ -252,6 +258,7 @@ public class Level {
      * Opens (removes) all gates of the specified colour from the level.
      * This is typically called after the player or a thief activates a lever
      * that corresponds to the same colour.
+     *
      * @param c the colour of gates to open
      */
     public void openGatesOfColour(Colour c) {
@@ -269,18 +276,21 @@ public class Level {
             }
         }
     }
+
     /**
      * Checks whether all loot and levers present in the level have been collected.
      * Used to determine whether the player or thieves may activate the exit tile.
+     *
      * @return true if no loot or levers remain in the level, false otherwise
      */
-    public boolean allLootAndLeversCollected(){
+    public boolean allLootAndLeversCollected() {
         //TODO: Loot and Levers collected check logic
         return false;
     }
 
     /**
      * Checks whether a tile has an entity.
+     *
      * @param t the tile object
      * @return does the tile contain an entity
      */
@@ -290,6 +300,39 @@ public class Level {
         }
         return false;
     }
+
+    /**
+     * Determines whether a given tile is blocked for the Entity trying to move onto it.
+     * A tile is blocked if it contains another blocking entity,
+     *
+     * @param mover  the entity that's attempting to move to a new tile.
+     * @param target the tile the mover wants to step onto.
+     * @return returns true if movement onto the tile is blocked, otherwise false.
+     */
+    private boolean blocksMovement(Entity mover, Tile target) {
+        if (target == null) return true; //So they can't move to "nowhere"
+
+        int x = target.getX();
+        int y = target.getY();
+
+        if (tileHasEntity(target)) {
+            for (Entity e : entities) {
+                if (e == mover) continue; //Doesn't block itself from moving
+                if (!e.isAlive()) continue; //Dead entities don't block (not sure if them dying removes from tile.)
+                if (!e.isBlocksMovement()) continue; //Basically just Flying Assassin
+
+                if (e.getX() == x && e.getY() == y) {
+                    return true; //Confirmed to block
+                }
+            }
+        }
+
+        //Whether x item blocks movement
+        //TODO: Implement part of the method that accounts for items blocking movement.
+
+        return false;
+    }
+
     /**
      * Triggers the specified bomb.
      * Uses the getNeighbourTiles to check whether the bomb
@@ -393,6 +436,9 @@ public class Level {
                 }
 
                 //TODO: A "blocksMovement" bool method to be made to do checks for the floorFollowing and smart Thief
+
+
+
 
                 //Found valid tile following colour and left hand rule
                 floorThief.setDirection(floorDirection);
