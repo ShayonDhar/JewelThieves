@@ -435,10 +435,10 @@ public class Level {
                     continue;
                 }
 
-                //TODO: A "blocksMovement" bool method to be made to do checks for the floorFollowing and smart Thief
-
-
-
+                //Respect blocking rules
+                if (blocksMovement(floorThief, candidateTile)) {
+                    continue;
+                }
 
                 //Found valid tile following colour and left hand rule
                 floorThief.setDirection(floorDirection);
