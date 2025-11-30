@@ -2,6 +2,7 @@ package game.item;
 
 import game.entity.Entity;
 import game.entity.Player;
+import game.level.Level;
 import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -78,5 +79,5 @@ public abstract class Item {
 
     public abstract void draw(GraphicsContext gc);
 
-    public abstract void collectItem(Entity entityName);
+    public abstract void collectItem(Entity entityName, Level level);
 }
