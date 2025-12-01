@@ -447,6 +447,11 @@ public class Level {
             //No valid direction found this tick
             return null;
 
+
+
+            //Smart thief
+
+
         }
 
         //TODO: Smart thief movement logic
@@ -455,6 +460,21 @@ public class Level {
         return null;
     }
 
+    /**
+     * Works out direction smart thief would travel from one tile to another
+     * Assumes both tiles are on the same row/column (as they should)
+     */
+    private Direction getDirectionBetween(Tile from, Tile to) {
+        int directionX = to.getX() - from.getX();
+        int directionY = to.getY() - from.getY();
+
+        if (directionX > 0) return Direction.EAST;
+        if (directionX < 0) return Direction.WEST;
+        if (directionY > 0) return Direction.SOUTH;
+        if (directionY < 0) return Direction.NORTH;
+
+        return null;
+    }
 
     /**
      * Finds the shortest path between loot, lever and exit tile.
@@ -463,7 +483,6 @@ public class Level {
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
     public Tile findShortestPathTarget(Tile source){
-        //TODO: pathfinding for smart thief
         if (source == null) {return null;}
 
         int startX = source.getX();
