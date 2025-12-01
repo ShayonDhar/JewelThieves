@@ -65,6 +65,9 @@ public class GameController {
         //Level.moveNPCs();
         player.move();
 
+        //Tick NPCs, bombs + time (Just NPCs for now)
+        level.updateLevel(1);
+
         // TODO: Change canvas in this method
 //        if (player.getX() > canvas.getWidth()) {
 //            player.setX(0);
