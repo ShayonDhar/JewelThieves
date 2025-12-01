@@ -459,13 +459,152 @@ public class Level {
     /**
      * Finds the shortest path between loot, lever and exit tile.
      * Typically used for smart thieves.
-     * @param source the starting tile
+     * @param source the starting tile/ where smart thief currently is
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
     public Tile findShortestPathTarget(Tile source){
         //TODO: pathfinding for smart thief
-        return null;
+        if (source == null) {return null;}
+
+        int startX = source.getX();
+        int startY = source.getY();
+
+        //Determine which tiles are targets,
+        //Will go for loot/levers first, then go for exits.
+        boolean[][] isTarget = new boolean[levelHeight][levelWidth];
+        boolean hasLootOrLever = false;
+
+        //Mark loot/lever tiles as targets
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Item item = itemsGrid[y][x];
+                if (item instanceof Loot || item instanceof Lever) {
+                    hasLootOrLever = true;
+                    isTarget[y][x] = true;
+                    }
+                }
+            }
+
+        //If no loot or levers, use exit tiles instead
+        if (!hasLootOrLever) {
+            if (exitTiles == null || exitTiles.isEmpty()) {
+                return null; //Nothing to pathfind itself to
+            }
+            for (Tile exit : exitTiles) {
+                isTarget[exit.getY()][exit.getX()] = true;
+            }
+        }
+
+        //Breadth first search setup
+        //previousTileX[y][x] X of the tile which we came FROM when first reaching (x,y)
+        //previousTileY, Y of the above.
+        boolean[][] visited = new boolean[levelHeight][levelWidth];
+        int[][] previousTileX = new int[levelHeight][levelWidth];
+        int[][] previousTileY = new int[levelHeight][levelWidth];
+
+        //Initialise previous array to having no parent
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                previousTileX[y][x] = -1;
+                previousTileY[y][x] = -1;
+            }
+        }
+
+        ArrayDeque<int[]> queue = new ArrayDeque<>();
+        visited[startY][startX] = true;
+        queue.add(new int[]{startX, startY});
+
+        int goalX = -1;
+        int goalY = -1;
+        boolean foundGoal = false;
+
+        //Breadth first search
+        while (!queue.isEmpty()) {
+            int[] position = queue.removeFirst();
+            int currentX = position[0];
+            int currentY = position[1];
+
+            //Make sure source tile isn't a goal, if it is a target and not the starting tile
+            //then the nearest target has been found
+            if (!(currentX == startX && currentY == startY) && isTarget[currentY][currentX]) {
+                goalX = currentX;
+                goalY = currentY;
+                foundGoal = true;
+                break; //Because first it hits any target = nearest target
+            }
+
+            Tile smartCurrentTile = levelGrid[currentY][currentX];
+            //Explorer neighbours to current tile in all 4 directions
+            for (Direction smartDirection : Direction.values()) {
+                Tile neighbourTile = findNextValidTile(smartCurrentTile, smartDirection);
+                if (neighbourTile == null) {
+                    continue;
+                }
+
+                int nextX = neighbourTile.getX();
+                int nextY = neighbourTile.getY();
+
+                if (!isInBounds(nextX, nextY)) {
+                    continue;
+                }
+                if (visited[nextY][nextX]) {
+                    continue;
+                }
+
+                //Use blocksMovement to make sure BFS doesn't make paths through impassible tiles
+                //Null is passed as athe mover because BFS checks for generic passability, so with
+                //mover as null, any blocking entity/item will cause the tile to be marked an obstacle.
+                if (blocksMovement(null, neighbourTile)) {
+                    continue;
+                }
+
+                visited[nextY][nextX] = true;
+                //Record how nextX nd nextY were gotten to from currentX and currentY.
+                previousTileX[nextY][nextX] = currentX;
+                previousTileY[nextY][nextX] = currentY;
+
+                queue.addLast(new int[]{nextX, nextY});
+            }
+        }
+
+        //If no reachable target has been found
+        if (!foundGoal) {return null;}
+
+        //Reconstruct the next step from source to goal
+        int stepToNextX = goalX;
+        int stepToNextY = goalY;
+
+        //Walk backwards until previous tile of stepToNextX and stepToNextY are the source
+
+        /*
+        Example: For tiles(x,y)
+                 Start: (1,1)
+                 Next: (2,1)
+                 Next: (3,1)
+                 Goal: (4,1)
+        Start from (4,1) and walk backwards alk backwards: step = (4,1) so previous = (3,1)
+                        step - (3,1) so previous = (2,1)
+                        step = (2, 1) so previous - (1,1)/the start tile!
+         */
+
+        while (!(previousTileX[stepToNextY][stepToNextX] == startX &&
+                previousTileY[stepToNextY][stepToNextX] == startY)) {
+            int previousToSourceX = previousTileX[stepToNextY][stepToNextX];
+            int previousToSourceY = previousTileY[stepToNextY][stepToNextX];
+
+            //If parent chain is somehow lost then return null/abort
+            if (previousToSourceX == -1 && previousToSourceY == -1) {
+                return null;
+            }
+
+            stepToNextX = previousToSourceX;
+            stepToNextY = previousToSourceY;
+        }
+        //stepToNext X and stepToNextY are now the tile immediately after the source
+        return getTile(stepToNextY, stepToNextX);
     }
+
+
 
     // TODO: Note from Anton, would this be here or updated via draw() method in the Item class?
 
