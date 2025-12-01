@@ -30,6 +30,7 @@ public class GameController {
     public Level level;
     public Player player;
     public Item [][] itemGrid;
+    public boolean tickPlaying = false;
 
     // Timeline which will cause tick method to be called periodically.
     private static Timeline tickTimeline;
@@ -126,6 +127,7 @@ public class GameController {
     @FXML
     public void buttonStartAction(ActionEvent actionEvent) {
         tickTimeline.play();
+        tickPlaying = true;
     }
 
     /**
@@ -136,9 +138,12 @@ public class GameController {
     @FXML
     public void buttonStopAction(ActionEvent actionEvent) {
         tickTimeline.stop();
+        tickPlaying = false;
     }
 
     public void onKeyPressed(KeyEvent event) {
+
+        // Read the key input as a direction within the game
         switch (event.getCode()) {
             case W -> player.setDirection(Direction.NORTH);
             case A -> player.setDirection(Direction.WEST);
@@ -149,11 +154,14 @@ public class GameController {
             }
         }
 
-        // Now perform the move based on the direction we just set
-        player.move();
+        // Checking if tick timeline is playing
+        if (tickPlaying) {
+            // Now perform the move based on the direction we just set
+            player.move();
 
-        // Redraw the scene after moving
-        drawGame();
+            // Redraw the scene after moving
+            drawGame();
+        }
 
         // Marking the event as being "done dealt with"
         event.consume();
