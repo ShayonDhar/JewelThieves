@@ -49,4 +49,7 @@ public class Loot extends Item {
     public LootType getLootType() {
         return lootType;
     }
+
+    //TODO: Add floorFollowingThief and Smart thief handling of picking up loot here
+
 }
