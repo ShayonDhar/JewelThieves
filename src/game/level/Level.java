@@ -46,6 +46,7 @@ public class Level {
     private List<Item> items = new ArrayList<>();
     private Item[][] itemsGrid;
     private GameController controller;
+    private Random smartThiefRandomMove = new Random();
 
     /**
      * Constructor which loads the level from the level loader.
@@ -446,19 +447,38 @@ public class Level {
             }
             //No valid direction found this tick
             return null;
-
-
-
-            //Smart thief
-
-
         }
+
+        //Smart Thief
+
 
         //TODO: Smart thief movement logic
 
 
         return null;
     }
+
+    /**
+     * Returns a "random but valid" tile that Smart Thief could move to
+     * as part of it's movement from the given tile, or null if no such move exists.
+     */
+    private Tile getRandomButValidMove(Tile smartCurrentTile, Entity mover) {
+        List<Direction> smartDirections = new ArrayList<>(Arrays.asList(Direction.values()));
+        Collections.shuffle(smartDirections, smartThiefRandomMove);
+
+        for (Direction direction : smartDirections) {
+            Tile candidateTile = findNextValidTile(smartCurrentTile, direction);
+            if (candidateTile == null) {
+                continue;
+            }
+            if (blocksMovement(mover, candidateTile)) {
+                continue;
+            }
+            return candidateTile;
+        }
+        return null;
+    }
+
 
     /**
      * Works out direction smart thief would travel from one tile to another
