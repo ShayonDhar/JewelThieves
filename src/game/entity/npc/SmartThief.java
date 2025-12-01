@@ -3,6 +3,8 @@ package game.entity.npc;
 import game.entity.Direction;
 import game.entity.EntityName;
 import game.level.Level;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import javafx.scene.canvas.GraphicsContext;
 
@@ -15,7 +17,7 @@ an exit before the player does.
 */
 
 public class SmartThief extends NPC {
-
+    private static final int SPRITE_SIZE = 25;
     /**
      * Constructor to create the Smart Thief.
      *
@@ -27,7 +29,15 @@ public class SmartThief extends NPC {
      */
     public SmartThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
         super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement, level);
+
+        sprite = new ImageView(
+                new Image(game.entity.Player.class.getResource("/game/resources/smartthief.png").toExternalForm())
+        );
+        sprite.setFitWidth(SPRITE_SIZE);
+        sprite.setFitHeight(SPRITE_SIZE);
     }
+
+
 
     @Override
     public void addToHighscore(int value) {
@@ -37,29 +47,7 @@ public class SmartThief extends NPC {
     @Override
     public void move()
     {
-        /*
-        SmartThief movements relies heavily on Level/Tile state and pathfinding, so
-        full implementation of those will be needed.
-
-        Intended behaviour at the very least:
-
-        1. If any loot or levers remain on the level:
-            1a. Determine whether it is at least reachable, following the movement rules.
-            1b. If reachable loot/lever exists, compute the shortest path from the thief's
-            current tile, to said nearest loot/lever.
-             - Move one step along that shortest path, choose the next
-             tile on the path, setDirection toward it, and update the thief's pos
-             (setPosition(newX, newY)).
-                   OTHERWISE:
-                - Choose a "random but valid" direction and move there.
-                 Valid = within bounds, obeyes rules and not blocked by bombs, players, other NPCs.
-
-         2. If no loot or levers remain,
-             2a. Determine whether there is at least on reachable exit.
-             2b. If reachable exit exists, compute the shortest path to it and move one step along
-             that path (just like above.)
-                Otherwise: Move in a random but valid direction!
-         */
+        //Implemented in Level!
     }
 
 }

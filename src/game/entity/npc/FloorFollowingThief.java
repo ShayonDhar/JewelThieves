@@ -4,7 +4,8 @@ import game.entity.Direction;
 import game.entity.EntityName;
 import game.level.Colour;
 import game.level.Level;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
@@ -15,11 +16,11 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class FloorFollowingThief extends NPC {
 
+    private static final int SPRITE_SIZE = 25;
     /**
      * The colour the floor following thief shall follow.
      */
     private final Colour followingColour;
-
     /**
      * Constructor for the Floor Following Thief at a position on the grid.
      *
@@ -32,6 +33,12 @@ public class FloorFollowingThief extends NPC {
     public FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level, Colour followingColour) {
         super(EntityName.FLOOR_FOLLOWING_THIEF, x, y, direction, alive, blocksMovement, level);
         this.followingColour = followingColour;
+
+        sprite = new ImageView(
+                new Image(game.entity.Player.class.getResource("/game/resources/floorfollowingthief.png").toExternalForm())
+        );
+        sprite.setFitWidth(SPRITE_SIZE);
+        sprite.setFitHeight(SPRITE_SIZE);
     }
 
     /**
