@@ -330,8 +330,16 @@ public class Level {
         }
 
         //Whether x item blocks movement
-        //TODO: Implement part of the method that accounts for items blocking movement.
-
+        //Gates
+        Item item = itemsGrid[y][x];
+        if (item instanceof Gate) {
+            return true;
+        }
+        //Bombs, can't step onto unless already exploded
+        if (item instanceof Bomb bomb) {
+            return bomb.getState() != BombState.EXPLODED;
+        }
+        //Doors, Loot, Lever, Clock etc do not block movement
         return false;
     }
 
