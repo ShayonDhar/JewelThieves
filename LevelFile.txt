@@ -13,9 +13,9 @@ PLAYER 1 1 NORTH true false
 
 # NPCs
 
-FLOORFOLLOWINGTHIEF 3 2 EAST true false BLUE
+FLOORFOLLOWINGTHIEF 3 2 EAST true true BLUE
 ASSASSIN 4 1 SOUTH true false
-SMARTTHIEF 5 1 EAST true false
+SMARTTHIEF 5 1 EAST true true
 
 # Items
 
