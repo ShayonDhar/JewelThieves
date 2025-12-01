@@ -677,7 +677,6 @@ public class Level {
 
 
 
-    // TODO: Note from Anton, would this be here or updated via draw() method in the Item class?
 
     /**
      * Update time will add or subtract the time provided by the clock
@@ -693,7 +692,7 @@ public class Level {
      * @param y the y-coordinate of the tile
      */
     public void removeItemFromGrid(int x, int y) {
-        itemsGrid[x][y] = null;
+        itemsGrid[y][x] = null;
     }
 
     /**
@@ -703,8 +702,7 @@ public class Level {
      * @param y the y-coordinate of the tile
      */
     public void destroyTileContent(int x, int y) {
-
-        Item item = itemsGrid[x][y];
+        Item item = itemsGrid[y][x];
         if (item == null) return;
 
         // Bombs

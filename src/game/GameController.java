@@ -70,10 +70,10 @@ public class GameController {
         level.updateLevel(1);
 
         // Check for loot collection
-        Item item = level.getItemAt(player.getX(), player.getY());
+        Item item = level.getItemAt(player.getY(), player.getX());
         if (item instanceof Loot loot) {
             addScore(loot.getLootType().getValue());
-            level.removeItemFromGrid(player.getX(), player.getY());
+            level.removeItemFromGrid(player.getY(), player.getX());
         }
 
         // Redraw the whole canvas
