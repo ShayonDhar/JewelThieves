@@ -4,8 +4,10 @@ import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.EntityName;
 import game.level.Level;
+import javafx.scene.image.ImageView;
 
 public abstract class NPC extends Entity {
+    protected ImageView sprite;
     /**
      * Constructor to create an Entity object.
      *
@@ -18,5 +20,9 @@ public abstract class NPC extends Entity {
      */
     protected NPC(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
         super(entityName, x, y, direction, alive, blocksMovement, level);
+    }
+
+    public ImageView getSprite() {
+        return sprite;
     }
 }
