@@ -16,7 +16,7 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class FloorFollowingThief extends NPC {
 
-    private static final int SPRITE_SIZE = 25;
+    private static final int SPRITE_SIZE = 35;
     /**
      * The colour the floor following thief shall follow.
      */

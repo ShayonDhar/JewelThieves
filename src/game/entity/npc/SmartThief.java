@@ -17,7 +17,7 @@ an exit before the player does.
 */
 
 public class SmartThief extends NPC {
-    private static final int SPRITE_SIZE = 25;
+    private static final int SPRITE_SIZE = 35;
     /**
      * Constructor to create the Smart Thief.
      *

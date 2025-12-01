@@ -14,6 +14,8 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public abstract class Entity {
 
+    private static final int SPRITE_SIZE = 25;
+
     private final boolean blocksMovement;
     private EntityName entityName;
     private int x;

@@ -4,12 +4,8 @@ import game.GameController;
 import game.item.*;
 import game.level.Tile;
 import game.level.Level;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.util.Objects;
 
 /**
  * Represents the player entity in the game.
@@ -31,7 +27,7 @@ public class Player extends Entity {
             new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
 
     private static final String PLAYER_PNG = "/game/resources/player.png";
-    private static final int PLAYER_WIDTH_HEIGHT = 25;
+    private static final int SPRITE_SIZE = 35;
 
     /**
      * Constructs a new Player entity.
@@ -48,8 +44,8 @@ public class Player extends Entity {
         super(EntityName.PLAYER, x, y, direction, alive, blocksMovement, level);
         this.controller = controller;
         this.level = level;
-        sprite.setFitWidth(PLAYER_WIDTH_HEIGHT);
-        sprite.setFitHeight(PLAYER_WIDTH_HEIGHT);
+        sprite.setFitWidth(SPRITE_SIZE);
+        sprite.setFitHeight(SPRITE_SIZE);
     }
 
 

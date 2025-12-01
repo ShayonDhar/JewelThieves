@@ -14,7 +14,7 @@ import javafx.scene.canvas.GraphicsContext;
  * @version 1.0.0
  */
 public class FlyingAssassin extends NPC {
-    private static final int SPRITE_SIZE = 25;
+    private static final int SPRITE_SIZE = 35;
     /**
      * Constructor to create an Entity object.
      * @param x              x coordinate of the entity
