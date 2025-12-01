@@ -20,6 +20,8 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
+import game.entity.Entity;
+import game.entity.npc.NPC;
 
 /**
  * Class that links the MainApplication to the SceneBuilder FXML controlling aspect.
@@ -109,6 +111,17 @@ public class GameController {
                 boardTilePane.getChildren().add(tileStack);
             }
         }
+
+        //Draw NPCs at their current tiles
+        for (Entity entities : level.getEntities()) {
+            if (entities instanceof NPC npc) {
+                int entityX = entities.getX();
+                int entityY = entities.getY();
+                tiles[entityX][entityY].getChildren().add(npc.getSprite());
+            }
+        }
+
+
 
         // Displaying the player at their current tile
         tiles[player.getX()][player.getY()].getChildren().add(player.getSprite());
