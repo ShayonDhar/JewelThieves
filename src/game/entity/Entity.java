@@ -2,8 +2,6 @@ package game.entity;
 
 import game.level.Level;
 
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * This class represents a generic entity in the game.
  * It provides shared state such as position, direction, and movement blocking.
@@ -13,13 +11,10 @@ import javafx.scene.canvas.GraphicsContext;
  * @version 1.0.0
  */
 public abstract class Entity {
-
-    private static final int SPRITE_SIZE = 25;
-
     private final boolean blocksMovement;
     private EntityName entityName;
-    private int x;
-    private int y;
+    private int xcoordinate;
+    private int ycoordinate;
     private Direction direction;
     private boolean alive;
     private Level level;
@@ -35,10 +30,11 @@ public abstract class Entity {
      * @param blocksMovement whether the entity blocks movement of other entities
      * @param level the level that the entity is on
      */
-    protected Entity(EntityName entityName, int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
+    protected Entity(EntityName entityName, int x, int y, Direction direction,
+                     boolean alive, boolean blocksMovement, Level level) {
         this.entityName = entityName;
-        this.y = y;
-        this.x = x;
+        this.ycoordinate = y;
+        this.xcoordinate = x;
         this.direction = direction;
         this.alive = alive;
         this.blocksMovement = blocksMovement;
@@ -57,7 +53,7 @@ public abstract class Entity {
      * @return current y coordinate
      */
     public int getY() {
-        return y;
+        return ycoordinate;
     }
 
     /**
@@ -66,7 +62,7 @@ public abstract class Entity {
      * @param y new y coordinate
      */
     public void setY(int y) {
-        this.y = y;
+        this.ycoordinate = y;
     }
 
     /**
@@ -75,7 +71,7 @@ public abstract class Entity {
      * @return current x coordinate
      */
     public int getX() {
-        return x;
+        return xcoordinate;
     }
 
     /**
@@ -84,18 +80,19 @@ public abstract class Entity {
      * @param x new x coordinate
      */
     public void setX(int x) {
-        this.x = x;
+        this.xcoordinate = x;
     }
 
     /**
      * Sets the position of the entity. (Convenient to do in one call)
-     * @param x new x coordinate
+     *
+     * @param x new x coordinate.
      * @param y new y coordinate
      */
 
     public void setPosition(int x, int y) {
-        this.x = x;
-        this.y = y;
+        this.xcoordinate = x;
+        this.ycoordinate = y;
     }
 
     /**
@@ -162,15 +159,18 @@ public abstract class Entity {
     }
 
     /**
-     * Setter that will set the level to the level provided
-     * @param level new level
+     * Setter that will set the level to the level provided.
+     *
+     * @param level new level.
      */
+
     public void setLevel(Level level) {
         this.level = level;
     }
 
     /**
-     * Getter that tell what level the entity is on
+     * Getter that tell what level the entity is on.
+     *
      * @return current Level
      */
     public Level getLevel() {
@@ -184,19 +184,21 @@ public abstract class Entity {
      */
     @Override
     public String toString() {
-        return "Entity{" +
-                "blocksMovement=" + blocksMovement +
-                ", entityName='" + entityName + '\'' +
-                ", xCoordinate=" + x +
-                ", yCoordinate=" + y +
-                ", direction=" + direction +
-                ", alive=" + alive +
-                '}';
+        return "Entity{"
+                + "blocksMovement=" + blocksMovement
+                + ", entityName='" + entityName + '\''
+                + ", xCoordinate=" + xcoordinate
+                + ", yCoordinate=" + ycoordinate
+                + ", direction=" + direction
+                + ", alive=" + alive
+                + '}';
+
     }
 
     /**
-     * Adds the value to the Highscore
-     * @param value value to be added to Highscore
+     * Adds the value to the High score.
+     *
+     * @param value value to be added to High score
      */
     public abstract void addToHighscore(int value);
 }
