@@ -6,6 +6,7 @@ import game.entity.Entity;
 import game.entity.Player;
 import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
+import game.entity.npc.SmartThief;
 import game.item.*;
 import javafx.scene.paint.Color;
 import java.util.*;
@@ -450,6 +451,35 @@ public class Level {
         }
 
         //Smart Thief
+        if (npc instanceof SmartThief smartThief) {
+            //Tile where SmartThief currently is
+            Tile currentTile = getTile(smartThief.getY(), smartThief.getX());
+            if (currentTile == null) {
+                return null;
+            }
+
+            Tile nextTileMovingTo = findShortestPathTarget(currentTile);
+            if (nextTileMovingTo != null && !blocksMovement(smartThief, nextTileMovingTo)) {
+                //Determine direction towards said next step then update facing
+                Direction direction = getDirectionBetween(currentTile, nextTileMovingTo);
+                if (direction != null) {
+                    smartThief.setDirection(direction);
+                }
+                return nextTileMovingTo;
+            }
+
+            //If no reachable target or the step is blocked now, pick a random yet valid tile
+            Tile randomlyMovingTo = getRandomButValidMove(currentTile, smartThief);
+            if (randomlyMovingTo != null) {
+                Direction direction = getDirectionBetween(currentTile, randomlyMovingTo);
+                if (direction != null) {
+                    smartThief.setDirection(direction);
+                }
+                return randomlyMovingTo;
+            }
+
+        }
+
 
 
         //TODO: Smart thief movement logic
