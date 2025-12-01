@@ -5,10 +5,9 @@ import game.entity.EntityName;
 import game.level.Level;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
- * Represents the Flying Assassin NPC and its unique abilities
+ * Represents the Flying Assassin NPC and its unique abilities.
  *
  * @author Shayon Dhar
  * @version 1.0.0
@@ -17,12 +16,15 @@ public class FlyingAssassin extends NPC {
     private static final int SPRITE_SIZE = 35;
     /**
      * Constructor to create an Entity object.
+     *
      * @param x              x coordinate of the entity
      * @param y              y coordinate of the entity
      * @param direction      direction the entity is facing
      * @param alive          the alive state of the entity
      * @param blocksMovement whether the entity blocks movement of other entities
+     * @param level The level the entity is currently on
      */
+
     public FlyingAssassin(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level) {
         super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement, level);
 
@@ -33,13 +35,10 @@ public class FlyingAssassin extends NPC {
         sprite.setFitHeight(SPRITE_SIZE);
     }
 
-
-
     @Override
     public void move() {
-        //Implemented in Level!
+        // Implemented in Level!
     }
-
 
     @Override
     public void addToHighscore(int value) {
