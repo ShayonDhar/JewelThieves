@@ -477,13 +477,7 @@ public class Level {
                 }
                 return randomlyMovingTo;
             }
-
         }
-
-
-
-        //TODO: Smart thief movement logic
-
 
         return null;
     }
@@ -753,6 +747,63 @@ public class Level {
         3. tick bombs
         4. check win/loss
          */
+
+        //Added handling and movement of NPCs - Keyan
+        if (entities != null) {
+            //This makes a seperate copy of the current entities before looping. I feel like
+            //removing elements from a list WHILE it's iterating will cause issues somewhere
+            //so this just makes sure the list of entities is stable during the loop
+            //THEN apply all the changes to the actual entities list
+            List<Entity> seperateCopy = new ArrayList<>(entities);
+            //Adds now dead Entities to a list that will run after the loop is done, just for robustness
+            List<Entity> toRemove = new ArrayList<>();
+
+            for (Entity entity : seperateCopy) {
+                if (!(entity instanceof game.entity.npc.NPC npc)) {
+                    continue;
+                }
+                if (!npc.isAlive()) {
+                    continue;
+                }
+
+                Tile currentTile = getTile(npc.getY(), npc.getX());
+                if (currentTile == null) {continue;}
+                Tile targetTile = getNextTileForNpc(npc);
+                if (targetTile == null) {continue;}
+
+                int targetX = targetTile.getX();
+                int targetY = targetTile.getY();
+
+                //Handle collisions depending on NPCs type (Flying Assassin merks other NPCs and players)
+                if (npc instanceof FlyingAssassin flyingAssassin) {
+                    //Assassin KILLS player on contact
+                    if (player != null && player.isAlive() && player.getX() == targetX
+                        && player.getY() == targetY) {
+                        player.die(false);
+                        flyingAssassin.setPosition(targetX, targetY);
+                        GameController.gameOver();
+                        return;
+                    }
+
+                    //Assassin kills/removes other NPCs that it runs into
+                    for (Entity otherNPC : seperateCopy) {
+                        if (otherNPC == flyingAssassin || otherNPC == player || !otherNPC.isAlive()) continue;
+                        if (otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
+                            otherNPC.die(false);
+                            toRemove.add(otherNPC);
+                        }
+                    }
+                    flyingAssassin.setPosition(targetX, targetY);
+                }
+                else if (npc instanceof SmartThief smartThief) {
+                    smartThief.setPosition(targetX, targetY);
+                }
+                else if (npc instanceof FloorFollowingThief floorFollowingThief) {
+                    floorFollowingThief.setPosition(targetX, targetY);
+                }
+            }
+            entities.removeAll(toRemove);
+        }
     }
 
     public Tile[][] getLevelGrid() {
