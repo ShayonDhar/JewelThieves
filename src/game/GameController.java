@@ -1,7 +1,9 @@
 package game;
 
 import game.entity.Direction;
+import game.entity.Entity;
 import game.entity.Player;
+import game.entity.npc.NPC;
 import game.item.Item;
 import game.item.Loot;
 import game.level.Level;
@@ -10,21 +12,25 @@ import game.level.Tile;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
-import game.entity.Entity;
-import game.entity.npc.NPC;
 
 /**
  * Class that links the MainApplication to the SceneBuilder FXML controlling aspect.
+ *
+ * @author Antoni Wachowiak
+ * @version $1.0.
  */
 public class GameController {
 
     private static final String UNHANDLED_KEY = "Unhandled key: ";
+    private static final int TICK_DURATION = 1000;
+
+    // Timeline which will cause tick method to be called periodically.
+    private static Timeline tickTimeline;
 
     public TilePane boardTilePane;
     public Level level;
@@ -32,8 +38,6 @@ public class GameController {
     public Item [][] itemGrid;
     public boolean tickPlaying = false;
 
-    // Timeline which will cause tick method to be called periodically.
-    private static Timeline tickTimeline;
     private int score = 0;
 
     /**
@@ -44,7 +48,7 @@ public class GameController {
 
         // New timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(
-                Duration.millis(1000), event -> tick()));
+                Duration.millis(TICK_DURATION), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
 
         // Drawing the game
@@ -62,7 +66,7 @@ public class GameController {
      */
     public void tick() {
 
-        //Tick NPCs, bombs + time (Just NPCs for now)
+        // Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
 
         // Check for loot collection
@@ -76,6 +80,9 @@ public class GameController {
         drawGame();
     }
 
+    /**
+     * Method to draw the game onto the FXML GUI.
+     */
     public void drawGame() {
 
         // Clear the tilePane
@@ -103,7 +110,7 @@ public class GameController {
             }
         }
 
-        //Draw NPCs at their current tiles
+        // Draw NPCs at their current tiles
         for (Entity entities : level.getEntities()) {
             if (entities instanceof NPC npc) {
                 int entityX = entities.getX();
@@ -112,8 +119,6 @@ public class GameController {
             }
         }
 
-
-
         // Displaying the player at their current tile
         tiles[player.getX()][player.getY()].getChildren().add(player.getSprite());
 
@@ -121,26 +126,27 @@ public class GameController {
 
     /**
      * Method to start the tick timeline.
-     *
-     * @param actionEvent
      */
     @FXML
-    public void buttonStartAction(ActionEvent actionEvent) {
+    public void buttonStartAction() {
         tickTimeline.play();
         tickPlaying = true;
     }
 
     /**
      * Method to stop the tick timeline when the STOP button is pressed.
-     *
-     * @param actionEvent
      */
     @FXML
-    public void buttonStopAction(ActionEvent actionEvent) {
+    public void buttonStopAction() {
         tickTimeline.stop();
         tickPlaying = false;
     }
 
+    /**
+     * Method to read keyboard input.
+     *
+     * @param event key that is pressed on the keyboard.
+     */
     public void onKeyPressed(KeyEvent event) {
 
         // Read the key input as a direction within the game
@@ -167,28 +173,30 @@ public class GameController {
         event.consume();
     }
 
-    // Called when the player dies (Flying Assassin, timer expires, etc.)
+    /** Method to stop timeline and indicate "game-over".
+     * Called when the player dies (Flying Assassin, timer expires, etc.)
+     */
     public static void gameOver() {
         tickTimeline.stop();
         System.out.println("GAME OVER");
 
-        //TODO: Switch over to a game over screen
+        // TODO: Switch over to a game over screen
     }
 
-    // Called when the player reaches an exit AND all loot + levers collected
+    /** Method to indicate the level has finished.
+     * Called when the player reaches an exit AND all loot + levers collected
+     */
     public void finishLevel() {
         tickTimeline.stop();
         System.out.println("LEVEL COMPLETE");
 
-        //TODO: Create a finish level screen 
+        // TODO: Create a finish level screen
     }
 
-    // Called when starting gameplay (after pressing Start)
-    public void startLevel() {
-        drawGame();
-        tickTimeline.play();
-    }
-
+    /** Method to increase the score.
+     *
+     * @param score value of score
+     */
     public void addScore(int score) {
         this.score += score;
     }

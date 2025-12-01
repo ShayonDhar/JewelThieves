@@ -1,13 +1,10 @@
 package game;
 
-import game.level.Level;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-
 
 /**
  * This class provides the initialisation of the program.
@@ -41,19 +38,17 @@ public class MainApplication extends Application {
      *                     the application scene can be set.
      *                     Applications may create other stages, if needed, but they will not be
      *                     primary stages.
-     * @throws Exception if something goes wrong
      */
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
             FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGraphics.fxml"));
             Pane root = loader.load();
-            MenuController controller = loader.getController();
 
             // Load the scene onto the GUI
-            Scene scene = new Scene(root,WINDOW_WIDTH,WINDOW_HEIGHT);
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
@@ -61,6 +56,7 @@ public class MainApplication extends Application {
             primaryStage.show();
 
             // Giving MenuController the control of the stage
+            MenuController controller = loader.getController();
             controller.setStage(primaryStage);
 
         } catch (Exception e) {
