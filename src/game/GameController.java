@@ -12,12 +12,8 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
 import game.entity.Entity;
@@ -47,7 +43,7 @@ public class GameController {
 
         // New timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(
-                Duration.millis(500), event -> tick()));
+                Duration.millis(1000), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
 
         // Drawing the game
@@ -64,16 +60,10 @@ public class GameController {
      * Updates periodically to update the entity positions, the state of items, and the game time
      */
     public void tick() {
-        //Level.moveNPCs();
-        player.move();
 
         //Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
 
-        // TODO: Change canvas in this method
-//        if (player.getX() > canvas.getWidth()) {
-//            player.setX(0);
-//        }
         // Check for loot collection
         Item item = level.getItemAt(player.getX(), player.getY());
         if (item instanceof Loot loot) {
