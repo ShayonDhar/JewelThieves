@@ -38,17 +38,6 @@ public class Bomb extends Item {
     }
 
     /**
-     * Updates the bomb during animation.
-     *
-     * @param gc the game controller
-     */
-
-    @Override
-    public void draw(GraphicsContext gc) {
-
-    }
-
-    /**
      * The method which collects the item.
      *
      * @param entityName The name of the entity being collected

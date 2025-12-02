@@ -38,11 +38,6 @@ public class Clock extends Item {
         return timeBonus;
     }
 
-    @Override
-    public void draw(GraphicsContext gc) {
-
-    }
-
     /**
      * When a player collects a clock, the value of the time on the clock.
      * will be added to the time remaining for the player to complete the level

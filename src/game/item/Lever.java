@@ -39,11 +39,6 @@ public class Lever extends Item {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
-
-    }
-
-    @Override
     public void collectItem(Entity entityName, Level level) {
 
     }

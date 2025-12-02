@@ -32,8 +32,7 @@ public class GameController {
 
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
-
-    // Timeline which will cause tick method to be called periodically.
+    private static final int START_TIME_REMAINING = 30;
     private static Timeline tickTimeline;
 
     public TilePane boardTilePane;
@@ -42,8 +41,8 @@ public class GameController {
     public Item [][] itemGrid;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
-
     private int score = 0;
+    private int timeRemaining = START_TIME_REMAINING;
 
     /**
      * Method that initialises the game.
@@ -80,6 +79,13 @@ public class GameController {
         if (item instanceof Loot loot) {
             addScore(loot.getLootType().getValue());
             level.removeItemFromGrid(player.getY(), player.getX());
+        }
+
+        // Controlling the game time
+        if (timeRemaining == 0) {
+            gameOver();
+        } else {
+            timeRemaining--;
         }
 
         // Redraw the whole canvas
