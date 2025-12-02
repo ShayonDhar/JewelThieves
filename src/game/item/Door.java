@@ -4,6 +4,14 @@ import game.entity.Entity;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * Door class which implements all the door functions
+ * and allows the door object to be created.
+ *
+ * @author Alex Samuel
+ * @version 1.0.0
+ */
+
 public class Door extends Item {
     /**
      * Constructor that all the items will use.

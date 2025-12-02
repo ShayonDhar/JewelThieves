@@ -6,16 +6,15 @@ import game.entity.npc.NPC;
 import game.item.Bomb;
 import game.item.Gate;
 import game.item.Item;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.StrokeType;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.StrokeType;
 
 /**
  * Represents a single tile within the game level grid. Each tile has a fixed
@@ -89,9 +88,21 @@ public class Tile {
     public List<NPC> getNpc() {
         return npc;
     }
+
+    /**
+     * Checks whether a tile has a bomb.
+     *
+     * @return whether the tile has a bomb
+     */
     public boolean hasBomb() {
         return bomb != null;
     }
+
+    /**
+     * Checks whether a tile contains a flying assassin.
+     *
+     * @return whether the tile contains the flying assassin or not
+     */
     public boolean containsFlyingAssassin() {
         for (Entity npc : getNpc()) {
             if (npc.getEntityName() == EntityName.FLYING_ASSASSIN) {
@@ -124,12 +135,18 @@ public class Tile {
     public Gate getGate() {
         return gate;
     }
+
     public Bomb getBomb() {
         return bomb;
     }
+
     public void setBomb(Bomb bomb) {
         this.bomb = bomb;
     }
+
+    /**
+     * Removes an item from the tile.
+     */
     public void removeItem() {
         item = null;
     }
@@ -185,7 +202,7 @@ public class Tile {
                 ", colours=" + Arrays.toString(colours) +
                 ", item=" + item +
                 ", gate=" + gate +
-                ", bomb=" + bomb +
+                ", bomb=" + (item instanceof Bomb) +
                 ", isExit=" + isExit +
                 ", npc=" + npc +
                 '}';

@@ -6,7 +6,6 @@ import game.level.Colour;
 import game.level.Level;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.canvas.GraphicsContext;
 
 /**
  * FloorFollowingThief NPC implementation.
@@ -29,13 +28,18 @@ public class FloorFollowingThief extends NPC {
      * @param direction      direction the Floor Following Thief is facing
      * @param alive          the alive state of the Floor Following Thief
      * @param blocksMovement whether the Floor Following Thief blocks movement of other entities
+     * @param level the level the entity is currently at
+     * @param followingColour the colour the thief must follow
      */
-    public FloorFollowingThief(int x, int y, Direction direction, boolean alive, boolean blocksMovement, Level level, Colour followingColour) {
+
+    public FloorFollowingThief(int x, int y, Direction direction, boolean alive,
+                               boolean blocksMovement, Level level, Colour followingColour) {
         super(EntityName.FLOOR_FOLLOWING_THIEF, x, y, direction, alive, blocksMovement, level);
         this.followingColour = followingColour;
 
         sprite = new ImageView(
-                new Image(game.entity.Player.class.getResource("/game/resources/floorfollowingthief.png").toExternalForm())
+                new Image(game.entity.Player.class.getResource("/game/resources/"
+                        + "floorfollowingthief.png").toExternalForm())
         );
         sprite.setFitWidth(SPRITE_SIZE);
         sprite.setFitHeight(SPRITE_SIZE);
@@ -50,21 +54,20 @@ public class FloorFollowingThief extends NPC {
         return followingColour;
     }
 
-
     /**
      * Returns the order in which floor following thief will attempt to move,
      * with it's "left hand" priority.
+     *
      * @return an array of directions in a priority order.
      */
     public Direction[] getDirectionPriority() {
         Direction current = getDirection();
 
         Direction left = current.left();
-        Direction forward = current;
         Direction right = current.right();
         Direction backwards = current.opposite();
 
-        return new Direction[]{left, forward, right, backwards}; //The priority
+        return new Direction[]{left, current, right, backwards}; // The priority
     }
 
     @Override

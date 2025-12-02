@@ -12,6 +12,11 @@ public enum Direction {
     SOUTH,
     WEST;
 
+    /**
+     * Gets the direction of the entity when turning left.
+     *
+     * @return the new direction after turning left.
+     */
     public Direction left() {
         return switch (this) {
             case NORTH -> WEST;
@@ -21,6 +26,12 @@ public enum Direction {
         };
     }
 
+    /**
+     * Gets the direction of the entity when turning right.
+     *
+     * @return the new direction after turning right.
+     */
+
     public Direction right() {
         return switch (this) {
             case NORTH -> EAST;
@@ -29,6 +40,13 @@ public enum Direction {
             case WEST -> NORTH;
         };
     }
+
+    /**
+     * Gets the direction of the entity when
+     * turning the opposite direction.
+     *
+     * @return the new opposite direction
+     */
 
     public Direction opposite() {
         return switch (this) {

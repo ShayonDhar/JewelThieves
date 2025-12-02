@@ -5,11 +5,21 @@ import game.level.Colour;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * Gate class which implements all the gates functions
+ * Allows the gate object to be created.
+ *
+ * @author Alex Samuel
+ * @version 1.0
+ */
+
 public class Gate extends Item {
+    private final Colour colour;
+
     /**
-     * Constructor that all the items will use.
+     * Constructor that all the items will use
      * It has all the properties they have in common
-     * But each item will have different String, int or boolean for each attribute
+     * But each item will have different String, int or boolean for each attribute.
      *
      * @param itemName is the name of the item, e.g. Gate
      * @param itemID   is the ID of the item, e.g. if there were 5 bombs, one ID would be 4
@@ -17,12 +27,14 @@ public class Gate extends Item {
      * @param y        is the y coordinate of the location of the item on the map
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
+     * @param colour The colour of the gate.
      */
-    private final Colour colour;
+
     public Gate(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
         super(itemName, itemID, x, y, isOn, ItemType.GATE);
         this.colour = colour;
     }
+
     public Colour getColour() {
         return colour;
     }

@@ -17,6 +17,8 @@
          </padding>
          <Button mnemonicParsing="false" onAction="#buttonStartAction" text="START" />
          <Button mnemonicParsing="false" onAction="#buttonStopAction" text="STOP" />
+         <Button mnemonicParsing="false" onAction="#buttonSaveAction" text="SAVE" />
+         <Button mnemonicParsing="false" onAction="#buttonLoadAction" text="LOAD" />
       </VBox>
    </left>
    <center>

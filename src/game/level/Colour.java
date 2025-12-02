@@ -2,6 +2,13 @@ package game.level;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Defines the colours of each level.
+ *
+ * @author Shayon Dar
+ * @version 1.0
+ */
+
 public enum Colour {
     RED('R', Color.RED),
     GREEN('G', Color.GREEN),
@@ -18,6 +25,13 @@ public enum Colour {
         this.fxColor = fxColor;
     }
 
+    /**
+     * Defines the characters with their colours
+     * the file represents colours as characters.
+     *
+     * @param c the colour character
+     * @return the colour of the character
+     */
     public static Colour fromChar(char c) {
         return switch (c) {
             case 'R' -> RED;
@@ -30,17 +44,49 @@ public enum Colour {
         };
     }
 
+    /**
+     *Takes a JavaFX Color and tries to find the corresponding Colour enum constant.
+     * If it doesn’t find one, it defaults to CYAN.
+     *
+     * @param color The enum colour
+     * @return the corresponding JavaFX colour
+     */
+    public static Colour fromFXColor(Color color) {
+        for (Colour c : values()) {
+            if (c.getFXColor().equals(color)) {
+                return c;
+            }
+        }
+        return CYAN; // default fallback
+    }
+
     public char getCode() {
         return code;
     }
+
+    /**
+     * Gets the JavaFx colour from the fromFXColour method.
+     *
+     * @return the fx colour
+     */
 
     public Color getFXColor() {
         return fxColor;
     }
 
+    /**
+     *looks up a Colour enum constant based on a character code.
+     * If the character doesn’t correspond to any enum constant, it throws an error instead of returning a default.
+     *
+     * @param c the colour character
+     * @return An error or the colour
+     */
+
     public static Colour fromCode(char c) {
         for (Colour col : values()) {
-            if (col.code == c) return col;
+            if (col.code == c) {
+                return col;
+            }
         }
         throw new IllegalArgumentException("Invalid colour code: " + c);
     }

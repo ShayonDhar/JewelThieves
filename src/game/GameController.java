@@ -9,10 +9,14 @@ import game.item.Loot;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
+import game.save.GameSaveManager;
+import java.util.Optional;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
@@ -37,6 +41,7 @@ public class GameController {
     public Player player;
     public Item [][] itemGrid;
     public boolean tickPlaying = false;
+    private GameSaveManager saveManager;
 
     private int score = 0;
 
@@ -56,6 +61,7 @@ public class GameController {
         level = loader.load("LevelOne.txt");
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
+        saveManager = new GameSaveManager(this);
 
         drawGame();
     }
@@ -155,9 +161,7 @@ public class GameController {
             case A -> player.setDirection(Direction.WEST);
             case S -> player.setDirection(Direction.SOUTH);
             case D -> player.setDirection(Direction.EAST);
-            default -> {
-                System.out.println(UNHANDLED_KEY + event.getCode());
-            }
+            default -> System.out.println(UNHANDLED_KEY + event.getCode());
         }
 
         // Checking if tick timeline is playing
@@ -203,5 +207,194 @@ public class GameController {
 
     public int getScore() {
         return score;
+    }
+
+    /**
+     * Handles the Save button action.
+     * Saves the current game state to a file.
+     */
+    @FXML
+    public void buttonSaveAction() {
+        try {
+            String filename = saveManager.generateSaveFilename();
+
+            boolean success = saveManager.save(level, filename);
+
+            Alert alert;
+            if (success) {
+                // Show success message
+                alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Game Saved");
+                alert.setHeaderText(null);
+                alert.setContentText("Game saved successfully as " + filename);
+            } else {
+                // Show error message
+                alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Save Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to save the game. Please try again.");
+            }
+            alert.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while saving: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Handles the Load button action.
+     * Shows a dialog to select a save file and loads it.
+     */
+    @FXML
+    public void buttonLoadAction() {
+        try {
+            // Get list of available save files
+            String[] saveFiles = saveManager.listSaves();
+
+            if (saveFiles.length == 0) {
+                // No saves found
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("No Saves Found");
+                alert.setHeaderText(null);
+                alert.setContentText("No save files found. Start a new game first!");
+                alert.showAndWait();
+                return;
+            }
+
+            // Show choice dialog to select a save file
+            ChoiceDialog<String> dialog = new ChoiceDialog<>(saveFiles[0], saveFiles);
+            dialog.setTitle("Load Game");
+            dialog.setHeaderText("Select a save file to load");
+            dialog.setContentText("Save file:");
+
+            Optional<String> result = dialog.showAndWait();
+
+            if (result.isPresent()) {
+                String selectedFile = result.get();
+
+                // Stop the game tick before loading
+                if (tickPlaying) {
+                    tickTimeline.stop();
+                    tickPlaying = false;
+                }
+
+                // Load the game
+                Level loadedLevel = saveManager.load(selectedFile);
+
+                if (loadedLevel != null) {
+                    // Update the level and player references
+                    level = loadedLevel;
+                    player = level.getPlayer();
+                    itemGrid = level.getItemsGrid();
+
+                    // Redraw the game
+                    drawGame();
+
+                    // Show success message
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Game Loaded");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Game loaded successfully from " + selectedFile);
+                    alert.showAndWait();
+
+                } else {
+                    // Load failed
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Load Failed");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Failed to load the game. The save file may be corrupted.");
+                    alert.showAndWait();
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Load Error");
+            alert.setHeaderText(null);
+            alert.setContentText("An error occurred while loading: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+    /**
+     * Quick save method - saves to save1.txt immediately without dialog.
+     */
+    @FXML
+    public void buttonQuickSaveAction() {
+        try {
+            boolean success = saveManager.save(level, "save1.txt");
+
+            if (success) {
+                System.out.println("Quick saved to save1.txt");
+                // Optional: Show a brief notification
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Quick load method - loads save1.txt immediately without dialog.
+     */
+    @FXML
+    public void buttonQuickLoadAction() {
+        try {
+            if (saveManager.saveExists("save1.txt")) {
+                // Stop the game tick before loading
+                if (tickPlaying) {
+                    tickTimeline.stop();
+                    tickPlaying = false;
+                }
+
+                Level loadedLevel = saveManager.load("save1.txt");
+
+                if (loadedLevel != null) {
+                    level = loadedLevel;
+                    player = level.getPlayer();
+                    itemGrid = level.getItemsGrid();
+                    drawGame();
+                    System.out.println("Quick loaded from save1.txt");
+                }
+            } else {
+                System.out.println("No quick save found (save1.txt)");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Loads a specific save file when starting from the main menu.
+     * Called by MenuController after the scene is loaded.
+     *
+     * @param filename the name of the level file to be loaded
+     */
+    public void loadSaveFile(String filename) {
+        try {
+            Level loadedLevel = saveManager.load(filename);
+
+            if (loadedLevel != null) {
+                level = loadedLevel;
+                player = level.getPlayer();
+                itemGrid = level.getItemsGrid();
+                drawGame();
+
+                System.out.println("Loaded save: " + filename);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Load Failed");
+                alert.setHeaderText(null);
+                alert.setContentText("Failed to load the save file.");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

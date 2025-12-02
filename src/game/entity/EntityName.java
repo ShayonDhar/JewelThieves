@@ -33,7 +33,7 @@ public enum EntityName {
     }
 
     /**
-     * Converts a string into the matching Entity name
+     * Converts a string into the matching Entity name.
      *
      * @param name the string to convert
      * @return the matching {@code EntityName}

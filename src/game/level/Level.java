@@ -286,8 +286,18 @@ public class Level {
      * @return true if no loot or levers remain in the level, false otherwise
      */
     public boolean allLootAndLeversCollected() {
-        //TODO: Loot and Levers collected check logic
-        return false;
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile tile = levelGrid[y][x];
+                if (tile != null) {
+                    Item item = tile.getItem();
+                    if (item instanceof Loot || item instanceof Lever) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -341,35 +351,6 @@ public class Level {
         }
         //Doors, Loot, Lever, Clock etc do not block movement
         return false;
-    }
-
-    /**
-     * Triggers the specified bomb.
-     * Uses the getNeighbourTiles to check whether the bomb
-     * should be triggered.
-     * @param bomb the bomb to trigger
-     */
-    public void triggerBomb(Bomb bomb){
-        Tile bombTile = getTile(bomb.getY(), bomb.getX());
-        List<Tile> neighbours = getNeighbourTiles(bombTile);
-
-        boolean shouldTrigger = false;
-
-        for (Tile t : neighbours) {
-
-            Item item = itemsGrid[t.getY()][t.getX()];
-            if (item != null) {
-                shouldTrigger = true;
-            }
-
-            if (tileHasEntity(t)) {
-                shouldTrigger = true;
-            }
-        }
-
-        if (shouldTrigger) {
-            bomb.trigger();
-        }
     }
 
     /**
@@ -510,7 +491,6 @@ public class Level {
         }
         return null;
     }
-
 
     /**
      * Works out direction smart thief would travel from one tile to another
@@ -674,9 +654,6 @@ public class Level {
         //stepToNext X and stepToNextY are now the tile immediately after the source
         return getTile(stepToNextY, stepToNextX);
     }
-
-
-
 
     /**
      * Update time will add or subtract the time provided by the clock
