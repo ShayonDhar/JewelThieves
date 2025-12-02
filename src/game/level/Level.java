@@ -286,8 +286,18 @@ public class Level {
      * @return true if no loot or levers remain in the level, false otherwise
      */
     public boolean allLootAndLeversCollected() {
-        //TODO: Loot and Levers collected check logic
-        return false;
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile tile = levelGrid[y][x];
+                if (tile != null) {
+                    Item item = tile.getItem();
+                    if (item instanceof Loot || item instanceof Lever) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
