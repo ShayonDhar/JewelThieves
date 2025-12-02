@@ -37,11 +37,6 @@ public class Loot extends Item {
     }
 
     @Override
-    public void draw(GraphicsContext gc) {
-
-    }
-
-    @Override
     public void collectItem(Entity entityName, Level level) {
         if (!isOn) {
             return;

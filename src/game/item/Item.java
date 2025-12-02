@@ -88,14 +88,6 @@ public abstract class Item {
     }
 
     /**
-     * Method which allows the item to be displayed on javaFX.
-     *
-     * @param gc The game controller
-     */
-
-    public abstract void draw(GraphicsContext gc);
-
-    /**
      * Abstract method which Collects the item when interacted with player/NPC.
      *
      * @param entityName The name of the entity
