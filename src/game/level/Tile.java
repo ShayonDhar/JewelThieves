@@ -44,8 +44,6 @@ public class Tile {
     private Item item;
     private Gate gate;
     private boolean isExit;
-    private Bomb bomb;
-
     private List<NPC> npc = new ArrayList<>();
 
     private static final int TILE_INNER_SQUARE_SIZE = 25;
@@ -89,9 +87,6 @@ public class Tile {
     public List<NPC> getNpc() {
         return npc;
     }
-    public boolean hasBomb() {
-        return bomb != null;
-    }
     public boolean containsFlyingAssassin() {
         for (Entity npc : getNpc()) {
             if (npc.getEntityName() == EntityName.FLYING_ASSASSIN) {
@@ -123,12 +118,6 @@ public class Tile {
 
     public Gate getGate() {
         return gate;
-    }
-    public Bomb getBomb() {
-        return bomb;
-    }
-    public void setBomb(Bomb bomb) {
-        this.bomb = bomb;
     }
     public void removeItem() {
         item = null;
@@ -185,7 +174,7 @@ public class Tile {
                 ", colours=" + Arrays.toString(colours) +
                 ", item=" + item +
                 ", gate=" + gate +
-                ", bomb=" + bomb +
+                ", bomb=" + (item instanceof Bomb) +
                 ", isExit=" + isExit +
                 ", npc=" + npc +
                 '}';
