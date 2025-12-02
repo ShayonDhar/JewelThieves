@@ -17,9 +17,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import javafx.util.Duration;
 
 /**
@@ -39,6 +41,7 @@ public class GameController {
     public Level level;
     public Player player;
     public Item [][] itemGrid;
+    public TextArea textArea;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
     private int score = 0;
@@ -55,13 +58,20 @@ public class GameController {
                 Duration.millis(TICK_DURATION), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
 
-        // Drawing the game
+        // Reading a text file
         LevelLoader loader = new LevelLoader(this);
         level = loader.load("LevelOne.txt");
+
+        // Setting the text area
+        textArea.setText("Time: " + timeRemaining + "s");
+        textArea.setEditable(false);
+
+        // Setting the player, items from game save manager
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
         saveManager = new GameSaveManager(this);
 
+        // Drawing the game
         drawGame();
     }
 
@@ -83,9 +93,11 @@ public class GameController {
 
         // Controlling the game time
         if (timeRemaining == 0) {
+            editTextArea();
             gameOver();
         } else {
             timeRemaining--;
+            editTextArea();
         }
 
         // Redraw the whole canvas
@@ -133,6 +145,11 @@ public class GameController {
 
         // Displaying the player at their current tile
         tiles[player.getX()][player.getY()].getChildren().add(player.getSprite());
+
+    }
+
+    public void editTextArea() {
+        textArea.setText("Time: " + timeRemaining + "s");
 
     }
 
