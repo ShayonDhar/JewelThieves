@@ -10,6 +10,7 @@ import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.save.GameSaveManager;
+import java.util.Optional;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -20,8 +21,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.util.Duration;
-
-import java.util.Optional;
 
 /**
  * Class that links the MainApplication to the SceneBuilder FXML controlling aspect.
@@ -162,9 +161,7 @@ public class GameController {
             case A -> player.setDirection(Direction.WEST);
             case S -> player.setDirection(Direction.SOUTH);
             case D -> player.setDirection(Direction.EAST);
-            default -> {
-                System.out.println(UNHANDLED_KEY + event.getCode());
-            }
+            default -> System.out.println(UNHANDLED_KEY + event.getCode());
         }
 
         // Checking if tick timeline is playing
@@ -223,21 +220,21 @@ public class GameController {
 
             boolean success = saveManager.save(level, filename);
 
+            Alert alert;
             if (success) {
                 // Show success message
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Game Saved");
                 alert.setHeaderText(null);
                 alert.setContentText("Game saved successfully as " + filename);
-                alert.showAndWait();
             } else {
                 // Show error message
-                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Save Failed");
                 alert.setHeaderText(null);
                 alert.setContentText("Failed to save the game. Please try again.");
-                alert.showAndWait();
             }
+            alert.showAndWait();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -375,6 +372,8 @@ public class GameController {
     /**
      * Loads a specific save file when starting from the main menu.
      * Called by MenuController after the scene is loaded.
+     *
+     * @param filename the name of the level file to be loaded
      */
     public void loadSaveFile(String filename) {
         try {
