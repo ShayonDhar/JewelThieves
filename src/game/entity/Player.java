@@ -99,7 +99,6 @@ public class Player extends Entity {
         if (tile == null) {
             return;
         }
-        System.out.println("  Checking around tile at (" + tile.getX() + ", " + tile.getY() + ")");
 
 
         for (Tile neighbour : level.getNeighbourTiles(tile)) {

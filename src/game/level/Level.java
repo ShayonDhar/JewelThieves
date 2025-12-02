@@ -354,35 +354,6 @@ public class Level {
     }
 
     /**
-     * Triggers the specified bomb.
-     * Uses the getNeighbourTiles to check whether the bomb
-     * should be triggered.
-     * @param bomb the bomb to trigger
-     */
-    public void triggerBomb(Bomb bomb){
-        Tile bombTile = getTile(bomb.getY(), bomb.getX());
-        List<Tile> neighbours = getNeighbourTiles(bombTile);
-
-        boolean shouldTrigger = false;
-
-        for (Tile t : neighbours) {
-
-            Item item = itemsGrid[t.getY()][t.getX()];
-            if (item != null) {
-                shouldTrigger = true;
-            }
-
-            if (tileHasEntity(t)) {
-                shouldTrigger = true;
-            }
-        }
-
-        if (shouldTrigger) {
-            bomb.trigger();
-        }
-    }
-
-    /**
      * Determines the next tile that an NPC should move to based on that NPCs
      * movement rules.
      * @param npc the NPC requesting its next tile
@@ -754,11 +725,14 @@ public class Level {
      */
     public void updateLevel(int time) {
         /* TODO:
-        1. Reduce Remaining Time
         2. update NPCs
-        3. tick bombs
-        4. check win/loss
+        3. check win/loss
          */
+
+        remainingTime -= time;
+
+        updateAllBombs();
+
 
         //Added handling and movement of NPCs - Keyan
         if (entities != null) {
@@ -815,6 +789,34 @@ public class Level {
                 }
             }
             entities.removeAll(toRemove);
+        }
+    }
+
+    private void updateAllBombs() {
+        if (activeBombs == null || activeBombs.isEmpty()) {
+            return;
+        }
+
+        List<Bomb> bombsToUpdate = new ArrayList<>(activeBombs);
+
+        for (Bomb bomb : bombsToUpdate) {
+
+            bomb.updateBombState(this);
+
+            if (bomb.getState() == BombState.EXPLODED) {
+                handleExplosion(bomb.getX(), bomb.getY());
+
+                activeBombs.remove(bomb);
+
+                if (isInBounds(bomb.getX(), bomb.getY())) {
+                    itemsGrid[bomb.getY()][bomb.getX()] = null;
+                }
+
+                Tile tile = getTile(bomb.getY(), bomb.getX());
+                if (tile != null) {
+                    tile.removeItem();
+                }
+            }
         }
     }
 
