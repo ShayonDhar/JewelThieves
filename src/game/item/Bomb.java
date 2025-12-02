@@ -1,13 +1,19 @@
 package game.item;
+
 import game.entity.Entity;
 import game.level.Level;
-import javafx.scene.canvas.GraphicsContext;
-
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * The bomb class which implements all the bomb
+ * functions.
+ *
+ * @author Alex Samuel
+ * @version 1.0.0
+ */
 public class Bomb extends Item {
-
     private static final int BOMB_COUNTDOWN = 3;
     private BombState state;
     private int countdown = BOMB_COUNTDOWN;
@@ -31,12 +37,20 @@ public class Bomb extends Item {
         this.state = BombState.WAITING;
     }
 
+    /**
+     * Updates the bomb during animation.
+     *
+     * @param gc the game controller
+     */
+
     @Override
     public void draw(GraphicsContext gc) {
 
     }
 
     /**
+     * The method which collects the item.
+     *
      * @param entityName The name of the entity being collected
      * @param level The current active level
      */
@@ -60,9 +74,17 @@ public class Bomb extends Item {
     public BombState getState() {
         return state;
     }
+
     public void setState(BombState state) {
         this.state = state;
     }
+
+    /**
+     * The method which updates the bombs state.
+     *
+     * @param level the level the bomb is current on
+     */
+
     public void updateBombState(Level level) {
         switch (state) {
             case WAITING, EXPLODED:
@@ -73,17 +95,29 @@ public class Bomb extends Item {
                     explode(level);
                 }
                 break;
+            default:
+                System.out.println("Game error");
+                break;
         }
 
 
     }
+
+    /**
+     * Method which triggers the bomb.
+     */
     public void trigger() {
         if (state == BombState.WAITING) {
             state = BombState.COUNTING;
         }
     }
 
-
+    /**
+     * The method which uses the trigger method
+     * to cause the bomb to explode.
+     *
+     * @param level the level object the bomb is currently on
+     */
     public void explode(Level level) {
         if (this.state == BombState.EXPLODED) {
             return;
@@ -93,7 +127,7 @@ public class Bomb extends Item {
         int bombX = this.getX();
         int bombY  = this.getY();
 
-        List<Item> itemsToExplode = new ArrayList<Item>(level.getAllItems());
+        List<Item> itemsToExplode = new ArrayList<>(level.getAllItems());
 
         for (Item item : itemsToExplode) {
             if (item == this) {
@@ -105,8 +139,7 @@ public class Bomb extends Item {
 
             if (itemX == bombX || itemY == bombY) {
 
-                if (item instanceof Bomb) {
-                    Bomb otherBomb = (Bomb) item;
+                if (item instanceof Bomb otherBomb) {
 
                     if (otherBomb.getState() != BombState.EXPLODED) {
                         otherBomb.explode(level);
