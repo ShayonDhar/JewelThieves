@@ -29,7 +29,7 @@ public abstract class Item {
     protected int itemID;
     protected int x;
     protected int y;
-    protected boolean isOn;
+    public boolean isOn;
     protected ItemType itemType;
     protected ImageView sprite;
 
