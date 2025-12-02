@@ -1,4 +1,11 @@
 package game.item;
+
+/**
+ * Defines the loot type and their value.
+ *
+ * @author Alex Samuel
+ * @version 1.0
+ */
 public enum LootType {
     CENT(25),
     DOLLAR(100),
