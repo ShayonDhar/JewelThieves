@@ -6,7 +6,17 @@ import game.entity.Player;
 import game.level.Level;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * Loot class which holds all the loot functions
+ * for the different loot functions and also allows loot
+ * objects to be created.
+ *
+ * @author Elijah
+ * @version 1.0
+ */
+
 public class Loot extends Item {
+    private final LootType lootType;
     /**
      * Constructor that all the items will use.
      * It has all the properties they have in common
@@ -18,9 +28,8 @@ public class Loot extends Item {
      * @param y        is the y coordinate of the location of the item on the map
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
+     * @param lootType the loot type of the object being created
      */
-
-    private final LootType lootType;
 
     public Loot(String itemName, int itemID, int x, int y, boolean isOn, LootType lootType) {
         super(itemName, itemID, x, y, isOn, ItemType.LOOT);
@@ -39,17 +48,15 @@ public class Loot extends Item {
         }
 
         if (entityName.getX() == x && entityName.getY() == y) {
-            if (entityName.getEntityName().equals("PLAYER")) {
-                entityName.addToHighscore(lootType.getValue());
-            }
 
             isOn = false;
         }
     }
+
     public LootType getLootType() {
         return lootType;
     }
 
-    //TODO: Add floorFollowingThief and Smart thief handling of picking up loot here
+    // TODO: Add floorFollowingThief and Smart thief handling of picking up loot here
 
 }
