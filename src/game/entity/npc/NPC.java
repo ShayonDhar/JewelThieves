@@ -15,6 +15,9 @@ import javafx.scene.image.ImageView;
  */
 
 public abstract class NPC extends Entity {
+    public static final int ROTATE_TO_EAST = 90;
+    public static final int ROTATE_TO_SOUTH = 180;
+    public static final int ROTATE_TO_WEST = 270;
     protected ImageView sprite;
     /**
      * Constructor to create an Entity object.
@@ -33,6 +36,12 @@ public abstract class NPC extends Entity {
         super(entityName, x, y, direction, alive, blocksMovement, level);
     }
 
+    /**
+     * Method to get the sprite of an NPC.
+     * Rotates the sprite based on movement direction.
+     *
+     * @return NPC png file
+     */
     public ImageView getSprite() {
 
         // Get direction that player sprite is facing
@@ -44,13 +53,13 @@ public abstract class NPC extends Entity {
         // Rotate based on new direction
         switch (facingDirection) {
             case EAST:
-                sprite.rotateProperty().set(90);
+                sprite.rotateProperty().set(ROTATE_TO_EAST);
                 break;
             case SOUTH:
-                sprite.rotateProperty().set(180);
+                sprite.rotateProperty().set(ROTATE_TO_SOUTH);
                 break;
             case WEST:
-                sprite.rotateProperty().set(270);
+                sprite.rotateProperty().set(ROTATE_TO_WEST);
                 break;
             default:
                 break;

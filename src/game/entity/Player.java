@@ -20,6 +20,9 @@ import javafx.scene.image.ImageView;
 public class Player extends Entity {
     private static final String PLAYER_PNG = "/game/resources/player.png";
     private static final int SPRITE_SIZE = 35;
+    public static final int ROTATE_TO_EAST = 90;
+    public static final int ROTATE_TO_SOUTH = 180;
+    public static final int ROTATE_TO_WEST = 270;
     private int highscore;
     private final GameController controller;
     private final Level level;
@@ -169,13 +172,13 @@ public class Player extends Entity {
         // Rotate based on new direction
         switch (facingDirection) {
             case EAST:
-                sprite.rotateProperty().set(90);
+                sprite.rotateProperty().set(ROTATE_TO_EAST);
                 break;
             case SOUTH:
-                sprite.rotateProperty().set(180);
+                sprite.rotateProperty().set(ROTATE_TO_SOUTH);
                 break;
             case WEST:
-                sprite.rotateProperty().set(270);
+                sprite.rotateProperty().set(ROTATE_TO_WEST);
                 break;
             default:
                 break;
