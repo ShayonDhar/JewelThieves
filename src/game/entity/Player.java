@@ -18,16 +18,14 @@ import javafx.scene.image.ImageView;
  * @version 1.0.0
  */
 public class Player extends Entity {
-
+    private static final String PLAYER_PNG = "/game/resources/player.png";
+    private static final int SPRITE_SIZE = 35;
     private int highscore;
-    private GameController controller;
-    private Level level;
+    private final GameController controller;
+    private final Level level;
 
     private final ImageView sprite = new ImageView(
             new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
-
-    private static final String PLAYER_PNG = "/game/resources/player.png";
-    private static final int SPRITE_SIZE = 35;
 
     /**
      * Constructs a new Player entity.
@@ -38,6 +36,7 @@ public class Player extends Entity {
      * @param alive          the alive state of the player
      * @param blocksMovement whether the player blocks movement of other entities
      * @param level          The level that the entity is on
+     * @param controller Links the player to the game controller
      */
     public Player(int y, int x, Direction direction, boolean alive,
                   boolean blocksMovement, GameController controller, Level level) {
@@ -89,9 +88,9 @@ public class Player extends Entity {
                 neighbour.getBomb().trigger();
             }
         }
-        //Handles exit logic
+        // Handles exit logic
         if (targetTile.isExit() && level.allLootAndLeversCollected()) {
-                controller.finishLevel();
+            controller.finishLevel();
         }
         System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
     }
@@ -117,6 +116,9 @@ public class Player extends Entity {
                 case BOMB:
                     // Player cannot stand on a bomb tile.
                     break;
+                default:
+                    System.out.println("Game over"); // TODO: Make this an alert in the game.
+                    break;
             }
             targetTile.removeItem();
         }
@@ -124,6 +126,7 @@ public class Player extends Entity {
 
     /**
      * Method to return the player image.
+     *
      * @return image of the player png
      */
     public ImageView getSprite() {
@@ -131,7 +134,8 @@ public class Player extends Entity {
     }
 
     /**
-     * Adds value to Highscore
+     * Adds value to Highscore.
+     *
      * @param value value to be added to Highscore
      */
     @Override
