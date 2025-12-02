@@ -19,15 +19,15 @@ import javafx.scene.image.ImageView;
  */
 public class Player extends Entity {
 
+    private static final String PLAYER_PNG = "/game/resources/player.png";
+    private static final int SPRITE_SIZE = 35;
+
     private int highscore;
     private GameController controller;
     private Level level;
 
     private final ImageView sprite = new ImageView(
             new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
-
-    private static final String PLAYER_PNG = "/game/resources/player.png";
-    private static final int SPRITE_SIZE = 35;
 
     /**
      * Constructs a new Player entity.
@@ -60,19 +60,19 @@ public class Player extends Entity {
         System.out.println("Player before move: (" + getX() + ", " + getY() + ")");
         Direction moveDirection = getDirection();
 
+        // Locating current and target tiles
         Tile currentTile = level.getTile(getY(), getX());
         Tile targetTile = level.findNextValidTile(currentTile, moveDirection);
 
+        // Different situations depending on what the target tile is
         if (targetTile == null) {
             return;
         } else {
             System.out.println("Target tile: (" + targetTile.getX() + ", " + targetTile.getY() + ")");
         }
-
         if (targetTile.hasGate()) {
             return;
         }
-
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
             return;
@@ -89,9 +89,9 @@ public class Player extends Entity {
                 neighbour.getBomb().trigger();
             }
         }
-        //Handles exit logic
+        // Handles exit logic
         if (targetTile.isExit() && level.allLootAndLeversCollected()) {
-                controller.finishLevel();
+            controller.finishLevel();
         }
         System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
     }
@@ -124,14 +124,38 @@ public class Player extends Entity {
 
     /**
      * Method to return the player image.
+     * Rotation is based on the direction they are facing.
+     *
      * @return image of the player png
      */
     public ImageView getSprite() {
+
+        // Get direction that player sprite is facing
+        Direction facingDirection = getDirection();
+
+        // Reset imageview orientation
+        sprite.setRotate(0);
+
+        // Rotate based on new direction
+        switch (facingDirection) {
+            case EAST:
+                sprite.rotateProperty().set(90);
+                break;
+            case SOUTH:
+                sprite.rotateProperty().set(180);
+                break;
+            case WEST:
+                sprite.rotateProperty().set(270);
+                break;
+            default:
+                break;
+        }
         return sprite;
     }
 
     /**
      * Adds value to Highscore
+     *
      * @param value value to be added to Highscore
      */
     @Override
