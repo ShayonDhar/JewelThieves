@@ -129,28 +129,7 @@ public class Bomb extends Item {
 
         List<Item> itemsToExplode = new ArrayList<>(level.getAllItems());
 
-        for (Item item : itemsToExplode) {
-            if (item == this) {
-                continue;
-            }
-
-            int itemX = this.getX();
-            int itemY = this.getY();
-
-            if (itemX == bombX || itemY == bombY) {
-
-                if (item instanceof Bomb otherBomb) {
-
-                    if (otherBomb.getState() != BombState.EXPLODED) {
-                        otherBomb.explode(level);
-                    }
-                }
-
-            } else if (item instanceof Loot || item instanceof Clock || item instanceof Lever) {
-                level.removeItem(item);
-            }
-
-        }
+        level.handleExplosion(bombX,bombY);
 
         level.removeItem(this);
     }
