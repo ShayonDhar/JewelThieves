@@ -77,22 +77,36 @@ public class Player extends Entity {
             return;
         }
 
+        checkAdjacentBombs(currentTile);
+
         setX(targetTile.getX());
         setY(targetTile.getY());
 
+        checkAdjacentBombs(targetTile);
+
         updateScore(targetTile.getItem(), targetTile);
 
-        // Bomb triggering logic
-        for (Tile neighbour : level.getNeighbourTiles(targetTile)) {
-            if (neighbour.hasBomb()) {
-                neighbour.getBomb().trigger();
-            }
-        }
+
         // Handles exit logic
         if (targetTile.isExit() && level.allLootAndLeversCollected()) {
             controller.finishLevel();
         }
         System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
+    }
+
+    private void checkAdjacentBombs(Tile tile) {
+
+        if (tile == null) {
+            return;
+        }
+        System.out.println("  Checking around tile at (" + tile.getX() + ", " + tile.getY() + ")");
+
+
+        for (Tile neighbour : level.getNeighbourTiles(tile)) {
+            checkBombAtTile(neighbour);
+        }
+
+
     }
 
     private void updateScore(Item item, Tile targetTile) {
@@ -121,6 +135,21 @@ public class Player extends Entity {
                     break;
             }
             targetTile.removeItem();
+        }
+    }
+
+    private void checkBombAtTile(Tile tile) {
+        if (tile == null) {
+            return;
+        }
+
+        Item item = level.getItemAt(tile.getY(), tile.getX());
+
+        if (item instanceof Bomb bomb) {
+            if (bomb.getState() == BombState.WAITING) {
+                System.out.println("    Triggering bomb!");
+                bomb.trigger();
+            }
         }
     }
 
