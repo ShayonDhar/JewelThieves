@@ -23,6 +23,28 @@ public abstract class NPC extends Entity {
     }
 
     public ImageView getSprite() {
+
+        // Get direction that player sprite is facing
+        Direction facingDirection = getDirection();
+
+        // Reset imageview orientation
+        sprite.setRotate(0);
+
+        // Rotate based on new direction
+        switch (facingDirection) {
+            case EAST:
+                sprite.rotateProperty().set(90);
+                break;
+            case SOUTH:
+                sprite.rotateProperty().set(180);
+                break;
+            case WEST:
+                sprite.rotateProperty().set(270);
+                break;
+            default:
+                break;
+        }
+
         return sprite;
     }
 }
