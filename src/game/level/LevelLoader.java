@@ -166,7 +166,18 @@ public class LevelLoader {
                         int y = sc.nextInt();
                         boolean state = Boolean.parseBoolean(sc.next());
 
-                        level.setItemAt(y, x, new Bomb("Bomb", id, x, y, state));
+                        Bomb bomb = new Bomb("Bomb", id, x, y, state);
+
+                        level.setItemAt(y, x, bomb);
+                        level.getActiveBombs().add(bomb);
+
+                        Tile tile = level.getTile(y, x);
+                        if (tile != null) {
+                            tile.setItem(bomb);
+                        }
+
+                        System.out.println("Loaded bomb at (" + x + ", " + y + ")");
+
                     }
                     case "DOOR" -> {
                         int id = sc.nextInt();
