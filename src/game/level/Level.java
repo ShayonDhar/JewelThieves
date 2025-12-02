@@ -521,7 +521,6 @@ public class Level {
         return null;
     }
 
-
     /**
      * Works out direction smart thief would travel from one tile to another
      * Assumes both tiles are on the same row/column (as they should)
@@ -684,9 +683,6 @@ public class Level {
         //stepToNext X and stepToNextY are now the tile immediately after the source
         return getTile(stepToNextY, stepToNextX);
     }
-
-
-
 
     /**
      * Update time will add or subtract the time provided by the clock
