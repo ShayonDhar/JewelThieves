@@ -20,12 +20,12 @@ import javafx.scene.image.ImageView;
 public class Player extends Entity {
     private static final String PLAYER_PNG = "/game/resources/player.png";
     private static final int SPRITE_SIZE = 35;
-    public static final int ROTATE_TO_EAST = 90;
-    public static final int ROTATE_TO_SOUTH = 180;
-    public static final int ROTATE_TO_WEST = 270;
-    private int highscore;
+    private static final int ROTATE_TO_EAST = 90;
+    private static final int ROTATE_TO_SOUTH = 180;
+    private static final int ROTATE_TO_WEST = 270;
     private final GameController controller;
     private final Level level;
+    private int highscore;
 
     private final ImageView sprite = new ImageView(
             new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));

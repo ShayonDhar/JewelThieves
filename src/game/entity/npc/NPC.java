@@ -15,10 +15,12 @@ import javafx.scene.image.ImageView;
  */
 
 public abstract class NPC extends Entity {
-    public static final int ROTATE_TO_EAST = 90;
-    public static final int ROTATE_TO_SOUTH = 180;
-    public static final int ROTATE_TO_WEST = 270;
+
+    private static final int ROTATE_TO_EAST = 90;
+    private static final int ROTATE_TO_SOUTH = 180;
+    private static final int ROTATE_TO_WEST = 270;
     protected ImageView sprite;
+
     /**
      * Constructor to create an Entity object.
      *
