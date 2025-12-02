@@ -30,6 +30,15 @@ public enum Colour {
         };
     }
 
+    public static Colour fromFXColor(Color color) {
+        for (Colour c : values()) {
+            if (c.getFXColor().equals(color)) {
+                return c;
+            }
+        }
+        return CYAN; // default fallback
+    }
+
     public char getCode() {
         return code;
     }
