@@ -19,9 +19,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -44,6 +45,7 @@ public class GameController {
     public TextArea textArea;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
+    @FXML private static Text gameOverText;
     private int score = 0;
     private int timeRemaining = START_TIME_REMAINING;
 
@@ -65,6 +67,14 @@ public class GameController {
         // Setting the text area
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
+
+        // Preparing the GAME-OVER message for the static environment
+        gameOverText = new Text("GAME OVER");
+        gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
+                        + "black; -fx-stroke-width: 5px");
+        gameOverText.setVisible(false); // Hiding GAME-OVER for now
+        StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
+        ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
 
         // Setting the player, items from game save manager
         player = level.getPlayer();
@@ -213,9 +223,7 @@ public class GameController {
      */
     public static void gameOver() {
         tickTimeline.stop();
-        System.out.println("GAME OVER");
-
-        // TODO: Switch over to a game over screen
+        gameOverText.setVisible(true);
     }
 
     /** Method to indicate the level has finished.

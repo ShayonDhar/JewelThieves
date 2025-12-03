@@ -6,40 +6,60 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="411.0" prefWidth="970.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameController">
-   <left>
-      <VBox alignment="CENTER" prefHeight="278.0" prefWidth="122.0" spacing="20.0" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-         <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="102.0" wrapText="true">
-            <font>
-               <Font name="Times New Roman Italic" size="15.0" />
-            </font></TextArea>
-         <Button mnemonicParsing="false" onAction="#buttonStartAction" text="START">
-            <font>
-               <Font name="Times New Roman Bold" size="12.0" />
-            </font></Button>
-         <Button mnemonicParsing="false" onAction="#buttonStopAction" text="STOP">
-            <font>
-               <Font name="Times New Roman Bold" size="12.0" />
-            </font></Button>
-         <Button mnemonicParsing="false" onAction="#buttonSaveAction" text="SAVE">
-            <font>
-               <Font name="Times New Roman Bold" size="12.0" />
-            </font></Button>
-         <Button mnemonicParsing="false" onAction="#buttonLoadAction" text="LOAD">
-            <font>
-               <Font name="Times New Roman Bold" size="12.0" />
-            </font></Button>
-      </VBox>
-   </left>
-   <center>
-      <TilePane fx:id="boardTilePane" hgap="1.0" maxHeight="400.0" maxWidth="800.0" minHeight="400.0" minWidth="800.0" prefColumns="15" prefHeight="400.0" prefRows="7" prefWidth="800.0" vgap="1.0" BorderPane.alignment="CENTER" />
-   </center>
-</BorderPane>
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="game.GameController">
+
+    <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
+                minHeight="-Infinity" minWidth="-Infinity"
+                prefHeight="411.0" prefWidth="970.0">
+
+        <left>
+            <VBox alignment="CENTER" spacing="20.0" prefHeight="278.0" prefWidth="122.0"
+                  BorderPane.alignment="CENTER">
+                <BorderPane.margin>
+                    <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+                </BorderPane.margin>
+
+                <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="102.0" wrapText="true">
+                    <font><Font name="Times New Roman Italic" size="15.0"/></font>
+                </TextArea>
+
+                <Button text="START" onAction="#buttonStartAction">
+                    <font><Font name="Times New Roman Bold" size="12.0"/></font>
+                </Button>
+                <Button text="STOP" onAction="#buttonStopAction">
+                    <font><Font name="Times New Roman Bold" size="12.0"/></font>
+                </Button>
+                <Button text="SAVE" onAction="#buttonSaveAction">
+                    <font><Font name="Times New Roman Bold" size="12.0"/></font>
+                </Button>
+                <Button text="LOAD" onAction="#buttonLoadAction">
+                    <font><Font name="Times New Roman Bold" size="12.0"/></font>
+                </Button>
+            </VBox>
+        </left>
+
+        <center>
+            <TilePane fx:id="boardTilePane"
+                      prefWidth="800.0" prefHeight="400.0"
+                      minWidth="800.0" minHeight="400.0"
+                      maxWidth="800.0" maxHeight="400.0"
+                      prefColumns="15" prefRows="7"
+                      hgap="1.0" vgap="1.0"
+                      BorderPane.alignment="CENTER"/>
+        </center>
+
+    </BorderPane>
+
+    <!-- GAME OVER overlay (initially hidden) -->
+    <Text fx:id="gameOverText"
+          text="GAME OVER"
+          visible="false"
+          style="-fx-fill: red; -fx-font-size: 70px; -fx-font-weight: bold;"/>
+
+</StackPane>
