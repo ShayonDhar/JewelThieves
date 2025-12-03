@@ -63,7 +63,7 @@ public class GameController {
         level = loader.load("LevelOne.txt");
 
         // Setting the text area
-        textArea.setText("Time: " + timeRemaining + "s");
+        textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
 
         // Setting the player, items from game save manager
@@ -148,9 +148,11 @@ public class GameController {
 
     }
 
+    /**
+     * Method to show the time remaining and the score
+     */
     public void editTextArea() {
-        textArea.setText("Time: " + timeRemaining + "s");
-
+        textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
     }
 
     /**
