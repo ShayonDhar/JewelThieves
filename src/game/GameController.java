@@ -233,7 +233,14 @@ public class GameController {
         tickTimeline.stop();
         System.out.println("LEVEL COMPLETE");
 
-        // TODO: Create a finish level screen
+        // TODO: Create a finish level screen OR Load next level
+
+        /*
+        Note from Anton:
+        Tried doing Level Complete message like the Game-over message but since its in a static environment
+        I had to set up a stack pane that holds a border pane (view initialize()), and this didnt allow me
+        to set up two different overlays
+         */
     }
 
     /** Method to increase the score.
