@@ -81,7 +81,7 @@ public class GameController {
      */
     public void tick() {
 
-        // Tick NPCs, bombs + time (Just NPCs for now)
+        // TODO Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
 
         // Check for loot collection
