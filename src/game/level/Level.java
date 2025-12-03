@@ -1,6 +1,7 @@
 package game.level;
 
 import game.GameController;
+import game.TilePosition;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
@@ -9,6 +10,7 @@ import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
 import java.util.*;
+import java.util.List;
 import javafx.scene.paint.Color;
 
 /**
@@ -538,7 +540,7 @@ public class Level {
      * @param source the starting tile/ where smart thief currently is
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
-    public Tile findShortestPathTarget(Tile source){
+    public Tile findShortestPathTarget(Tile source) {
         if (source == null) {
             return null;
         }
@@ -645,7 +647,9 @@ public class Level {
         }
 
         // If no reachable target has been found
-        if (!foundGoal) {return null;}
+        if (!foundGoal) {
+            return null;
+        }
 
         // Reconstruct the next step from source to goal
         int stepToNextX = goalX;
@@ -713,7 +717,9 @@ public class Level {
      */
     public void destroyTileContent(int x, int y) {
         Item item = itemsGrid[y][x];
-        if (item == null) return;
+        if (item == null) {
+            return;
+        }
 
         //  Bombs
         if (item instanceof Bomb bomb) {
@@ -730,7 +736,7 @@ public class Level {
         }
 
         //  Everything else gets destroyed
-        removeItemFromGrid(x, y);
+        removeItemFromGrid(y, x);
     }
 
     /**
@@ -740,7 +746,8 @@ public class Level {
      */
 
     public void handleExplosion(int x, int y) {
-        // TODO Add explosion graphic here?
+        controller.showExplosionAtTiles(getExplosionTiles(x, y));
+
 
         //  horizontal blast
         for (int cx = 0; cx < levelWidth; cx++) {
@@ -752,6 +759,30 @@ public class Level {
             destroyTileContent(x, cy);
         }
     }
+    public List<TilePosition> getExplosionTiles(int x, int y) {
+        List<TilePosition> tiles = new ArrayList<>();
+
+        // horizontal
+        for (int cx = 0; cx < levelWidth; cx++) {
+            tiles.add(new TilePosition(cx, y));
+        }
+
+        // vertical
+        for (int cy = 0; cy < levelHeight; cy++) {
+            tiles.add(new TilePosition(x, cy));
+        }
+
+        return tiles;
+    }
+
+    public void notifyExplosion(int x, int y) {
+        if (controller == null) {
+            return;
+        }
+        controller.showExplosionAtTiles(getExplosionTiles(x, y));
+    }
+
+
     /**
      * Updates the state of the level by the specified time step.
      * This includes decreasing remaining time, updating NPC movement,
@@ -762,7 +793,6 @@ public class Level {
         /* TODO:
         1. Reduce Remaining Time
         2. update NPCs
-        3. tick bombs
         4. check win/loss
          */
 
@@ -785,9 +815,13 @@ public class Level {
                 }
 
                 Tile currentTile = getTile(npc.getY(), npc.getX());
-                if (currentTile == null) {continue;}
+                if (currentTile == null) {
+                    continue;
+                }
                 Tile targetTile = getNextTileForNpc(npc);
-                if (targetTile == null) {continue;}
+                if (targetTile == null) {
+                    continue;
+                }
 
                 int targetX = targetTile.getX();
                 int targetY = targetTile.getY();
@@ -805,23 +839,36 @@ public class Level {
 
                     // Assassin kills/removes other NPCs that it runs into
                     for (Entity otherNPC : seperateCopy) {
-                        if (otherNPC == flyingAssassin || otherNPC == player || !otherNPC.isAlive()) continue;
+                        if (otherNPC == flyingAssassin || otherNPC == player || !otherNPC.isAlive()) {
+                            continue;
+                        }
                         if (otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
                             otherNPC.die(false);
                             toRemove.add(otherNPC);
                         }
                     }
                     flyingAssassin.setPosition(targetX, targetY);
-                }
-                else if (npc instanceof SmartThief smartThief) {
+                } else if (npc instanceof SmartThief smartThief) {
                     smartThief.setPosition(targetX, targetY);
-                }
-                else if (npc instanceof FloorFollowingThief floorFollowingThief) {
+                }  else if (npc instanceof FloorFollowingThief floorFollowingThief) {
                     floorFollowingThief.setPosition(targetX, targetY);
                 }
             }
             entities.removeAll(toRemove);
         }
+        if (activeBombs != null) {
+            for (Bomb bomb : new ArrayList<>(activeBombs)) {
+
+                bomb.updateBombState(this);
+
+                if (bomb.getState() == BombState.EXPLODED) {
+                    // notify graphics layer
+                    notifyExplosion(bomb.getX(), bomb.getY());
+                }
+            }
+        }
+
+
     }
 
     public Tile[][] getLevelGrid() {
