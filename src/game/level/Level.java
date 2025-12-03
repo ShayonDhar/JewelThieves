@@ -663,13 +663,20 @@ public class Level {
     public void update(int time){
         remainingTime += time;
     }
+
     /**
      * Removes an item from the grid.
-     * @param x the x-coordinate of the tile
      * @param y the y-coordinate of the tile
+     * @param x the x-coordinate of the tile
      */
-    public void removeItemFromGrid(int x, int y) {
+    public void removeItemFromGrid(int y, int x) {
         itemsGrid[y][x] = null;
+
+        // Also remove from the Tile object itself
+        Tile tile = getTile(y, x);
+        if (tile != null) {
+            tile.removeItem();
+        }
     }
 
     /**
