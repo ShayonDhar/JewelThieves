@@ -13,5 +13,6 @@ module JewelThieves {
     opens game.level to javafx.fxml, javafx.graphics;
     exports game.item;
     opens game.item to javafx.fxml, javafx.graphics;
-
+    exports game.playerProfile;
+    opens game.playerProfile to javafx.fxml, javafx.graphics;
 }
