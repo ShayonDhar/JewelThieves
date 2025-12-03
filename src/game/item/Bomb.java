@@ -118,7 +118,8 @@ public class Bomb extends Item {
 
         List<Item> itemsToExplode = new ArrayList<>(level.getAllItems());
 
-        level.handleExplosion(bombX,bombY);
+        level.handleExplosion(bombX, bombY);
+        level.notifyExplosion(bombX, bombY);
 
         level.removeItem(this);
     }
