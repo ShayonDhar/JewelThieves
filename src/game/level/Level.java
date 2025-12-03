@@ -775,6 +775,13 @@ public class Level {
         return tiles;
     }
 
+    /**
+     * helper that notifies the game controller to display an explosion at a specific location.
+     * 
+     * @param x the x coordinate of the location
+     * @param y the y coordinate of the location
+     */
+
     public void notifyExplosion(int x, int y) {
         if (controller == null) {
             return;
