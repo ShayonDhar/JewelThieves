@@ -149,7 +149,7 @@ public class GameController {
     }
 
     /**
-     * Method to show the time remaining and the score
+     * Method to show the time remaining and the score.
      */
     public void editTextArea() {
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
@@ -190,7 +190,7 @@ public class GameController {
         }
 
         // Checking if tick timeline is playing
-        if (tickPlaying) {
+        if (tickPlaying && timeRemaining != 0) {
             // Now perform the move based on the direction we just set
             player.move();
 
