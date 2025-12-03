@@ -58,8 +58,6 @@ public class Player extends Entity {
      */
     @Override
     public void move() {
-
-        System.out.println("Player before move: (" + getX() + ", " + getY() + ")");
         Direction moveDirection = getDirection();
 
         // Locating current and target tiles
@@ -69,12 +67,12 @@ public class Player extends Entity {
         // Different situations depending on what the target tile is
         if (targetTile == null) {
             return;
-        } else {
-            System.out.println("Target tile: (" + targetTile.getX() + ", " + targetTile.getY() + ")");
         }
+
         if (targetTile.hasGate()) {
             return;
         }
+
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
             return;
@@ -94,7 +92,6 @@ public class Player extends Entity {
         if (targetTile.isExit() && level.allLootAndLeversCollected()) {
             controller.finishLevel();
         }
-        System.out.println("Player after move: (" + getX() + ", " + getY() + ")");
     }
 
     private void checkAdjacentBombs(Tile tile) {

@@ -63,7 +63,7 @@ public class GameController {
         level = loader.load("LevelOne.txt");
 
         // Setting the text area
-        textArea.setText("Time: " + timeRemaining + "s");
+        textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
 
         // Setting the player, items from game save manager
@@ -148,9 +148,11 @@ public class GameController {
 
     }
 
+    /**
+     * Method to show the time remaining and the score
+     */
     public void editTextArea() {
-        textArea.setText("Time: " + timeRemaining + "s");
-
+        textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
     }
 
     /**
@@ -191,6 +193,12 @@ public class GameController {
         if (tickPlaying) {
             // Now perform the move based on the direction we just set
             player.move();
+
+            Item item = level.getItemAt(player.getY(), player.getX());
+            if (item instanceof Loot loot) {
+                addScore(loot.getLootType().getValue());
+                level.removeItemFromGrid(player.getY(), player.getX());
+            }
 
             // Redraw the scene after moving
             drawGame();
