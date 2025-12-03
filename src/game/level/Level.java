@@ -740,6 +740,8 @@ public class Level {
      */
 
     public void handleExplosion(int x, int y) {
+        // TODO Add explosion graphic here?
+
         //  horizontal blast
         for (int cx = 0; cx < levelWidth; cx++) {
             destroyTileContent(cx, y);

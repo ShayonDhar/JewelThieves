@@ -37,7 +37,7 @@ public class GameController {
     private static final int TICK_DURATION = 1000;
     private static final int START_TIME_REMAINING = 30;
     private static Timeline tickTimeline;
-
+    @FXML private static Text gameOverText;
     public TilePane boardTilePane;
     public Level level;
     public Player player;
@@ -45,9 +45,8 @@ public class GameController {
     public TextArea textArea;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
-    @FXML private static Text gameOverText;
     private int score = 0;
-    private int timeRemaining = START_TIME_REMAINING;
+    private int timeRemaining = START_TIME_REMAINING; // TODO Read time from the level file
 
     /**
      * Method that initialises the game.
