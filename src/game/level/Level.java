@@ -631,9 +631,20 @@ public class Level {
                 // Use blocksMovement to make sure BFS doesn't make paths through impassible tiles
                 // Null is passed as athe mover because BFS checks for generic passability, so with
                 // mover as null, any blocking entity/item will cause the tile to be marked an obstacle.
-                if (blocksMovement(null, neighbourTile)) {
-                    continue;
+                boolean blocked = false;
+                for (Entity e : entities) {
+                    if (e.getX() == nextX && e.getY() == nextY &&
+                            e.isAlive() && e.isBlocksMovement()) {
+                        blocked = true;
+                        break;
+                    }
                 }
+                Item tileItem = itemsGrid[nextY][nextX];
+                if (tileItem instanceof Gate ||
+                        (tileItem instanceof Bomb && ((Bomb)tileItem).getState() != BombState.EXPLODED)) {
+                    blocked = true;
+                }
+                if (blocked) continue;
 
                 visited[nextY][nextX] = true;
                 // Record how nextX nd nextY were gotten to from currentX and currentY.
@@ -813,6 +824,23 @@ public class Level {
                 }
                 else if (npc instanceof SmartThief smartThief) {
                     smartThief.setPosition(targetX, targetY);
+
+                    // Handle item collection
+                    Item item = itemsGrid[targetY][targetX];
+                    if (item instanceof Loot) {
+                        removeItemFromGrid(targetY, targetX);
+                        // Optionally: reduce remaining time or track thief's loot
+                    } else if (item instanceof Lever lever) {
+                        openGatesOfColour(lever.getColour());
+                        removeItemFromGrid(targetY, targetX);
+                    } else if (item instanceof Door && allLootAndLeversCollected()) {
+                        // Smart Thief wins - end the game
+                        levelFailed = true; // Player loses if thief exits first
+                        return;
+                    } else if (item instanceof Clock clock) {
+
+                        removeItemFromGrid(targetY, targetX);
+                    }
                 }
                 else if (npc instanceof FloorFollowingThief floorFollowingThief) {
                     floorFollowingThief.setPosition(targetX, targetY);
