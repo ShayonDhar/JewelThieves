@@ -121,7 +121,8 @@ public class Bomb extends Item {
         level.handleExplosion(bombX, bombY);
         level.notifyExplosion(bombX, bombY);
 
-        level.removeItem(this);
+        level.removeItemFromGrid(this.getY(), this.getX());
+
     }
 
 }

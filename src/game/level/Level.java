@@ -945,8 +945,4 @@ public class Level {
     public List<Item> getAllItems() {
         return items;
     }
-
-    public void removeItem(Item item) {
-        items.remove(item);
-    }
 }
