@@ -867,11 +867,6 @@ public class Level {
             for (Bomb bomb : new ArrayList<>(activeBombs)) {
 
                 bomb.updateBombState(this);
-
-                if (bomb.getState() == BombState.EXPLODED) {
-                    // notify graphics layer
-                    notifyExplosion(bomb.getX(), bomb.getY());
-                }
             }
         }
 
