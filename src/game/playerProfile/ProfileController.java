@@ -60,7 +60,14 @@ public class ProfileController {
 
     @FXML private void deleteProfile() { }
 
-    @FXML private void startGame() { }
+    @FXML private void startGame() {
+        if (profileCombo.getSelectionModel().getSelectedItem() == null) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("You must select a profile to proceed");
+            alert.showAndWait();
+        }
+    }
 
     @FXML private void cancel() {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
