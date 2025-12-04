@@ -1,32 +1,33 @@
 package game.playerProfile;
 
-/**
- * PlayerProfile which allows playerProfiles to be created.
- *
- * @author Alex Samuel
- * @version 1.0
- */
-
 public class PlayerProfile {
-    protected String name;
-    protected int maxLevelUnlocked;
 
-    /**
-     * Player profile constructor
-     * The player is automatically assigned with level 1 unlocked.
-     *
-     * @param name the name of the player
-     */
+    private String name;
+    private int maxUnlockedLevel;
+
     public PlayerProfile(String name) {
-        this.name = name;
-        this.maxLevelUnlocked = 1;
+        this(name, 1);
+    }
+
+    public PlayerProfile(String name, int maxUnlockedLevel) {
+        this.name = name.trim();
+        this.maxUnlockedLevel = Math.max(1, maxUnlockedLevel);
     }
 
     public String getName() {
         return name;
     }
 
-    public int getMaxLevelUnlocked() {
-        return maxLevelUnlocked;
+    public int getMaxUnlockedLevel() {
+        return maxUnlockedLevel;
+    }
+
+    public void setMaxUnlockedLevel(int level) {
+        this.maxUnlockedLevel = Math.max(1, level);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

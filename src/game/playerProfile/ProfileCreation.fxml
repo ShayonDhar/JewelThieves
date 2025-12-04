@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.geometry.Pos?>
+
+<AnchorPane prefHeight="300.0" prefWidth="400.0"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="game.playerProfile.ProfileCreationController">
+
+   <children>
+      <VBox spacing="20" alignment="CENTER"
+            AnchorPane.topAnchor="20"
+            AnchorPane.bottomAnchor="20"
+            AnchorPane.leftAnchor="20"
+            AnchorPane.rightAnchor="20">
+
+         <!-- Title -->
+         <Label text="Create New Profile"
+                style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+
+         <!-- Player name input -->
+         <VBox spacing="5" alignment="CENTER_LEFT">
+            <Label text="Player Name:"
+                   style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+            <TextField fx:id="nameField"
+                       prefWidth="250"
+                       promptText="Enter player name" />
+         </VBox>
+
+         <!-- Buttons -->
+         <VBox spacing="10" alignment="CENTER">
+            <Button text="Create"
+                    fx:id="createBtn"
+                    onAction="#onCreate"
+                    prefWidth="120" />
+
+            <Button text="Cancel"
+                    fx:id="cancelBtn"
+                    onAction="#onCancel"
+                    prefWidth="120" />
+         </VBox>
+
+      </VBox>
+   </children>
+
+</AnchorPane>

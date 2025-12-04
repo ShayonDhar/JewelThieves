@@ -122,19 +122,16 @@ public class MenuController {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileSelection.fxml"));
             Pane root = loader.load();
-            GameController controller = loader.getController();
+            loader.getController();
 
             // New stage
             Stage gameStage = new Stage();
 
             // Load the scene onto the scene
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            root.setStyle("-fx-background-color: black");
 
-            // Register key input into the GameController
-            scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Setting the scene and displaying it
             gameStage.setScene(scene);
