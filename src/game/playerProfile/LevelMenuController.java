@@ -20,12 +20,12 @@ public class LevelMenuController {
     public Button level10Btn;
     @FXML
     public void initialize() {
-        PlayerProfile p = ProfileSession.getProfile();
-        if (p == null) {
+        PlayerProfile profile = ProfileSession.getProfile();
+        if (profile == null) {
             return;
         }
 
-        int unlocked = p.getMaxUnlockedLevel();
+        int unlocked = profile.getMaxUnlockedLevel();
 
         // Disable levels above unlocked level
         level1Btn.setDisable(unlocked < 1);
