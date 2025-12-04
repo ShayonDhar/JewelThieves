@@ -48,7 +48,7 @@ public class FloorFollowingThief extends NPC {
     /**
      * Returns colour the thief is following.
      *
-     * @return asigned floor colour
+     * @return assigned floor colour
      */
     public Colour getFollowingColour() {
         return followingColour;
