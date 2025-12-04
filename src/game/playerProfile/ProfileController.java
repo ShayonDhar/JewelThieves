@@ -62,6 +62,9 @@ public class ProfileController {
 
     @FXML private void startGame() { }
 
-    @FXML private void cancel() { }
+    @FXML private void cancel() {
+        Stage stage = (Stage) profileCombo.getScene().getWindow();
+        stage.close();
+    }
 
 }
