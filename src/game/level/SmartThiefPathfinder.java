@@ -86,6 +86,7 @@ public class SmartThiefPathfinder {
 
     /**
      * Performs a breadth-first search to find the nearest target tile.
+     *
      * @param source the starting tile
      * @param isTarget 2D array marking which tiles are targets
      * @param previousTileX array to track X coordinates of previous tiles in path

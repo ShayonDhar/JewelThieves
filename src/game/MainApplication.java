@@ -60,7 +60,7 @@ public class MainApplication extends Application {
             controller.setStage(primaryStage);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 }
