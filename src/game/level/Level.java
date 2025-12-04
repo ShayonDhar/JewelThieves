@@ -641,7 +641,6 @@ public class Level {
         }
 
         //  Everything else gets destroyed
-        // TODO AW Check if this is x, y or y, x
         removeItemFromGrid(y, x);
     }
 
