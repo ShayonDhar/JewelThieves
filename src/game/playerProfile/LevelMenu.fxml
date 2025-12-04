@@ -12,7 +12,8 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0"
             xmlns="http://javafx.com/javafx/21.0.9"
-            xmlns:fx="http://javafx.com/fxml/1">
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="game.playerProfile.LevelMenuController">
 
     <children>
         <VBox alignment="TOP_CENTER" spacing="30.0"
@@ -43,52 +44,52 @@
 
                 <!-- Level Buttons -->
                 <Button text="Level 1"
-                        fx:id="level1Button"
+                        fx:id="level1Btn"
                         GridPane.columnIndex="0"
                         GridPane.rowIndex="0"/>
 
                 <Button text="Level 2"
-                        fx:id="level2Button"
+                        fx:id="level2Btn"
                         GridPane.columnIndex="1"
                         GridPane.rowIndex="0"/>
 
                 <Button text="Level 3"
-                        fx:id="level3Button"
+                        fx:id="level3Btn"
                         GridPane.columnIndex="2"
                         GridPane.rowIndex="0"/>
 
                 <Button text="Level 4"
-                        fx:id="level4Button"
+                        fx:id="level4Btn"
                         GridPane.columnIndex="0"
                         GridPane.rowIndex="1"/>
 
                 <Button text="Level 5"
-                        fx:id="level5Button"
+                        fx:id="level5Btn"
                         GridPane.columnIndex="1"
                         GridPane.rowIndex="1"/>
 
                 <Button text="Level 6"
-                        fx:id="level6Button"
+                        fx:id="level6Btn"
                         GridPane.columnIndex="2"
                         GridPane.rowIndex="1"/>
 
                 <Button text="Level 7"
-                        fx:id="level7Button"
+                        fx:id="level7Btn"
                         GridPane.columnIndex="0"
                         GridPane.rowIndex="2"/>
 
                 <Button text="Level 8"
-                        fx:id="level8Button"
+                        fx:id="level8Btn"
                         GridPane.columnIndex="1"
                         GridPane.rowIndex="2"/>
 
                 <Button text="Level 9"
-                        fx:id="level9Button"
+                        fx:id="level9Btn"
                         GridPane.columnIndex="2"
                         GridPane.rowIndex="2"/>
 
                 <Button text="Level 10"
-                        fx:id="level10Button"
+                        fx:id="level10Btn"
                         GridPane.columnIndex="0"
                         GridPane.rowIndex="3"/>
 
