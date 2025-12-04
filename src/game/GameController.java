@@ -19,9 +19,10 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
@@ -44,6 +45,7 @@ public class GameController {
     public TextArea textArea;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
+    @FXML private static Text gameOverText;
     private int score = 0;
     private int timeRemaining = START_TIME_REMAINING;
 
@@ -66,6 +68,14 @@ public class GameController {
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
 
+        // Preparing the GAME-OVER message for the static environment
+        gameOverText = new Text("GAME OVER");
+        gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
+                        + "black; -fx-stroke-width: 5px");
+        gameOverText.setVisible(false); // Hiding GAME-OVER for now
+        StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
+        ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
+
         // Setting the player, items from game save manager
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
@@ -81,7 +91,7 @@ public class GameController {
      */
     public void tick() {
 
-        // Tick NPCs, bombs + time (Just NPCs for now)
+        // TODO Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
 
         // Check for loot collection
@@ -149,7 +159,7 @@ public class GameController {
     }
 
     /**
-     * Method to show the time remaining and the score
+     * Method to show the time remaining and the score.
      */
     public void editTextArea() {
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
@@ -190,7 +200,7 @@ public class GameController {
         }
 
         // Checking if tick timeline is playing
-        if (tickPlaying) {
+        if (tickPlaying && timeRemaining != 0) {
             // Now perform the move based on the direction we just set
             player.move();
 
@@ -213,9 +223,7 @@ public class GameController {
      */
     public static void gameOver() {
         tickTimeline.stop();
-        System.out.println("GAME OVER");
-
-        // TODO: Switch over to a game over screen
+        gameOverText.setVisible(true);
     }
 
     /** Method to indicate the level has finished.
@@ -225,7 +233,14 @@ public class GameController {
         tickTimeline.stop();
         System.out.println("LEVEL COMPLETE");
 
-        // TODO: Create a finish level screen
+        // TODO: Create a finish level screen OR Load next level
+
+        /*
+        Note from Anton:
+        Tried doing Level Complete message like the Game-over message but since its in a static environment
+        I had to set up a stack pane that holds a border pane (view initialize()), and this didnt allow me
+        to set up two different overlays
+         */
     }
 
     /** Method to increase the score.
