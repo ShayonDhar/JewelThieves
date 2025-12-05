@@ -98,61 +98,56 @@ public class ProfileController {
             ProfileManager.deleteProfile(selected);
             alert.showAndWait();
 
-    }
-
-
+        }
         // Refresh and select placeholder again
         refreshProfiles(null);
     }
 
-
-    @FXML private void startGame() {
+    @FXML
+    private void startGame() {
         if (profileCombo.getSelectionModel().getSelectedItem() == null
-                ||
-                profileCombo.getSelectionModel().getSelectedItem().equals("")) {
+                || profileCombo.getSelectionModel().getSelectedItem().equals("")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
             alert.setTitle("Warning");
             alert.setHeaderText("You must select a profile to proceed");
             alert.showAndWait();
-        } else if (((PlayerProfile) profileCombo.getSelectionModel().getSelectedItem())
-                .getName().equals("Select Player")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a profile to proceed");
-            alert.showAndWait();
-        } else {
-            // Start the game with the selected profile
-            PlayerProfile selectedProfile = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
-            try {
-                // Load FXML using FXMLLoader instance (not static)
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
-                Pane root = loader.load();
-                loader.getController();
-
-                // New stage
-                Stage gameStage = new Stage();
-
-                // Load the scene onto the scene
-                Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-                scene.getStylesheets().add(
-                        getClass().getResource("levelMenu.css").toExternalForm()
-                );
-
-
-                // Setting the scene and displaying it
-                gameStage.setScene(scene);
-                gameStage.setTitle("Jewel Thieves Group 01 - Game");
-                gameStage.show();
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            return;
         }
-        PlayerProfile selectedProfile = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
+
+        PlayerProfile selectedProfile =
+                (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
+
+        if (selectedProfile.getName().equals("Select Player")) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Warning");
+            alert.setHeaderText("You must select a real profile to proceed");
+            alert.showAndWait();
+            return;
+        }
+
+        // FIX: store profile before loading next window
         ProfileSession.set(selectedProfile);
 
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
+            Pane root = loader.load();
+
+            Stage gameStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+
+            scene.getStylesheets().add(
+                    getClass().getResource("levelMenu.css").toExternalForm()
+            );
+
+            gameStage.setScene(scene);
+            gameStage.setTitle("Jewel Thieves Group 01 - Game");
+            gameStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     @FXML private void cancel() {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
