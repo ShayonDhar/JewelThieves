@@ -45,7 +45,8 @@ public class SmartThief extends NPC {
         super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement, level);
 
         sprite = new ImageView(
-                new Image(Objects.requireNonNull(Player.class.getResource(SMARTTHIEF_PNG)).toExternalForm())
+                new Image(Objects.requireNonNull(Player.class.getResource(
+                        SMARTTHIEF_PNG)).toExternalForm())
         );
         sprite.setFitWidth(SPRITE_SIZE);
         sprite.setFitHeight(SPRITE_SIZE);

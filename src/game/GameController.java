@@ -47,7 +47,7 @@ public class GameController {
     public Player player;
     public Item [][] itemGrid;
     public TextArea textArea;
-    public boolean tickPlaying = false;
+    public static boolean tickPlaying = false;
     private GameSaveManager saveManager;
     private int score = 0;
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
@@ -124,7 +124,7 @@ public class GameController {
      */
     public void drawGame() {
 
-        // Clear the tilePane
+        // Clear the tilePane i.e. everything from the tiles
         boardTilePane.getChildren().clear();
 
         // 2D array that stores the tiles
@@ -168,6 +168,7 @@ public class GameController {
 
             long remaining = effect.endTime - System.currentTimeMillis();
 
+            // TODO add comments explaining code on this please
             if (remaining <= 0) {
                 toRemove.add(effect);
             } else {
@@ -197,6 +198,7 @@ public class GameController {
             activeExplosions.add(new ExplosionEffect(pos.x(), pos.y(), duration));
         }
     }
+
     /**
      * Method to show the time remaining and the score.
      */
@@ -261,6 +263,7 @@ public class GameController {
      * Called when the player dies (Flying Assassin, timer expires, etc.)
      */
     public static void gameOver() {
+        tickPlaying = false;
         tickTimeline.stop();
         gameOverText.setVisible(true);
     }

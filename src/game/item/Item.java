@@ -24,7 +24,7 @@ public abstract class Item {
     /**
      * All the attributes that all the items have in common.
      */
-    private static final int SPRITE_WIDTH_HEIGHT = 32;
+    public static final int SPRITE_WIDTH_HEIGHT = 32;
     public boolean isOn;
     protected String itemName;
     protected int itemID;
@@ -76,7 +76,6 @@ public abstract class Item {
      *
      * @return the item image
      */
-
     public Node getSprite() {
         if (sprite == null) {
             sprite = new ImageView(Player.class.getResource("/game/resources/"
