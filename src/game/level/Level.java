@@ -154,8 +154,6 @@ public class Level {
                 .anyMatch(colour -> nextTile.getColoursAsList().contains(colour));
     }
 
-    //  Need a method that checks whether a tile contains FloorFollowingThief's SPECIFIC following colour
-
     /**
      * Auxillary method which checks whether a
      * tile contains the specific colour that Floor Following Thief's is following.
@@ -486,24 +484,13 @@ public class Level {
 
         for (Direction floorDirection : directionPriority) {
             Tile candidateTile = findNextValidTile(current, floorDirection);
-            if (candidateTile == null) {
-                continue;
+            if (candidateTile != null
+                    && !(tileSharesFollowingColour(current, followingColour)
+                    || tileSharesFollowingColour(candidateTile, followingColour))
+                    && !blocksMovement(floorThief, candidateTile)) {
+                floorThief.setDirection(floorDirection);
+                return candidateTile;
             }
-
-            // Check both tiles contain the thief's follow colour
-            if (tileSharesFollowingColour(current, followingColour)
-                    || tileSharesFollowingColour(candidateTile, followingColour)) {
-                continue;
-            }
-
-            // Respect blocking rules
-            if (blocksMovement(floorThief, candidateTile)) {
-                continue;
-            }
-
-            // Found valid tile
-            floorThief.setDirection(floorDirection);
-            return candidateTile;
         }
 
         return null;
@@ -562,13 +549,9 @@ public class Level {
 
         for (Direction direction : smartDirections) {
             Tile candidateTile = findNextValidTile(smartCurrentTile, direction);
-            if (candidateTile == null) {
-                continue;
+            if (candidateTile != null && !blocksMovement(mover, candidateTile)) {
+                return candidateTile;
             }
-            if (blocksMovement(mover, candidateTile)) {
-                continue;
-            }
-            return candidateTile;
         }
         return null;
     }
@@ -668,7 +651,6 @@ public class Level {
     public void handleExplosion(int x, int y) {
         controller.showExplosionAtTiles(getExplosionTiles(x, y));
 
-
         //  horizontal blast
         for (int cx = 0; cx < levelWidth; cx++) {
             destroyTileContent(cx, y);
@@ -740,16 +722,12 @@ public class Level {
         List<Entity> toRemove = new ArrayList<>();
 
         for (Entity entity : entityCopy) {
-            if (!(entity instanceof game.entity.npc.NPC npc) || !npc.isAlive()) {
-                continue;
+            if (entity instanceof game.entity.npc.NPC npc && npc.isAlive()) {
+                Tile targetTile = calculateNPCMovement(npc);
+                if (targetTile != null) {
+                    handleNPCMovementAndInteractions(npc, targetTile, entityCopy, toRemove);
+                }
             }
-
-            Tile targetTile = calculateNPCMovement(npc);
-            if (targetTile == null) {
-                continue;
-            }
-
-            handleNPCMovementAndInteractions(npc, targetTile, entityCopy, toRemove);
         }
 
         entities.removeAll(toRemove);
@@ -813,10 +791,8 @@ public class Level {
 
         // Check other NPC collisions
         for (Entity otherNPC : entityCopy) {
-            if (otherNPC == flyingAssassin || otherNPC == player || !otherNPC.isAlive()) {
-                continue;
-            }
-            if (otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
+            if (otherNPC != flyingAssassin && otherNPC != player && otherNPC.isAlive()
+                    && otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
                 otherNPC.die(false);
                 toRemove.add(otherNPC);
             }
@@ -849,11 +825,9 @@ public class Level {
         }
         if (activeBombs != null) {
             for (Bomb bomb : new ArrayList<>(activeBombs)) {
-
                 bomb.updateBombState(this);
             }
         }
-
 
     }
 
