@@ -11,9 +11,6 @@ import game.entity.npc.SmartThief;
 import game.item.*;
 import java.util.*;
 import java.util.List;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
-
 import javafx.scene.paint.Color;
 
 /**
@@ -73,21 +70,23 @@ public class Level {
         int dx = getOffsetX(direction);
         int dy = getOffsetY(direction);
 
-        if (dx == 0 && dy == 0) {
-            return null; //  invalid direction
+        if (dx == 0 && dy == 0) return null; //  invalid direction
+
+        int nextX = currentTile.getX() + dx;
+        int nextY = currentTile.getY() + dy;
+
+        while (isInBounds(nextX, nextY)) {
+            Tile next = levelGrid[nextY][nextX];
+
+            if (isValidNextTile(currentTile, next)) {
+                return next;
+            }
+
+            nextX += dx;
+            nextY += dy;
         }
 
-        int startX = currentTile.getX() + dx;
-        int startY = currentTile.getY() + dy;
-
-        // Generate successive positions in the given direction,
-        // stop when out of bounds, map to tiles, and return the first valid one
-        return Stream.iterate(new int[]{startX, startY}, pos -> isInBounds(pos[0], pos[1]),
-                        pos -> new int[]{pos[0] + dx, pos[1] + dy})
-                .map(pos -> levelGrid[pos[1]][pos[0]])
-                .filter(next -> isValidNextTile(currentTile, next))
-                .findFirst()
-                .orElse(null);
+        return null;
     }
 
     /**
@@ -165,21 +164,29 @@ public class Level {
      */
     private boolean tileSharesFollowingColour(Tile tile, Colour followingColour) {
 
-        // If either tile or required colour is missing, can't be valid
+        //  If either tile or required colour is missing, can't be valid
         if (tile == null || followingColour == null) {
             return true;
         }
 
+        //  Tiles store their colours as JavaFX Color objects, so we have to convert the Enum into
+        //  that too before comparing
         Color[] followingColours = tile.getColours();
         if (followingColours == null) {
             return true;
         }
-
+        //  Convert Colour Enum to JavaFX Color equivalent
         Color target = followingColour.getFXColor();
 
-        // If any colour matches the target, return false, otherwise true
-        return Arrays.stream(followingColours)
-                .noneMatch(c -> c.equals(target));
+        //  Check every colour the tile contains
+        //  If any of them match the thief's follow colour, then the tile is valid
+        for (Color c : followingColours) {
+            if (c.equals(target)) { //  The javaFX colour that matches the thief's Enum colour
+                return false;
+            }
+        }
+        //  No match found, so tile doesn't contain colour
+        return true;
     }
 
     /**
@@ -264,13 +271,19 @@ public class Level {
      * @param c the colour of gates to open
      */
     public void openGatesOfColour(Colour c) {
-        Arrays.stream(levelGrid)
-                .flatMap(Arrays::stream)
-                .filter(t -> t != null                   // skip null tiles
-                        && t.hasGate()                  // must have a gate
-                        && t.getGate().getColour() == c // gate colour matches
-                )
-                .forEach(Tile::removeItem);              // remove the gate/item
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile t = levelGrid[y][x];
+
+                if (t != null && t.hasGate()) {
+                    Gate gate = t.getGate();
+
+                    if (gate.getColour() == c) {
+                        t.removeItem();
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -280,12 +293,18 @@ public class Level {
      * @return true if no loot or levers remain in the level, false otherwise
      */
     public boolean allLootAndLeversCollected() {
-        return Arrays.stream(levelGrid)
-                .flatMap(Arrays::stream)
-                .filter(Objects::nonNull)
-                .map(Tile::getItem)
-                .filter(Objects::nonNull)
-                .noneMatch(item -> item instanceof Loot || item instanceof Lever);
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                Tile tile = levelGrid[y][x];
+                if (tile != null) {
+                    Item item = tile.getItem();
+                    if (item instanceof Loot || item instanceof Lever) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 
     /**
@@ -295,8 +314,12 @@ public class Level {
      * @return does the tile contain an entity
      */
     private boolean tileHasEntity(Tile t) {
-        return entities.stream()
-                .anyMatch(e -> e.getX() == t.getX() && e.getY() == t.getY());
+        for (Entity e : entities) {
+            if (e.getX() == t.getX() && e.getY() == t.getY()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -312,7 +335,11 @@ public class Level {
             return true;
         }
 
-        return isBlockedByEntity(mover, target) || isBlockedByItem(target);
+        if (isBlockedByEntity(mover, target)) {
+            return true;
+        }
+
+        return isBlockedByItem(target);
     }
 
     /**
@@ -330,8 +357,13 @@ public class Level {
         int x = target.getX();
         int y = target.getY();
 
-        return entities.stream()
-                .anyMatch(e -> shouldEntityBlock(e, mover, x, y));
+        for (Entity e : entities) {
+            if (shouldEntityBlock(e, mover, x, y)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -454,7 +486,7 @@ public class Level {
             if (candidateTile != null
                     && !(tileSharesFollowingColour(current, followingColour)
                     || tileSharesFollowingColour(candidateTile, followingColour))
-                    && blocksMovement(floorThief, candidateTile)) {
+                    && !blocksMovement(floorThief, candidateTile)) {
                 floorThief.setDirection(floorDirection);
                 return candidateTile;
             }
@@ -474,7 +506,7 @@ public class Level {
     private Tile getNextTileForSmartThief(SmartThief smartThief, Tile current) {
         // Try pathfinding first
         Tile nextTileMovingTo = pathfinder.findShortestPathTarget(current);
-        if (blocksMovement(smartThief, nextTileMovingTo)) {
+        if (nextTileMovingTo != null && !blocksMovement(smartThief, nextTileMovingTo)) {
             updateSmartThiefDirection(smartThief, current, nextTileMovingTo);
             return nextTileMovingTo;
         }
@@ -514,11 +546,13 @@ public class Level {
         List<Direction> smartDirections = new ArrayList<>(Arrays.asList(Direction.values()));
         Collections.shuffle(smartDirections, smartThiefRandomMove);
 
-        return smartDirections.stream()
-                .map(direction -> findNextValidTile(smartCurrentTile, direction))
-                .filter(candidateTile -> blocksMovement(mover, candidateTile))
-                .findFirst()
-                .orElse(null);
+        for (Direction direction : smartDirections) {
+            Tile candidateTile = findNextValidTile(smartCurrentTile, direction);
+            if (candidateTile != null && !blocksMovement(mover, candidateTile)) {
+                return candidateTile;
+            }
+        }
+        return null;
     }
 
     /**
@@ -612,15 +646,19 @@ public class Level {
      * @param x x-coordinate of the tile
      * @param y y-coordinate of the tile.
      */
+
     public void handleExplosion(int x, int y) {
         controller.showExplosionAtTiles(getExplosionTiles(x, y));
-        // horizontal blast
-        IntStream.range(0, levelWidth)
-                .forEach(cx -> destroyTileContent(cx, y));
 
-        // vertical blast
-        IntStream.range(0, levelHeight)
-                .forEach(cy -> destroyTileContent(x, cy));
+        //  horizontal blast
+        for (int cx = 0; cx < levelWidth; cx++) {
+            destroyTileContent(cx, y);
+        }
+
+        //  vertical blast
+        for (int cy = 0; cy < levelHeight; cy++) {
+            destroyTileContent(x, cy);
+        }
     }
 
     /**
@@ -671,6 +709,7 @@ public class Level {
         if (entities == null) {
             return;
         }
+
         updateAllNPCs();
     }
 
@@ -870,6 +909,7 @@ public class Level {
                 bomb.updateBombState(this);
             }
         }
+
     }
 
     public Tile[][] getLevelGrid() {
