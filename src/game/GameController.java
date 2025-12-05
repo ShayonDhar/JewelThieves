@@ -124,7 +124,7 @@ public class GameController {
      */
     public void drawGame() {
 
-        // Clear the tilePane
+        // Clear the tilePane i.e. everything from the tiles
         boardTilePane.getChildren().clear();
 
         // 2D array that stores the tiles
@@ -168,6 +168,7 @@ public class GameController {
 
             long remaining = effect.endTime - System.currentTimeMillis();
 
+            // TODO add comments explaining code on this please
             if (remaining <= 0) {
                 toRemove.add(effect);
             } else {
