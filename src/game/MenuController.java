@@ -131,7 +131,6 @@ public class MenuController {
 
             // Load the scene onto the scene
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            root.setStyle("-fx-background-color: black");
 
             // Register key input into the GameController
             scene.setOnKeyPressed(controller::onKeyPressed);

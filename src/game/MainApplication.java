@@ -53,6 +53,8 @@ public class MainApplication extends Application {
             // Setting the scene and displaying it
             primaryStage.setScene(scene);
             primaryStage.setTitle("Jewel Thieves Group 01");
+            primaryStage.sizeToScene();
+            primaryStage.setResizable(false);
             primaryStage.show();
 
             // Giving MenuController the control of the stage
