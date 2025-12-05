@@ -64,11 +64,7 @@ public class GameController {
         tickTimeline = new Timeline(new KeyFrame(
                 Duration.millis(TICK_DURATION), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
-
-        // Reading a text file
-        LevelLoader loader = new LevelLoader(this);
-        level = loader.load("LevelOne.txt");
-
+        
         // Setting the text area
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
