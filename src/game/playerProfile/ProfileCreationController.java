@@ -55,6 +55,8 @@ public class ProfileCreationController {
         if (parent != null) {
             parent.refreshProfiles(newProfile);
         }
+        assert parent != null;
+        parent.refreshProfiles(null);
         closeWindow();
     }
 
