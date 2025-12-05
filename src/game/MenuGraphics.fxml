@@ -7,25 +7,52 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.MenuController">
-   <center>
-      <VBox alignment="CENTER" maxHeight="300.0" maxWidth="500.0" minHeight="253.0" minWidth="500.0" prefHeight="253.0" prefWidth="500.0" spacing="20.0" BorderPane.alignment="BOTTOM_CENTER">
-         <BorderPane.margin>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </BorderPane.margin>
-         <padding>
-            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-         </padding>
-         <Button mnemonicParsing="false" onAction="#buttonNewGame" text="NEW GAME" />
-         <Button fx:id="buttonLoadGame" mnemonicParsing="false" onAction="#buttonLoadGame" text="LOAD GAME" />
-         <Button mnemonicParsing="false" onAction="#buttonQuit" text="QUIT" />
-      </VBox>
-   </center>
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="game.MenuController"
+            prefHeight="400.0" prefWidth="600.0"
+            stylesheets="@MainMenu.css">
+
    <top>
-      <TextArea prefHeight="71.0" prefWidth="446.0" text="    JEWEL THIEF 2025" wrapText="true" BorderPane.alignment="CENTER">
+      <TextArea prefHeight="71.0" prefWidth="446.0"
+                text="    JEWEL THIEF 2025"
+                wrapText="true"
+                editable="false"
+                styleClass="menu-title"
+                BorderPane.alignment="CENTER">
          <font>
-            <Font name="Rockwell Extra Bold" size="42.0" />
+            <Font name="Rockwell Extra Bold" size="42.0"/>
          </font>
       </TextArea>
    </top>
+
+   <center>
+      <VBox alignment="CENTER"
+            maxHeight="300.0" maxWidth="500.0"
+            minHeight="253.0" minWidth="500.0"
+            prefHeight="253.0" prefWidth="500.0"
+            spacing="20.0"
+            BorderPane.alignment="BOTTOM_CENTER"
+            styleClass="menu-panel">
+
+         <padding>
+            <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
+         </padding>
+
+         <Button text="NEW GAME"
+                 onAction="#buttonNewGame"
+                 styleClass="menu-button"/>
+
+         <Button fx:id="buttonLoadGame"
+                 text="LOAD GAME"
+                 onAction="#buttonLoadGame"
+                 styleClass="menu-button"/>
+
+         <Button text="QUIT"
+                 onAction="#buttonQuit"
+                 styleClass="menu-button"/>
+
+      </VBox>
+   </center>
+
 </BorderPane>

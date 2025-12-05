@@ -1,0 +1,107 @@
+/* COPIED AND PASTED FROM levelMenu CSS to have
+the same style with a few new styles added.
+ */
+.menu-title {
+    -fx-control-inner-background: transparent;
+    -fx-text-fill: #f5e3b4;
+    -fx-font-weight: bold;
+    -fx-border-color: transparent;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 25, 0.7, 0, 5);
+}
+
+/* MENU BACKGROUND PANEL */
+.menu-panel {
+    -fx-background-color: linear-gradient(to right, rgba(101,67,33,0.9), rgba(139,90,43,0.8));
+    -fx-background-radius: 20;
+    -fx-border-color: #d4af37;
+    -fx-border-width: 4;
+    -fx-border-radius: 20;
+    -fx-padding: 40;
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.6), 25, 0.5, 0, 0);
+}
+
+/* MENU BUTTONS */
+.menu-button {
+    -fx-background-color: linear-gradient(to bottom, #d4af37, #aa8c2d);
+    -fx-text-fill: #2c1810;
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-padding: 15 40;
+    -fx-background-radius: 12;
+    -fx-border-color: #ffd700;
+    -fx-border-width: 3;
+    -fx-border-radius: 12;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.65), 15, 0.5, 0, 3);
+}
+
+/* HOVER EFFECT */
+.menu-button:hover {
+    -fx-scale-x: 1.07;
+    -fx-scale-y: 1.07;
+    -fx-background-color: linear-gradient(to bottom, #ffe066, #d4af37);
+    -fx-effect: dropshadow(gaussian, rgba(255,230,110,0.9), 25, 0.7, 0, 0);
+}
+/* Background for entire screen */
+.root-bg {
+    -fx-background-color: linear-gradient(to bottom, #2c1810 0%, #e58e14 50%, #2c1810 100%);
+}
+
+/* VBox styling */
+.main-box {
+    -fx-padding: 40;
+    -fx-background-radius: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.5), 25, 0.5, 0, 2);
+}
+
+/* Title */
+.title-label {
+    -fx-text-fill: #f5e3b4;
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.9), 25, 0.8, 0, 5);
+}
+
+/* Grid background container */
+.level-grid {
+    -fx-background-color: rgba(101, 67, 33, 0.9);
+    -fx-background-radius: 20;
+    -fx-padding: 35;
+    -fx-border-color: #d4af37;
+    -fx-border-width: 5;
+    -fx-border-radius: 20;
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.45), 20, 0.4, 0, 3);
+}
+
+/* Level button normal state */
+.level-button {
+    -fx-background-color: linear-gradient(to bottom, #d4af37, #a57c1b);
+    -fx-text-fill: #2c1810;
+    -fx-font-weight: bold;
+    -fx-font-size: 20px;
+    -fx-background-radius: 12;
+    -fx-border-color: #ffd700;
+    -fx-border-width: 3;
+    -fx-border-radius: 12;
+    -fx-padding: 15 30;
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.65), 15, 0.5, 0, 3);
+    -fx-cursor: hand;
+}
+
+/* Hover effect */
+.level-button:hover {
+    -fx-background-color: linear-gradient(to bottom, #ffe680, #d4af37);
+    -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.9), 25, 0.7, 0, 0);
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Disabled (locked) levels */
+.level-button:disabled {
+    -fx-background-color: #7d6a4d;
+    -fx-text-fill: #3b2b1b;
+    -fx-border-color: #8f7b57;
+    -fx-opacity: 0.5;
+    -fx-effect: none;
+    -fx-cursor: default;
+}
