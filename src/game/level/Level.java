@@ -155,17 +155,17 @@ public class Level {
     }
 
     /**
-     * Auxillary method which checks whether a
+     * Auxiliary method which checks whether a
      * tile contains the specific colour that Floor Following Thief's is following.
      *
      * @param tile            the tile we inspect.
-     * @param followingcolour the specific colour the floor following thief follows.
+     * @param followingColour the specific colour the floor following thief follows.
      * @return whether the colour matches or not
      */
-    private boolean tileSharesFollowingColour(Tile tile, Colour followingcolour) {
+    private boolean tileSharesFollowingColour(Tile tile, Colour followingColour) {
 
         //  If either tile or required colour is missing, can't be valid
-        if (tile == null || followingcolour == null) {
+        if (tile == null || followingColour == null) {
             return true;
         }
 
@@ -176,7 +176,7 @@ public class Level {
             return true;
         }
         //  Convert Colour Enum to JavaFX Color equivalent
-        Color target = followingcolour.getFXColor();
+        Color target = followingColour.getFXColor();
 
         //  Check every colour the tile contains
         //  If any of them match the thief's follow colour, then the tile is valid
@@ -410,7 +410,6 @@ public class Level {
             return bomb.getState() != BombState.EXPLODED;
         }
 
-        // Doors, Loot, Lever, Clock etc do not block movement
         return false;
     }
 
@@ -781,15 +780,87 @@ public class Level {
      */
     private void handleFlyingAssassinInteractions(FlyingAssassin flyingAssassin, int targetX, int targetY,
                                                   List<Entity> entityCopy, List<Entity> toRemove) {
-        // Check player collision
+        int currentX = flyingAssassin.getX();
+        int currentY = flyingAssassin.getY();
+
+        if (checkPlayerOnCurrentTile(currentX, currentY)) {
+            return;
+        }
+        handleNPCsOnCurrentTile(flyingAssassin, currentX, currentY, entityCopy, toRemove);
+
+        if (checkPlayerOnTargetTile(flyingAssassin, targetX, targetY)) {
+            return;
+        }
+
+        handleNPCsOnTargetTile(flyingAssassin, targetX, targetY, entityCopy, toRemove);
+        moveFlyingAssassin(flyingAssassin, targetX, targetY);
+    }
+
+    /**
+     * Checks if the player is on the current tile of the Flying Assassin.
+     *
+     * @param currentX current X coordinate of the Flying Assassin
+     * @param currentY current Y coordinate of the Flying Assassin
+     * @return true if player is killed and game over triggered, false otherwise
+     */
+    private boolean checkPlayerOnCurrentTile(int currentX, int currentY) {
+        if (player != null && player.isAlive() && player.getX() == currentX && player.getY() == currentY) {
+            player.die(false);
+            GameController.gameOver();
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Handles NPCs located on the current tile of the Flying Assassin.
+     *
+     * @param flyingAssassin the Flying Assassin entity
+     * @param currentX       current X coordinate
+     * @param currentY       current Y coordinate
+     * @param entityCopy     copy of all entities
+     * @param toRemove       list of entities to remove
+     */
+    private void handleNPCsOnCurrentTile(FlyingAssassin flyingAssassin, int currentX, int currentY,
+                                         List<Entity> entityCopy, List<Entity> toRemove) {
+        for (Entity otherNPC : entityCopy) {
+            if (otherNPC != flyingAssassin && otherNPC != player && otherNPC.isAlive()
+                    && otherNPC.getX() == currentX && otherNPC.getY() == currentY) {
+                otherNPC.die(false);
+                toRemove.add(otherNPC);
+            }
+        }
+    }
+
+    /**
+     * Checks if the player is on the target tile of the Flying Assassin.
+     *
+     * @param flyingAssassin the Flying Assassin entity
+     * @param targetX        target X coordinate
+     * @param targetY        target Y coordinate
+     * @return true if player is killed and game over triggered, false otherwise
+     */
+    private boolean checkPlayerOnTargetTile(FlyingAssassin flyingAssassin, int targetX, int targetY) {
         if (player != null && player.isAlive() && player.getX() == targetX && player.getY() == targetY) {
             player.die(false);
             flyingAssassin.setPosition(targetX, targetY);
             GameController.gameOver();
-            return;
+            return true;
         }
+        return false;
+    }
 
-        // Check other NPC collisions
+    /**
+     * Handles NPCs located on the target tile of the Flying Assassin.
+     *
+     * @param flyingAssassin the Flying Assassin entity
+     * @param targetX        target X coordinate
+     * @param targetY        target Y coordinate
+     * @param entityCopy     copy of all entities
+     * @param toRemove       list of entities to remove
+     */
+    private void handleNPCsOnTargetTile(FlyingAssassin flyingAssassin, int targetX, int targetY,
+                                        List<Entity> entityCopy, List<Entity> toRemove) {
         for (Entity otherNPC : entityCopy) {
             if (otherNPC != flyingAssassin && otherNPC != player && otherNPC.isAlive()
                     && otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
@@ -797,9 +868,19 @@ public class Level {
                 toRemove.add(otherNPC);
             }
         }
+    }
 
+    /**
+     * Moves the Flying Assassin to the target tile.
+     *
+     * @param flyingAssassin the Flying Assassin entity
+     * @param targetX        target X coordinate
+     * @param targetY        target Y coordinate
+     */
+    private void moveFlyingAssassin(FlyingAssassin flyingAssassin, int targetX, int targetY) {
         flyingAssassin.setPosition(targetX, targetY);
     }
+
 
     /**
      * Handles Smart Thief item collection and exit interactions.
@@ -875,8 +956,8 @@ public class Level {
         return entities;
     }
 
-    public void setEntities(ArrayList<Entity> list) {
-        this.entities = list;
+    public void setEntities(List<Entity> list) {
+        this.entities = (ArrayList<Entity>) list;
     }
 
     public Player getPlayer() {
