@@ -1,6 +1,7 @@
 package game.playerProfile;
 
 import game.GameController;
+import game.save.GameSaveManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -14,96 +15,76 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
-public class ProfileController {
+public class ProfileSaveController {
     private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 700;
     private GameController gameController;
-    public Button newProfileBtn;
-
-    public Button deleteProfileBtn;
     public ComboBox profileCombo;
-    public Button startBtn;
+    public Button LoadBtn;
     public Button cancelBtn;
+    public ComboBox saveFileCombo;
 
     @FXML
     public void initialize() {
         refreshProfiles(null);
+        profileCombo.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal instanceof PlayerProfile profile) {
+                loadSaveFilesForProfile(profile);
+            }
+        });
+
     }
+    private void loadSaveFilesForProfile(PlayerProfile profile) {
+        saveFileCombo.getItems().clear();
 
-    @FXML
-    private void newProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileCreation.fxml"));
-            Pane root = loader.load();
-            ProfileCreationController creationController = loader.getController();
-            creationController.setParent(this);
+        if (profile.getName().equals("Select Player")) {
+            return;
+        }
 
-            Stage profileStage = new Stage();
-            Scene scene = new Scene(root, 400, 300);
-            profileStage.setScene(scene);
-            profileStage.setTitle("Create New Player Profile");
-            profileStage.show();
 
-        } catch (Exception e) {
-            e.printStackTrace();
+        GameSaveManager gsm = new GameSaveManager();
+        String[] saves = gsm.listSaves();
+
+
+        ObservableList<String> filtered = FXCollections.observableArrayList();
+
+        for (String s : saves) {
+            if (s.startsWith(profile.getName())) {
+                filtered.add(s);
+            }
+        }
+
+        saveFileCombo.setItems(filtered);
+
+        if (!filtered.isEmpty()) {
+            saveFileCombo.getSelectionModel().selectFirst();
         }
     }
+
+
     public void refreshProfiles(PlayerProfile selected) {
 
-        // Load real profiles
+
         List<PlayerProfile> profiles = ProfileManager.loadProfiles();
 
-        // Create list with placeholder at the top
+
         ObservableList<PlayerProfile> option = FXCollections.observableArrayList();
 
         PlayerProfile placeholder = new PlayerProfile("Select Player", 1);
-        option.add(placeholder);               // index 0
-        option.addAll(profiles);               // real profiles follow
+        option.add(placeholder);
+        option.addAll(profiles);
 
-        // Assign list to ComboBox
+
         profileCombo.setItems(option);
 
-        // Select placeholder by default unless something was chosen
+
         if (selected != null) {
             profileCombo.getSelectionModel().select(selected);
         } else {
-            profileCombo.getSelectionModel().selectFirst();   // selects placeholder
+            profileCombo.getSelectionModel().selectFirst();
         }
     }
 
-    @FXML
-    private void deleteProfile() {
-
-        PlayerProfile selected = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
-
-        // No profile selected
-        if (selected == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("No profile selected.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Cannot delete the placeholder
-        if (selected.getName().equals("Select Player")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a real profile to delete.");
-            alert.showAndWait();
-            return;
-        } else {
-            // Delete from file
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Profile Deleted");
-            ProfileManager.deleteProfile(selected);
-            alert.showAndWait();
-
-        }
-        // Refresh and select placeholder again
-        refreshProfiles(null);
-    }
 
     @FXML
     private void startGame() {
@@ -127,7 +108,6 @@ public class ProfileController {
             return;
         }
 
-        // FIX: store profile before loading next window
         ProfileSession.set(selectedProfile);
 
         try {
@@ -155,10 +135,5 @@ public class ProfileController {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
         stage.close();
     }
-
-    public void setGameController(GameController controller) {
-        this.gameController = controller;
-    }
-
 
 }

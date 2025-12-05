@@ -9,24 +9,28 @@ import game.item.Loot;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
+import game.playerProfile.ProfileController;
 import game.save.GameSaveManager;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Optional;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -346,71 +350,27 @@ public class GameController {
     @FXML
     public void buttonLoadAction() {
         try {
-            // Get list of available save files
-            String[] saveFiles = saveManager.listSaves();
+            // Load the Profile Selection screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
+            Pane root = loader.load();
 
-            if (saveFiles.length == 0) {
-                // No saves found
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No Saves Found");
-                alert.setHeaderText(null);
-                alert.setContentText("No save files found. Start a new game first!");
-                alert.showAndWait();
-                return;
-            }
 
-            // Show choice dialog to select a save file
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(saveFiles[0], saveFiles);
-            dialog.setTitle("Load Game");
-            dialog.setHeaderText("Select a save file to load");
-            dialog.setContentText("Save file:");
+            ProfileController profileController = loader.getController();
+            profileController.setGameController(this);
 
-            Optional<String> result = dialog.showAndWait();
-
-            if (result.isPresent()) {
-                String selectedFile = result.get();
-
-                // Stop the game tick before loading
-                if (tickPlaying) {
-                    tickTimeline.stop();
-                    tickPlaying = false;
-                }
-
-                // Load the game
-                Level loadedLevel = saveManager.load(selectedFile);
-
-                if (loadedLevel != null) {
-                    // Update the level and player references
-                    level = loadedLevel;
-                    player = level.getPlayer();
-                    itemGrid = level.getItemsGrid();
-
-                    // Redraw the game
-                    drawGame();
-
-                    // Show success message
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Game Loaded");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Game loaded successfully from " + selectedFile);
-                    alert.showAndWait();
-
-                } else {
-                    // Load failed
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Load Failed");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Failed to load the game. The save file may be corrupted.");
-                    alert.showAndWait();
-                }
-            }
+            // Create a new stage for the profile selection
+            Stage profileStage = new Stage();
+            Scene scene = new Scene(root, 450, 300); // adjust to FXML size
+            profileStage.setScene(scene);
+            profileStage.setTitle("Select Profile & Save");
+            profileStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Load Error");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while loading: " + e.getMessage());
+            alert.setContentText("An error occurred while opening the profile selection screen: " + e.getMessage());
             alert.showAndWait();
         }
     }

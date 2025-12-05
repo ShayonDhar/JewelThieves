@@ -34,6 +34,11 @@ public class GameSaveManager {
         ensureSaveDirectoryExists();
     }
 
+    public GameSaveManager() {
+        ensureSaveDirectoryExists();
+        this.levelLoader = null;
+    }
+
     /**
      * Creates the save directory if it doesn't exist.
      */

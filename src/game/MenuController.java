@@ -1,15 +1,11 @@
 package game;
 
-import game.save.GameSaveManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-
-import java.util.Optional;
 
 /**
  * Class that controls the main menu display.
@@ -43,15 +39,13 @@ public class MenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
             Pane root = loader.load();
 
-            // Pass menu stage if the profile screen needs to close it later
+
             Stage selectionStage = new Stage();
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
             selectionStage.setScene(scene);
             selectionStage.setTitle("Select Profile to Load");
             selectionStage.show();
 
-            // Close the main menu window so you don’t stack windows like a raccoon hoarding trash
-            stage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
