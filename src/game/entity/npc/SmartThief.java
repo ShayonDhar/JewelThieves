@@ -2,9 +2,12 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.EntityName;
+import game.entity.Player;
 import game.level.Level;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Objects;
 
 /*
 SmartThief implementation:
@@ -25,6 +28,8 @@ an exit before the player does.
 
 public class SmartThief extends NPC {
     private static final int SPRITE_SIZE = 35;
+    private static final String SMARTTHIEF_PNG = "/game/resources/smartthief.png";
+
     /**
      * Constructor to create the Smart Thief.
      *
@@ -40,7 +45,7 @@ public class SmartThief extends NPC {
         super(EntityName.SMART_THIEF, x, y, direction, alive, blocksMovement, level);
 
         sprite = new ImageView(
-                new Image(game.entity.Player.class.getResource("/game/resources/smartthief.png").toExternalForm())
+                new Image(Objects.requireNonNull(Player.class.getResource(SMARTTHIEF_PNG)).toExternalForm())
         );
         sprite.setFitWidth(SPRITE_SIZE);
         sprite.setFitHeight(SPRITE_SIZE);

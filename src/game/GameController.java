@@ -10,8 +10,12 @@ import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.save.GameSaveManager;
+
+import java.util.List;
+import java.util.ArrayList;
 import java.util.Optional;
 import javafx.animation.Animation;
+import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
@@ -37,7 +41,7 @@ public class GameController {
     private static final int TICK_DURATION = 1000;
     private static final int START_TIME_REMAINING = 30;
     private static Timeline tickTimeline;
-
+    @FXML private static Text gameOverText;
     public TilePane boardTilePane;
     public Level level;
     public Player player;
@@ -45,9 +49,10 @@ public class GameController {
     public TextArea textArea;
     public boolean tickPlaying = false;
     private GameSaveManager saveManager;
-    @FXML private static Text gameOverText;
     private int score = 0;
-    private int timeRemaining = START_TIME_REMAINING;
+    private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
+
+    private int timeRemaining = START_TIME_REMAINING; // TODO Read time from the level file
 
     /**
      * Method that initialises the game.
@@ -143,7 +148,6 @@ public class GameController {
                 boardTilePane.getChildren().add(tileStack);
             }
         }
-
         // Draw NPCs at their current tiles
         for (Entity entities : level.getEntities()) {
             if (entities instanceof NPC npc) {
@@ -156,8 +160,43 @@ public class GameController {
         // Displaying the player at their current tile
         tiles[player.getX()][player.getY()].getChildren().add(player.getSprite());
 
+        // Bomb Animation
+        List<ExplosionEffect> toRemove = new ArrayList<>();
+
+        for (ExplosionEffect effect : activeExplosions) {
+            StackPane tileStack = tiles[effect.x][effect.y];
+
+            long remaining = effect.endTime - System.currentTimeMillis();
+
+            if (remaining <= 0) {
+                toRemove.add(effect);
+            } else {
+                StackPane overlay = new StackPane();
+                overlay.setStyle("-fx-background-color: rgba(255, 120, 0, 1); -fx-background-radius: 50%;");
+                overlay.setPrefSize(tileStack.getWidth(), tileStack.getHeight());
+
+                tileStack.getChildren().add(overlay);
+
+                FadeTransition fade = new FadeTransition(Duration.millis(remaining), overlay);
+                fade.setFromValue(1.0);
+                fade.setToValue(0.0);
+                fade.play();
+            }
+        }
+        activeExplosions.removeAll(toRemove);
     }
 
+    /**
+     * method is responsible for triggering explosion effects on specific tiles in the game.
+     *
+     * @param tiles a list of TilePosition objects.
+     */
+    public void showExplosionAtTiles(List<TilePosition> tiles) {
+        long duration = 250;
+        for (TilePosition pos : tiles) {
+            activeExplosions.add(new ExplosionEffect(pos.x(), pos.y(), duration));
+        }
+    }
     /**
      * Method to show the time remaining and the score.
      */

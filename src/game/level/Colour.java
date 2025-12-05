@@ -10,12 +10,12 @@ import javafx.scene.paint.Color;
  */
 
 public enum Colour {
-    RED('R', Color.RED),
-    GREEN('G', Color.GREEN),
-    BLUE('B', Color.BLUE),
-    YELLOW('Y', Color.YELLOW),
-    CYAN('C', Color.CYAN),
-    MAGENTA('M', Color.MAGENTA);
+    RED('R', Color.web("#cb0404")),
+    GREEN('G', Color.web("#8ec127")),
+    BLUE('B', Color.web("#017cf3")),
+    YELLOW('Y', Color.web("#ff9f00")),
+    CYAN('C', Color.web("#00e5e5")),
+    MAGENTA('M', Color.web("#640d5f"));
 
     private final char code;
     private final Color fxColor;
