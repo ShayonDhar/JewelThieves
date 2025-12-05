@@ -20,6 +20,8 @@ public class LevelMenuController {
     private static final int LEVEL_EIGHT = 8;
     private static final int LEVEL_NINE = 9;
     private static final int LEVEL_TEN = 10;
+    private static final int WINDOW_WIDTH = 950;
+    private static final int WINDOW_HEIGHT = 700;
     public Button level1Btn;
     public Button level2Btn;
     public Button level3Btn;
