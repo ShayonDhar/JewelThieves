@@ -85,6 +85,21 @@ public class GameController {
         // Drawing the game
         drawGame();
     }
+    
+    public void loadLevel(int levelNumber) {
+        LevelLoader loader = new LevelLoader(this);
+
+        String filename = "Level" + levelNumber + ".txt";
+        level = loader.load(filename);
+
+        player = level.getPlayer();
+        itemGrid = level.getItemsGrid();
+
+        timeRemaining = START_TIME_REMAINING;
+        score = 0;
+
+        drawGame();
+    }
 
     /**
      * Updates the game state and redraws the scene.
