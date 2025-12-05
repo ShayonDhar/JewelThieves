@@ -131,9 +131,16 @@ public class LevelMenuController {
             controller.loadLevel(levelNumber);
 
             // now correctly get the stage from the *clicked* button
-            Stage stage = (Stage) sourceButton.getScene().getWindow();
-            stage.setScene(new Scene(root));
-            stage.show();
+            Stage gameStage = (Stage) sourceButton.getScene().getWindow();
+
+            // Load the scene onto the scene
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            scene.setOnKeyPressed(controller::onKeyPressed);
+
+            // Setting the scene and displaying it
+            gameStage.setScene(scene);
+            gameStage.setTitle("Jewel Thieves Group 01 - Game");
+            gameStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
