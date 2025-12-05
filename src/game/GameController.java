@@ -64,7 +64,7 @@ public class GameController {
         tickTimeline = new Timeline(new KeyFrame(
                 Duration.millis(TICK_DURATION), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
-        
+
         // Setting the text area
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
@@ -77,19 +77,13 @@ public class GameController {
         StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
         ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
 
-        // Setting the player, items from game save manager
-        player = level.getPlayer();
-        itemGrid = level.getItemsGrid();
-        saveManager = new GameSaveManager(this);
-
-        // Drawing the game
-        drawGame();
     }
-    
-    public void loadLevel(int levelNumber) {
-        LevelLoader loader = new LevelLoader(this);
 
+    public void loadLevel(int levelNumber) {
+
+        LevelLoader loader = new LevelLoader(this);
         String filename = "Level" + levelNumber + ".txt";
+
         level = loader.load(filename);
 
         player = level.getPlayer();
@@ -98,8 +92,11 @@ public class GameController {
         timeRemaining = START_TIME_REMAINING;
         score = 0;
 
+        saveManager = new GameSaveManager(this);
+
         drawGame();
     }
+
 
     /**
      * Updates the game state and redraws the scene.
