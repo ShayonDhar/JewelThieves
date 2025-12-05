@@ -24,7 +24,8 @@ import javafx.scene.text.Text;
  * @version 1.0.0
  */
 public class Bomb extends Item {
-    private static final int BOMB_COUNTDOWN = 3;
+    private static final int BOMB_COUNTDOWN = 4; // Not 3 to account for trigger time
+    private static final int TRIGGERED_TIME = 3;
     private BombState state;
     private int countdown = BOMB_COUNTDOWN;
 
@@ -151,11 +152,17 @@ public class Bomb extends Item {
 
         // Countdown text
         Text countdownText = new Text(String.valueOf(countdown));
-        countdownText.setText(String.valueOf(countdown));
         countdownText.setFill(Color.ORANGE);
         countdownText.setFont(Font.font("Arial", FontWeight.BOLD, 35));
         countdownText.setStroke(Color.BLACK);   // outline for visibility
         countdownText.setStrokeWidth(1);
+
+        // Hiding the countdown until bomb is triggered
+        if (countdown <= TRIGGERED_TIME) {
+            countdownText.setText(String.valueOf(countdown));
+        } else {
+            countdownText.setText("");
+        }
 
         // Center the text on top of the image
 
