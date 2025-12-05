@@ -7,6 +7,7 @@ import game.entity.npc.NPC;
 import game.item.Item;
 import game.item.Loot;
 import game.item.Clock;
+import game.item.Lever;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
@@ -104,12 +105,21 @@ public class GameController {
         Item item = level.getItemAt(player.getY(), player.getX());
         if (item instanceof Loot loot) {
             addScore(loot.getLootType().getValue());
+            loot.isOn = false;
             level.removeItemFromGrid(player.getY(), player.getX());
         }
 
         // Check for clock collection
         if (item instanceof Clock clock) {
             timeRemaining += clock.getTimeBonus();
+            clock.isOn = false;
+            level.removeItemFromGrid(player.getY(), player.getX());
+        }
+
+        // Check for lever collection
+        if (item instanceof Lever lever) {
+            level.unlockGates(lever.getColour());
+            lever.isOn = false;
             level.removeItemFromGrid(player.getY(), player.getX());
         }
 
