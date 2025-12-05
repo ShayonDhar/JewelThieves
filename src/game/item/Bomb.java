@@ -127,12 +127,37 @@ public class Bomb extends Item {
         int bombX = this.getX();
         int bombY  = this.getY();
 
-        List<Item> itemsToExplode = new ArrayList<>(level.getAllItems());
-
         level.handleExplosion(bombX, bombY);
         level.notifyExplosion(bombX, bombY);
 
+        triggerBombInExplosionPath(level, bombX, bombY);
+
         level.removeItemFromGrid(this.getY(), this.getX());
+
+    }
+
+    private void triggerBombInExplosionPath(Level level, int bombX, int bombY) {
+
+        int width = level.getLevelWidth();
+        int height = level.getLevelHeight();
+
+        for (int x = 0; x < width; x++) {
+            Item item = level.getItemAt(bombY, x);
+            if (item instanceof Bomb otherBomb && otherBomb != this) {
+                if (otherBomb.getState() == BombState.WAITING) {
+                    otherBomb.trigger();
+                }
+            }
+        }
+
+        for (int y = 0; y < height; y++) {
+            Item item = level.getItemAt(y, bombX);
+            if (item instanceof Bomb otherBomb && otherBomb != this) {
+                if (otherBomb.getState() == BombState.WAITING) {
+                    otherBomb.trigger();
+                }
+            }
+        }
 
     }
 
