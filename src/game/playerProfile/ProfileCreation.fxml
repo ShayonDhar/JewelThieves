@@ -10,7 +10,9 @@
 <AnchorPane prefHeight="300.0" prefWidth="400.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="game.playerProfile.ProfileCreationController">
+            fx:controller="game.playerProfile.ProfileCreationController"
+            stylesheets="@levelMenu.css"
+            styleClass="root-bg">
 
    <children>
       <VBox spacing="20" alignment="CENTER"
@@ -21,7 +23,10 @@
 
          <!-- Title -->
          <Label text="Create New Profile"
-                style="-fx-font-size: 24px; -fx-font-weight: bold;" />
+                style="-fx-font-size: 26px;
+              -fx-font-weight: bold;
+              -fx-text-fill: #f5e3b4;
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 4, 0.5, 2, 2);" />
 
          <!-- Player name input -->
          <VBox spacing="5" alignment="CENTER_LEFT">
@@ -35,14 +40,14 @@
          <!-- Buttons -->
          <VBox spacing="10" alignment="CENTER">
             <Button text="Create"
-                    fx:id="createBtn"
                     onAction="#onCreate"
-                    prefWidth="120" />
+                    prefWidth="120"
+                    styleClass="level-button"/>
 
             <Button text="Cancel"
-                    fx:id="cancelBtn"
                     onAction="#onCancel"
-                    prefWidth="120" />
+                    prefWidth="120"
+                    styleClass="level-button"/>
          </VBox>
 
       </VBox>

@@ -12,50 +12,58 @@
 <AnchorPane prefHeight="300.0" prefWidth="450.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="game.playerProfile.ProfileController">
+            fx:controller="game.playerProfile.ProfileController"
+            stylesheets="@MainMenu.css"
+            styleClass="root-bg">
 
-    <children>
-        <VBox alignment="TOP_CENTER" spacing="20.0"
-              AnchorPane.topAnchor="20.0"
-              AnchorPane.leftAnchor="20.0"
-              AnchorPane.rightAnchor="20.0"
-              AnchorPane.bottomAnchor="20.0">
+    <VBox alignment="TOP_CENTER" spacing="20.0"
+          AnchorPane.topAnchor="20.0"
+          AnchorPane.leftAnchor="20.0"
+          AnchorPane.rightAnchor="20.0"
+          AnchorPane.bottomAnchor="20.0">
 
-            <!-- Title -->
-            <Label text="Select Player Profile"
-                   style="-fx-font-size: 26px; -fx-font-weight: bold;" />
+        <!-- Title -->
+        <Label text="Select Player Profile"
+               style="-fx-font-size: 26px;
+              -fx-font-weight: bold;
+              -fx-text-fill: #f5e3b4;
+              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 4, 0.5, 2, 2);"/>
 
-            <!-- Profile List Dropdown -->
-            <ComboBox fx:id="profileCombo"
-                      prefWidth="250.0" />
 
-            <!-- New / Delete Buttons -->
-            <HBox spacing="15.0" alignment="CENTER">
-                <Button text="New Profile"
-                        fx:id="newProfileBtn"
-                        onAction="#newProfile"
-                        prefWidth="120" />
+        <!-- Profile List Dropdown -->
+        <ComboBox fx:id="profileCombo"
+                  prefWidth="250.0"
+                  styleClass="menu-combo"/>
 
-                <Button text="Delete"
-                        fx:id="deleteProfileBtn"
-                        onAction="#deleteProfile"
-                        prefWidth="120" />
-            </HBox>
+        <!-- New / Delete Buttons -->
+        <HBox spacing="15.0" alignment="CENTER">
+            <Button text="New Profile"
+                    fx:id="newProfileBtn"
+                    onAction="#newProfile"
+                    prefWidth="220"
+                    styleClass="menu-button"/>
 
-            <!-- Start / Cancel Buttons -->
-            <HBox spacing="15.0" alignment="CENTER">
-                <Button text="Start Game"
-                        fx:id="startBtn"
-                        onAction="#startGame"
-                        prefWidth="120" />
+            <Button text="Delete"
+                    fx:id="deleteProfileBtn"
+                    onAction="#deleteProfile"
+                    prefWidth="214"
+                    styleClass="menu-button"/>
+        </HBox>
 
-                <Button text="Cancel"
-                        fx:id="cancelBtn"
-                        onAction="#cancel"
-                        prefWidth="120" />
-            </HBox>
+        <HBox spacing="15.0" alignment="CENTER">
+            <Button text="Start Game"
+                    fx:id="startBtn"
+                    onAction="#startGame"
+                    prefWidth="214"
+                    styleClass="menu-button"
+            />
 
-        </VBox>
-    </children>
+            <Button text="Cancel"
+                    fx:id="cancelBtn"
+                    onAction="#cancel"
+                    prefWidth="214"
+                    styleClass="menu-button"/>
+        </HBox>
 
+    </VBox>
 </AnchorPane>
