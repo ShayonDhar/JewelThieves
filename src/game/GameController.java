@@ -47,7 +47,7 @@ public class GameController {
     public Player player;
     public Item [][] itemGrid;
     public TextArea textArea;
-    public boolean tickPlaying = false;
+    public static boolean tickPlaying = false;
     private GameSaveManager saveManager;
     private int score = 0;
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
@@ -197,6 +197,7 @@ public class GameController {
             activeExplosions.add(new ExplosionEffect(pos.x(), pos.y(), duration));
         }
     }
+
     /**
      * Method to show the time remaining and the score.
      */
@@ -261,6 +262,7 @@ public class GameController {
      * Called when the player dies (Flying Assassin, timer expires, etc.)
      */
     public static void gameOver() {
+        tickPlaying = false;
         tickTimeline.stop();
         gameOverText.setVisible(true);
     }
