@@ -40,43 +40,29 @@ public class MenuController {
     @FXML
     public void buttonLoadGame() {
         try {
-            // Create a temporary save manager just to list saves
-            GameSaveManager saveManager = new GameSaveManager(null);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
+            Pane root = loader.load();
 
-            // Get list of available save files
-            String[] saveFiles = saveManager.listSaves();
+            // Pass menu stage if the profile screen needs to close it later
+            Stage selectionStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            selectionStage.setScene(scene);
+            selectionStage.setTitle("Select Profile to Load");
+            selectionStage.show();
 
-            if (saveFiles.length == 0) {
-                // No saves found
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No Saves Found");
-                alert.setHeaderText(null);
-                alert.setContentText("No save files found. Start a new game first!");
-                alert.showAndWait();
-                return;
-            }
-
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(saveFiles[0], saveFiles);
-            dialog.setTitle("Load Game");
-            dialog.setHeaderText("Select a save file to load");
-            dialog.setContentText("Save file:");
-
-            Optional<String> result = dialog.showAndWait();
-
-            if (result.isPresent()) {
-                String selectedFile = result.get();
-                loadGameWithSave(selectedFile);
-            }
+            // Close the main menu window so you don’t stack windows like a raccoon hoarding trash
+            stage.close();
 
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to load game: " + e.getMessage());
+            alert.setContentText("Failed to open profile selection: " + e.getMessage());
             alert.showAndWait();
         }
     }
+
 
     /**
      * Loads the game scene and tells it to load a specific save file.
