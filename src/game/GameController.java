@@ -8,6 +8,7 @@ import game.item.Item;
 import game.item.Loot;
 import game.item.Clock;
 import game.item.Lever;
+import game.item.Door;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
@@ -44,6 +45,8 @@ public class GameController {
     private static final int START_TIME_REMAINING = 30;
     private static Timeline tickTimeline;
     @FXML private static Text gameOverText;
+    @FXML private static Text levelCompleteText;
+    private boolean isLevelComplete = false;
     public TilePane boardTilePane;
     public Level level;
     public Player player;
@@ -79,8 +82,13 @@ public class GameController {
         gameOverText = new Text("GAME OVER");
         gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
                         + "black; -fx-stroke-width: 5px");
-        gameOverText.setVisible(false); // Hiding GAME-OVER for now
-        StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
+        levelCompleteText = new Text("LEVEL COMPLETE");
+        levelCompleteText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
+                + "black; -fx-stroke-width: 5px");
+        gameOverText.setVisible(false);
+        levelCompleteText.setVisible(false);
+        // Hiding GAME-OVER for now
+        StackPane overlay = new StackPane(gameOverText, levelCompleteText); // Stack Pane that contains the BorderPane
         ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
 
         // Setting the player, items from game save manager
@@ -123,8 +131,19 @@ public class GameController {
             level.removeItemFromGrid(player.getY(), player.getX());
         }
 
+        // Check for whether door can be unlocked
+        if (level.allLootAndLeversCollected()) {
+            if (item instanceof Door door) {
+                door.isOn = false;
+                level.removeItemFromGrid(player.getY(), player.getX());
+                isLevelComplete = true;
+                editTextArea();
+                levelCompleted();
+            }
+        }
+
         // Controlling the game time
-        if (timeRemaining == 0) {
+        if (timeRemaining == 0 && !isLevelComplete) {
             editTextArea();
             gameOver();
         } else {
@@ -283,6 +302,12 @@ public class GameController {
         tickPlaying = false;
         tickTimeline.stop();
         gameOverText.setVisible(true);
+    }
+
+    public static void levelCompleted() {
+        tickPlaying = false;
+        tickTimeline.stop();
+        levelCompleteText.setVisible(true);
     }
 
     /** Method to indicate the level has finished.
