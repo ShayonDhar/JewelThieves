@@ -31,7 +31,7 @@ public class Clock extends Item {
      */
     public Clock(String itemName, int itemID, int x, int y, boolean isOn, int timeBonus) {
         super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
-        this.timeBonus = timeBonus;
+        this.timeBonus = 5;
     }
 
     public int getTimeBonus() {
