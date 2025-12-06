@@ -88,8 +88,8 @@ public class ProfileSaveController {
 
     @FXML
     private void startGame() {
-        // Get selected profile and save file
-        PlayerProfile selectedProfile = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
+        PlayerProfile selectedProfile =
+                (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
         String selectedSave = (String) saveFileCombo.getSelectionModel().getSelectedItem();
 
         // Validate profile
@@ -108,7 +108,7 @@ public class ProfileSaveController {
             return;
         }
 
-        // Load the saved level from the selected save file
+        // Load save
         GameSaveManager gsm = new GameSaveManager(gameController);
         Level loadedLevel = gsm.load(selectedSave);
 
@@ -119,28 +119,38 @@ public class ProfileSaveController {
             return;
         }
 
-        // Set the selected profile in the session
+        // Store profile
         ProfileSession.set(selectedProfile);
 
         try {
-            // Get the current stage
             Stage gameStage = (Stage) profileCombo.getScene().getWindow();
 
-            // Initialize GameController if it's not already
+            Pane root;
+            Scene scene;
+
+            // Load FXML and GameController if needed
             if (gameController == null) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
-                Pane root = loader.load();
+                root = loader.load();
                 gameController = loader.getController();
 
-                // Set up scene
-                Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+                scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
                 gameStage.setScene(scene);
+            } else {
+                // Reuse the existing controller's scene
+                root = (Pane) gameStage.getScene().getRoot();
+                scene = gameStage.getScene();
             }
 
-            // Load the saved level into GameController
+            // Load saved level INTO controller
             gameController.loadSavedLevel(loadedLevel);
 
-            // Show the stage
+            // IMPORTANT: attach key handler to movement
+            scene.setOnKeyPressed(gameController::onKeyPressed);
+
+            // Give focus to the board
+            gameController.boardTilePane.requestFocus();
+
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
 
@@ -152,6 +162,7 @@ public class ProfileSaveController {
             alert.showAndWait();
         }
     }
+
 
 
 

@@ -297,6 +297,16 @@ public class GameController {
         gameOverText.setVisible(true);
     }
 
+    /**
+     * Checks whether the game is over.
+     * 
+     * @return the current game state
+     */
+    
+    private boolean isGameOver() {
+        return tickPlaying;
+    }
+
     /** Method to indicate the level has finished.
      * Called when the player reaches an exit AND all loot + levers collected
      */
@@ -333,24 +343,30 @@ public class GameController {
     @FXML
     public void buttonSaveAction() {
         try {
-            String filename = saveManager.generateSaveFilename();
+            // Block saving if the level is failed
+            if (level == null || isGameOver()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Cannot Save");
+                alert.setHeaderText(null);
+                alert.setContentText("The game cannot be saved because the level has failed.");
+                alert.showAndWait();
+                return;
+            }
 
+            // Make sure saveManager exists
+            if (saveManager == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Save Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Save system not initialized.");
+                alert.showAndWait();
+                return;
+            }
+
+            String filename = saveManager.generateSaveFilename();
             boolean success = saveManager.save(level, filename);
 
-            Alert alert;
-            if (success) {
-                // Show success message
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Game Saved");
-                alert.setHeaderText(null);
-                alert.setContentText("Game saved successfully as " + filename);
-            } else {
-                // Show error message
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Save Failed");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to save the game. Please try again.");
-            }
+            Alert alert = getAlert(success, filename);
             alert.showAndWait();
 
         } catch (Exception e) {

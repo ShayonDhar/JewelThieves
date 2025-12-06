@@ -911,12 +911,6 @@ public class Level {
         }
 
     }
-    public void failLevel() {
-        levelFailed = true;
-        if (controller != null) {
-            GameController.gameOver(); // or controller.levelFailed(), if you prefer
-        }
-    }
 
 
     public Tile[][] getLevelGrid() {

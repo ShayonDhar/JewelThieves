@@ -58,6 +58,19 @@ public class ProfileController {
         PlayerProfile selectedProfile =
                 (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
 
+        // Validate selection: prevent starting with placeholder or null
+        if (selectedProfile == null
+                || selectedProfile.getName().equals("Select Player")) {
+
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Invalid Selection");
+            alert.setHeaderText("No Valid Profile Selected");
+            alert.setContentText("Please select a valid player profile before starting the game.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Store selected profile
         ProfileSession.set(selectedProfile);
 
         try {
@@ -71,16 +84,17 @@ public class ProfileController {
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
             gameStage.setScene(scene);
 
+            // Attach movement handler
             scene.setOnKeyPressed(controller::onKeyPressed);
 
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     @FXML
     private void cancel() {
