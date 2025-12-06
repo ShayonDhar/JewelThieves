@@ -66,57 +66,6 @@ public class LevelMenuController {
     }
 
     @FXML
-    private void loadLevel1() {
-
-        loadLevel(LEVEL_ONE, level1Btn);
-    }
-
-    @FXML
-    private void loadLevel2() {
-        loadLevel(LEVEL_TWO, level2Btn);
-    }
-
-    @FXML
-    private void loadLevel3() {
-        loadLevel(LEVEL_THREE, level3Btn);
-    }
-
-    @FXML
-    private void loadLevel4() {
-        loadLevel(LEVEL_FOUR, level4Btn);
-    }
-
-    @FXML
-    private void loadLevel5() {
-        loadLevel(LEVEL_FIVE, level5Btn);
-    }
-
-    @FXML
-    private void loadLevel6() {
-        loadLevel(LEVEL_SIX, level6Btn);
-    }
-
-    @FXML
-    private void loadLevel7() {
-        loadLevel(LEVEL_SEVEN, level7Btn);
-    }
-
-    @FXML
-    private void loadLevel8() {
-        loadLevel(LEVEL_EIGHT, level8Btn);
-    }
-
-    @FXML
-    private void loadLevel9() {
-        loadLevel(LEVEL_NINE, level9Btn);
-    }
-
-    @FXML
-    private void loadLevel10() {
-        loadLevel(LEVEL_TEN, level10Btn);
-    }
-
-    @FXML
     private void onLevelClicked(ActionEvent event) {
         Button clicked = (Button) event.getSource();
         int levelNumber = (int) clicked.getUserData();
