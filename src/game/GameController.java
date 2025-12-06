@@ -11,7 +11,6 @@ import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.save.GameSaveManager;
-
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -23,10 +22,11 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.TextArea;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
+import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -41,8 +41,9 @@ public class GameController {
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
     private static final int START_TIME_REMAINING = 30;
+
     private static Timeline tickTimeline;
-    @FXML private static Text gameOverText;
+
     public TilePane boardTilePane;
     public Level level;
     public Player player;
@@ -55,11 +56,18 @@ public class GameController {
 
     private int timeRemaining = START_TIME_REMAINING; // TODO Read time from the level file
 
+    @FXML
+    private static Text gameOverText;
+    @FXML
+    private StackPane rootStackPane;
+
     /**
      * Method that initialises the game.
      */
     @FXML
     public void initialize() {
+
+        setupBackground();
 
         // New timeline with one keyframe that triggers the tick method every half a second.
         tickTimeline = new Timeline(new KeyFrame(
@@ -488,6 +496,57 @@ public class GameController {
                 alert.setContentText("Failed to load the save file.");
                 alert.showAndWait();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setupBackground() {
+        try {
+            String path = "resources/gamebackground.jpg";
+            var inputStream = getClass().getResourceAsStream(path);
+
+            if (inputStream == null) {
+                return;
+            }
+
+            Image backgroundImage = new Image(inputStream);
+
+            ImageView bgView = new ImageView(backgroundImage);
+            bgView.setPreserveRatio(false);
+            bgView.fitWidthProperty().bind(rootStackPane.widthProperty());
+            bgView.fitHeightProperty().bind(rootStackPane.heightProperty());
+
+            GaussianBlur blur = new GaussianBlur();
+            blur.setRadius(10);
+            bgView.setEffect(blur);
+
+            // Create gradient overlays
+            Pane topGradient = new Pane();
+            topGradient.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);"
+            );
+            topGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
+            topGradient.setPrefHeight(150);
+            topGradient.setMouseTransparent(true);
+
+            Pane bottomGradient = new Pane();
+            bottomGradient.setStyle(
+                    "-fx-background-color: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);"
+            );
+            bottomGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
+            bottomGradient.setPrefHeight(150);
+            bottomGradient.setMouseTransparent(true);
+
+            bottomGradient.translateYProperty().bind(
+                    rootStackPane.heightProperty().subtract(bottomGradient.prefHeightProperty())
+            );
+
+            // Add in order: background image, top gradient, bottom gradient
+            rootStackPane.getChildren().add(0, bgView);
+            rootStackPane.getChildren().add(1, topGradient);
+            rootStackPane.getChildren().add(2, bottomGradient);
+
         } catch (Exception e) {
             e.printStackTrace();
         }

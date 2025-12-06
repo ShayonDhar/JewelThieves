@@ -93,7 +93,6 @@ public class MenuController {
             Stage gameStage = new Stage();
 
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            root.setStyle("-fx-background-color: black");
 
             scene.setOnKeyPressed(gameController::onKeyPressed);
             gameStage.setTitle("Jewel Thieves Group 01 - Game");

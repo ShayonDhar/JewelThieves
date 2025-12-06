@@ -10,10 +10,10 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.Font?>
 
-<StackPane xmlns="http://javafx.com/javafx/21"
+<StackPane fx:id="rootStackPane"
+           xmlns="http://javafx.com/javafx/21"
            xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="game.GameController"
-           style="-fx-background-color: linear-gradient(to bottom, #2c1810 0%, #e58e14 50%, #2c1810 100%);">
+           fx:controller="game.GameController">
 
     <BorderPane maxHeight="-Infinity" maxWidth="-Infinity"
                 minHeight="-Infinity" minWidth="-Infinity"
@@ -22,74 +22,88 @@
         <left>
             <VBox alignment="CENTER" spacing="20.0" prefHeight="278.0" prefWidth="122.0"
                   BorderPane.alignment="CENTER"
-                  style="-fx-background-color: linear-gradient(to right, rgba(101, 67, 33, 0.9), rgba(139, 90, 43, 0.8));
+                  style="-fx-background-color: linear-gradient(to right, rgba(30, 60, 90, 0.9), rgba(20, 50, 80, 0.85));
                          -fx-background-radius: 15;
-                         -fx-border-color: #d4af37;
+                         -fx-border-color: #20b2aa;
                          -fx-border-width: 3;
                          -fx-border-radius: 15;
-                         -fx-effect: dropshadow(gaussian, rgba(212, 175, 55, 0.6), 20, 0.4, 0, 0);">
+                         -fx-effect: dropshadow(gaussian, rgba(6,128,121,0.6), 20, 0.4, 0, 0);">
                 <BorderPane.margin>
                     <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
                 </BorderPane.margin>
 
-                <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="102.0" wrapText="true"
-                          style="-fx-control-inner-background: rgba(255, 248, 220, 0.95);
-                                 -fx-text-fill: #5c3317;
-                                 -fx-border-color: #8b5a2b;
-                                 -fx-border-width: 2;
-                                 -fx-border-radius: 8;
-                                 -fx-background-radius: 8;
-                                 -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0.3, 2, 2);">
-                    <font><Font name="Times New Roman Italic" size="15.0"/></font>
+                <TextArea fx:id="textArea" stylesheets="@no-scrollbar.css"
+                          prefHeight="50" prefWidth="102" wrapText="true"
+                          style="-fx-control-inner-background: rgba(240,248,255,0.93);
+                                  -fx-text-fill: #1e3a5f;
+                                  -fx-border-color: #4682b4;
+                                  -fx-border-width: 2;
+                                  -fx-border-radius: 8;
+                                  -fx-background-radius: 8;
+                                  -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 8, 0.3, 2, 2);">
+                    <font>
+                        <Font name="Times New Roman Italic" size="15"/>
+                    </font>
                 </TextArea>
 
+<!--                <TextArea fx:id="textArea" prefHeight="50.0" prefWidth="102.0" wrapText="true"-->
+<!--                          style="-fx-control-inner-background: rgba(240, 248, 255, 0.95);-->
+<!--                                 -fx-text-fill: #1e3a5f;-->
+<!--                                 -fx-border-color: #4682b4;-->
+<!--                                 -fx-border-width: 2;-->
+<!--                                 -fx-border-radius: 8;-->
+<!--                                 -fx-background-radius: 8;-->
+<!--                                 -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.4), 8, 0.3, 2, 2);">-->
+<!--                    <font><Font name="Times New Roman Italic" size="15.0"/></font>-->
+<!--                </TextArea>-->
+
                 <Button text="⚔ START" onAction="#buttonStartAction"
-                        style="-fx-background-color: linear-gradient(to bottom, #d4af37, #aa8c2d);
-                               -fx-text-fill: #1a0a00;
+                        style="-fx-background-color: linear-gradient(to bottom, #1e90ff, #1c7ed6);
+                               -fx-text-fill: #ffffff;
                                -fx-background-radius: 10;
-                               -fx-border-color: #ffd700;
+                               -fx-border-color: #4fc3f7;
                                -fx-border-width: 2;
                                -fx-border-radius: 10;
-                               -fx-effect: dropshadow(gaussian, rgba(212, 175, 55, 0.8), 10, 0.5, 0, 3);
+                               -fx-effect: dropshadow(gaussian, rgba(30, 144, 255, 0.8), 10, 0.5, 0, 3);
                                -fx-padding: 10 25 10 25;
                                -fx-cursor: hand;">
                     <font><Font name="Times New Roman Bold" size="14.0"/></font>
                 </Button>
 
                 <Button text="⛔ STOP" onAction="#buttonStopAction"
-                        style="-fx-background-color: linear-gradient(to bottom, #cd5c5c, #8b3a3a);
+                        style="-fx-background-color: linear-gradient(to bottom, #dc143c, #a01020);
                                -fx-text-fill: #fff8dc;
                                -fx-background-radius: 10;
                                -fx-border-color: #ff6b6b;
                                -fx-border-width: 2;
                                -fx-border-radius: 10;
-                               -fx-effect: dropshadow(gaussian, rgba(205, 92, 92, 0.6), 10, 0.5, 0, 3);
+                               -fx-effect: dropshadow(gaussian, rgba(220, 20, 60, 0.6), 10, 0.5, 0, 3);
                                -fx-padding: 10 25 10 25;
                                -fx-cursor: hand;">
                     <font><Font name="Times New Roman Bold" size="14.0"/></font>
                 </Button>
 
                 <Button text="💎 SAVE" onAction="#buttonSaveAction"
-                        style="-fx-background-color: linear-gradient(to bottom, #4169e1, #2f4f9f);
+                        style="-fx-background-color: linear-gradient(to bottom, #20b2aa, #178f87);
                                -fx-text-fill: #ffffff;
                                -fx-background-radius: 10;
-                               -fx-border-color: #6495ed;
+                               -fx-border-color: #48d1cc;
                                -fx-border-width: 2;
                                -fx-border-radius: 10;
-                               -fx-effect: dropshadow(gaussian, rgba(65, 105, 225, 0.6), 10, 0.5, 0, 3);
+                               -fx-effect: dropshadow(gaussian, rgba(32, 178, 170, 0.7), 10, 0.5, 0, 3);
                                -fx-padding: 10 25 10 25;
                                -fx-cursor: hand;">
                     <font><Font name="Times New Roman Bold" size="14.0"/></font>
                 </Button>
 
                 <Button text="📜 LOAD" onAction="#buttonLoadAction"
-                        style="-fx-background-color: linear-gradient(to bottom, #228b22, #145214);
-                               -fx-text-fill: #f0e68c;
+                        style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                               -fx-text-fill: #1a1a1a;
                                -fx-background-radius: 10;
-                               -fx-border-color: #32cd32;
+                               -fx-border-color: #ffed4e;
                                -fx-border-width: 2;
                                -fx-border-radius: 10;
-                               -fx-effect: dropshadow(gaussian, rgba(34, 139, 34, 0.6), 10, 0.5, 0, 3);
+                               -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.7), 10, 0.5, 0, 3);
                                -fx-padding: 10 25 10 25;
                                -fx-cursor: hand;">
                     <font><Font name="Times New Roman Bold" size="14.0"/></font>
@@ -103,13 +117,13 @@
                       hgap="2.0" vgap="2.0"
                       maxWidth="-Infinity"
                       maxHeight="-Infinity"
-                      style="-fx-background-color: rgba(61, 31, 0, 0.7);
+                      style="-fx-background-color: rgba(10, 30, 50, 0.75);
                              -fx-background-radius: 20;
-                             -fx-border-color: #d4af37;
+                             -fx-border-color: #20b2aa;
                              -fx-border-width: 5;
                              -fx-border-radius: 7;
                              -fx-padding: 0;
-                             -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.8), 15, 0.4, 0, 0);"
+                             -fx-effect: dropshadow(gaussian, rgba(0,171,255,0.8), 15, 0.4, 0, 0);"
                       BorderPane.alignment="CENTER">
                 <BorderPane.margin>
                     <Insets top="5.0" right="5.0" bottom="5.0" left="5.0"/>
@@ -119,15 +133,15 @@
 
     </BorderPane>
 
-    <!-- GAME OVER overlay (initially hidden) with treasure theme -->
+    <!-- GAME OVER overlay (initially hidden) with pirate theme -->
     <Text fx:id="gameOverText"
           text="💀 GAME OVER 💀"
           visible="false"
-          style="-fx-fill: linear-gradient(to bottom, #ff0000, #8b0000);
+          style="-fx-fill: linear-gradient(to bottom, #dc143c, #8b0000);
                  -fx-font-size: 70px;
                  -fx-font-weight: bold;
                  -fx-font-family: 'Times New Roman';
-                 -fx-stroke: #d4af37;
+                 -fx-stroke: #20b2aa;
                  -fx-stroke-width: 3;
                  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.9), 30, 0.8, 0, 8);"/>
 
