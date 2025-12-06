@@ -9,8 +9,10 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
+
 import java.util.*;
 import java.util.List;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -296,12 +298,10 @@ public class Level {
     public boolean allLootAndLeversCollected() {
         for (int y = 0; y < levelHeight; y++) {
             for (int x = 0; x < levelWidth; x++) {
-                Tile tile = levelGrid[y][x];
-                if (tile != null) {
-                    Item item = tile.getItem();
-                    if (item instanceof Loot || item instanceof Lever) {
-                        return false;
-                    }
+                // TODO AW issue here?
+                Item item = itemsGrid[y][x];
+                if (item instanceof Loot || item instanceof Lever) {
+                    return false;
                 }
             }
         }
@@ -541,7 +541,7 @@ public class Level {
      * as part of its movement from the given tile, or null if no such move exists.
      *
      * @param smartCurrentTile smart thief current tile
-     * @param mover smart thief "random but valid" target tile
+     * @param mover            smart thief "random but valid" target tile
      */
     private Tile getRandomButValidMove(Tile smartCurrentTile, Entity mover) {
         List<Direction> smartDirections = new ArrayList<>(Arrays.asList(Direction.values()));
@@ -702,6 +702,7 @@ public class Level {
     /**
      * Method that will unlock all gates of a given colour and will remove them from the
      * arraylist of gates and from the map
+     *
      * @param colour colour of the lever
      */
     public void unlockGates(Colour colour) {
@@ -1003,5 +1004,7 @@ public class Level {
         return items;
     }
 
-    public List<Gate> getGates() { return gates;}
+    public List<Gate> getGates() {
+        return gates;
+    }
 }
