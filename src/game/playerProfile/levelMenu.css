@@ -51,5 +51,9 @@
     -fx-cursor: hand;
     -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.65), 15, 0.5, 0, 3);
 }
+.locked-label {
+    -fx-text-fill: gray;
+}
+
 
 

@@ -41,84 +41,88 @@ public class LevelMenuController {
 
         int unlocked = profile.getMaxUnlockedLevel();
 
+        if (profile == null) {
+            return;
+        }
+
         if (unlocked >= 1) {
             level1Label.setText("Level 1");
-            level1Label.setStyle("-fx-text-fill: white;");
+            level1Label.getStyleClass().setAll("title-label"); // same style as title
         } else {
             level1Label.setText("Locked");
-            level1Label.setStyle("-fx-text-fill: gray;");
+            level1Label.getStyleClass().setAll("title-label", "locked-label"); // add grey color
         }
 
         if (unlocked >= 2) {
             level2Label.setText("Level 2");
-            level2Label.setStyle("-fx-text-fill: white;");
+            level2Label.getStyleClass().setAll("title-label");
         } else {
             level2Label.setText("Locked");
-            level2Label.setStyle("-fx-text-fill: gray;");
+            level2Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 3) {
             level3Label.setText("Level 3");
-            level3Label.setStyle("-fx-text-fill: white;");
+            level3Label.getStyleClass().setAll("title-label");
         } else {
             level3Label.setText("Locked");
-            level3Label.setStyle("-fx-text-fill: gray;");
+            level3Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 4) {
             level4Label.setText("Level 4");
-            level4Label.setStyle("-fx-text-fill: white;");
+            level4Label.getStyleClass().setAll("title-label");
         } else {
             level4Label.setText("Locked");
-            level4Label.setStyle("-fx-text-fill: gray;");
+            level4Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 5) {
             level5Label.setText("Level 5");
-            level5Label.setStyle("-fx-text-fill: white;");
+            level5Label.getStyleClass().setAll("title-label");
         } else {
             level5Label.setText("Locked");
-            level5Label.setStyle("-fx-text-fill: gray;");
+            level5Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 6) {
             level6Label.setText("Level 6");
-            level6Label.setStyle("-fx-text-fill: white;");
+            level6Label.getStyleClass().setAll("title-label");
         } else {
             level6Label.setText("Locked");
-            level6Label.setStyle("-fx-text-fill: gray;");
+            level6Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 7) {
             level7Label.setText("Level 7");
-            level7Label.setStyle("-fx-text-fill: white;");
+            level7Label.getStyleClass().setAll("title-label");
         } else {
             level7Label.setText("Locked");
-            level7Label.setStyle("-fx-text-fill: gray;");
+            level7Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 8) {
             level8Label.setText("Level 8");
-            level8Label.setStyle("-fx-text-fill: white;");
+            level8Label.getStyleClass().setAll("title-label");
         } else {
             level8Label.setText("Locked");
-            level8Label.setStyle("-fx-text-fill: gray;");
+            level8Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 9) {
             level9Label.setText("Level 9");
-            level9Label.setStyle("-fx-text-fill: white;");
+            level9Label.getStyleClass().setAll("title-label");
         } else {
             level9Label.setText("Locked");
-            level9Label.setStyle("-fx-text-fill: gray;");
+            level9Label.getStyleClass().setAll("title-label", "locked-label");
         }
 
         if (unlocked >= 10) {
             level10Label.setText("Level 10");
-            level10Label.setStyle("-fx-text-fill: white;");
+            level10Label.getStyleClass().setAll("title-label");
         } else {
             level10Label.setText("Locked");
-            level10Label.setStyle("-fx-text-fill: gray;");
+            level10Label.getStyleClass().setAll("title-label", "locked-label");
         }
     }
 
