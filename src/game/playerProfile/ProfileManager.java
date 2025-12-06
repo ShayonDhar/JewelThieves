@@ -63,22 +63,20 @@ public class ProfileManager {
         saveProfiles(list);
     }
 
-    // Delete a profile by name
     public static void deleteProfile(PlayerProfile profile) {
         List<PlayerProfile> list = loadProfiles();
         list.removeIf(p -> p.getName().equalsIgnoreCase(profile.getName()));
         saveProfiles(list);
 
-        
         File saveFolder = new File("saves");
         if (saveFolder.exists() && saveFolder.isDirectory()) {
             File[] files = saveFolder.listFiles();
             if (files != null) {
-                for (File f : files) {
-                    if (f.getName().startsWith(profile.getName())) {
-                        boolean deleted = f.delete();
+                for (File file : files) {
+                    if (file.getName().startsWith(profile.getName())) {
+                        boolean deleted = file.delete();
                         if (!deleted) {
-                            System.out.println("Failed to delete save file: " + f.getName());
+                            System.out.println("Failed to delete save file: " + file.getName());
                         }
                     }
                 }

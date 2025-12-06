@@ -2,8 +2,10 @@ package game.playerProfile;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,15 +16,6 @@ import javafx.stage.Stage;
 import java.util.List;
 
 public class ProfileManagerController {
-
-    @FXML
-    private Button newProfileBtn;
-
-    @FXML
-    private Button deleteProfileBtn;
-
-    @FXML
-    private Button closeBtn;
 
     @FXML
     private ComboBox<PlayerProfile> profileCombo;
@@ -107,4 +100,46 @@ public class ProfileManagerController {
         alert.setHeaderText(msg);
         alert.showAndWait();
     }
+
+    @FXML
+    public void viewLevelsUnlocked(ActionEvent actionEvent) {
+        PlayerProfile selectedProfile = profileCombo.getSelectionModel().getSelectedItem();
+
+        // Validation: ensure a profile is selected
+        if (selectedProfile == null || selectedProfile.getName().equals("Select Player")) {
+            showAlert(Alert.AlertType.WARNING, "Please select a valid player profile before viewing unlocked levels.");
+            return; // Stop execution if no valid profile is selected
+        }
+
+        try {
+            // Load the LevelMenu FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
+            Pane root = loader.load();
+
+            // Get the controller
+            LevelMenuController controller = loader.getController();
+
+            // Pass the selected profile to the level menu
+            controller.setProfile(selectedProfile);
+
+            // Get the current stage from the action event
+            Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+
+            // Set up the scene
+            Scene scene = new Scene(root, 950, 700);  // Adjust width/height as needed
+            scene.getStylesheets().add(getClass().getResource("levelMenu.css").toExternalForm());
+
+            stage.setScene(scene);
+            stage.setTitle("Unlocked Levels");
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Failed to open Level Menu.");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
 }

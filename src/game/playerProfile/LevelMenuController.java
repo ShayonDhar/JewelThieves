@@ -1,143 +1,142 @@
 package game.playerProfile;
 
-import game.GameController;
-import game.level.Level;
-import game.save.GameSaveManager;
+import game.playerProfile.PlayerProfile;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class LevelMenuController {
-    private static final int LEVEL_ONE = 1;
-    private static final int LEVEL_TWO = 2;
-    private static final int LEVEL_THREE = 3;
-    private static final int LEVEL_FOUR = 4;
-    private static final int LEVEL_FIVE = 5;
-    private static final int LEVEL_SIX = 6;
-    private static final int LEVEL_SEVEN = 7;
-    private static final int LEVEL_EIGHT = 8;
-    private static final int LEVEL_NINE = 9;
-    private static final int LEVEL_TEN = 10;
-    private static final int WINDOW_WIDTH = 950;
-    private static final int WINDOW_HEIGHT = 700;
-    public Button level1Btn;
-    public Button level2Btn;
-    public Button level3Btn;
-    public Button level4Btn;
-    public Button level5Btn;
-    public Button level6Btn;
-    public Button level7Btn;
-    public Button level8Btn;
-    public Button level9Btn;
-    public Button level10Btn;
-    @FXML
-    public void initialize() {
-        PlayerProfile profile = ProfileSession.getProfile();
-        if (profile == null) {
-            throw new RuntimeException("Error: Profile is null");
-        }
+import java.io.IOException;
 
-        level1Btn.setUserData(LEVEL_ONE);
-        level2Btn.setUserData(LEVEL_TWO);
-        level3Btn.setUserData(LEVEL_THREE);
-        level4Btn.setUserData(LEVEL_FOUR);
-        level5Btn.setUserData(LEVEL_FIVE);
-        level6Btn.setUserData(LEVEL_SIX);
-        level7Btn.setUserData(LEVEL_SEVEN);
-        level8Btn.setUserData(LEVEL_EIGHT);
-        level9Btn.setUserData(LEVEL_NINE);
-        level10Btn.setUserData(LEVEL_TEN);
+public class LevelMenuController {
+
+    public Label level1Label;
+    public Label level2Label;
+    public Label level3Label;
+    public Label level4Label;
+    public Label level5Label;
+    public Label level6Label;
+    public Label level7Label;
+    public Label level8Label;
+    public Label level9Label;
+    public Label level10Label;
+    @FXML
+    private Button backButton;
+
+    private PlayerProfile profile;
+
+    public void setProfile(PlayerProfile profile) {
+        this.profile = profile;
+        updateLabels();
+    }
+
+    private void updateLabels() {
+        if (profile == null) {
+            return;
+        }
 
         int unlocked = profile.getMaxUnlockedLevel();
 
-        // Disable levels above unlocked level
-        level1Btn.setDisable(unlocked < LEVEL_ONE);
-        level2Btn.setDisable(unlocked < LEVEL_TWO);
-        level3Btn.setDisable(unlocked < LEVEL_THREE);
-        level4Btn.setDisable(unlocked < LEVEL_FOUR);
-        level5Btn.setDisable(unlocked < LEVEL_FIVE);
-        level6Btn.setDisable(unlocked < LEVEL_SIX);
-        level7Btn.setDisable(unlocked < LEVEL_SEVEN);
-        level8Btn.setDisable(unlocked < LEVEL_EIGHT);
-        level9Btn.setDisable(unlocked < LEVEL_NINE);
-        level10Btn.setDisable(unlocked < LEVEL_TEN);
+        if (unlocked >= 1) {
+            level1Label.setText("Level 1");
+            level1Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level1Label.setText("Locked");
+            level1Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 2) {
+            level2Label.setText("Level 2");
+            level2Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level2Label.setText("Locked");
+            level2Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 3) {
+            level3Label.setText("Level 3");
+            level3Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level3Label.setText("Locked");
+            level3Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 4) {
+            level4Label.setText("Level 4");
+            level4Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level4Label.setText("Locked");
+            level4Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 5) {
+            level5Label.setText("Level 5");
+            level5Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level5Label.setText("Locked");
+            level5Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 6) {
+            level6Label.setText("Level 6");
+            level6Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level6Label.setText("Locked");
+            level6Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 7) {
+            level7Label.setText("Level 7");
+            level7Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level7Label.setText("Locked");
+            level7Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 8) {
+            level8Label.setText("Level 8");
+            level8Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level8Label.setText("Locked");
+            level8Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 9) {
+            level9Label.setText("Level 9");
+            level9Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level9Label.setText("Locked");
+            level9Label.setStyle("-fx-text-fill: gray;");
+        }
+
+        if (unlocked >= 10) {
+            level10Label.setText("Level 10");
+            level10Label.setStyle("-fx-text-fill: white;");
+        } else {
+            level10Label.setText("Locked");
+            level10Label.setStyle("-fx-text-fill: gray;");
+        }
     }
 
     @FXML
-    private void onLevelClicked(ActionEvent event) {
-        Button clicked = (Button) event.getSource();
-        int levelNumber = (int) clicked.getUserData();
-
-        loadLevel(levelNumber, clicked);
-    }
-
-    private void loadLevel(int levelNumber, Button sourceButton) {
+    private void backToProfileManager() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileManager.fxml"));
             Parent root = loader.load();
 
-            GameController controller = loader.getController();
-            controller.loadLevel(levelNumber);
+            // Get the stage from the button that triggered this method
+            Stage stage = (Stage) backButton.getScene().getWindow();
 
-            // now correctly get the stage from the *clicked* button
-            Stage gameStage = (Stage) sourceButton.getScene().getWindow();
-
-            // Load the scene onto the scene
-            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            scene.setOnKeyPressed(controller::onKeyPressed);
-
-            // Setting the scene and displaying it
-            gameStage.setScene(scene);
-            gameStage.setTitle("Jewel Thieves Group 01 - Game");
-            gameStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void loadFromSave(String saveFileName, Stage stage) {
-        try {
-            // Load the Game FXML
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
-            Parent root = loader.load();
-
-            // Get the controller
-            GameController controller = loader.getController();
-
-            // Create the save manager with the controller
-            GameSaveManager gsm = new GameSaveManager(controller);
-
-            // Load the saved level from file
-            Level loadedLevel = gsm.load(saveFileName);
-            if (loadedLevel == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setHeaderText("Failed to load save file: " + saveFileName);
-                alert.showAndWait();
-                return;
-            }
-            controller.loadSavedLevel(loadedLevel);
-
-            // Create the scene and set the key event handler
-            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-            scene.setOnKeyPressed(controller::onKeyPressed);
-
-            // Set the scene on the passed-in stage and show
-            stage.setScene(scene);
+            stage.setScene(new Scene(root));
             stage.show();
 
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setHeaderText("Error loading saved game: " + e.getMessage());
-            alert.showAndWait();
         }
     }
-
-
 }
+

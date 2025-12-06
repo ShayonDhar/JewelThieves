@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.layout.GridPane?>
 <AnchorPane prefHeight="300.0" prefWidth="450.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
@@ -35,34 +36,37 @@
                   styleClass="menu-combo"
                   promptText="Select a Profile"/>
 
-        <HBox spacing="15.0" alignment="CENTER">
-            <!-- Create -->
+        <!-- Buttons arranged in 2 columns -->
+        <GridPane hgap="15" vgap="15" alignment="CENTER">
             <Button text="Create New Profile"
-                    fx:id="newProfileBtn"
                     onAction="#createNewProfile"
                     prefWidth="300"
-                    styleClass="menu-button"/>
+                    styleClass="menu-button"
+                    GridPane.rowIndex="0"
+                    GridPane.columnIndex="0"/>
 
-            <!-- Delete -->
             <Button text="Delete Profile"
-                    fx:id="deleteProfileBtn"
                     onAction="#deleteSelectedProfile"
                     prefWidth="300"
-                    styleClass="menu-button"/>
+                    styleClass="menu-button"
+                    GridPane.rowIndex="0"
+                    GridPane.columnIndex="1"/>
 
-            <Button text = "View Unlocked levels"
-                    fx:id="ViewUnlockedLevels"
-                    onAction="#viewLevels"
-                    prefWidth = "300"
-                    styleClass="menu-button"/>
-        </HBox>
+            <Button text="View Unlocked Levels"
+                    onAction="#viewLevelsUnlocked"
+                    prefWidth="400"
+                    styleClass="menu-button"
+                    GridPane.rowIndex="1"
+                    GridPane.columnIndex="0"
+                    GridPane.columnSpan="2"/>
+        </GridPane>
 
         <!-- Back to previous menu -->
         <Button text="Back"
-                fx:id = "closeBtn"
                 onAction="#closeWindow"
-                prefWidth="250"
+                prefWidth="300"
                 styleClass="menu-button"/>
 
     </VBox>
 </AnchorPane>
+

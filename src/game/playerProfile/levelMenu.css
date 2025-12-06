@@ -29,35 +29,27 @@
     -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.45), 20, 0.4, 0, 3);
 }
 
-/* Level button normal state */
-.level-button {
-    -fx-background-color: linear-gradient(to bottom, #d4af37, #a57c1b);
+.level-label {
+    -fx-border-color: white;
+    -fx-border-width: 2;
+    -fx-background-color: #5a3e1f; /* optional */
+    -fx-alignment: center;
+    -fx-font-size: 16px;
+    -fx-text-fill: white;
+    -fx-padding: 10px;
+}
+.level-label {
+    -fx-background-color: linear-gradient(to bottom, #d4af37, #aa8c2d);
     -fx-text-fill: #2c1810;
+    -fx-font-size: 24px;
     -fx-font-weight: bold;
-    -fx-font-size: 20px;
+    -fx-padding: 15 40;
     -fx-background-radius: 12;
     -fx-border-color: #ffd700;
     -fx-border-width: 3;
     -fx-border-radius: 12;
-    -fx-padding: 15 30;
-    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.65), 15, 0.5, 0, 3);
     -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(212,175,55,0.65), 15, 0.5, 0, 3);
 }
 
-/* Hover effect */
-.level-button:hover {
-    -fx-background-color: linear-gradient(to bottom, #ffe680, #d4af37);
-    -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.9), 25, 0.7, 0, 0);
-    -fx-scale-x: 1.05;
-    -fx-scale-y: 1.05;
-}
 
-/* Disabled (locked) levels */
-.level-button:disabled {
-    -fx-background-color: #7d6a4d;
-    -fx-text-fill: #3b2b1b;
-    -fx-border-color: #8f7b57;
-    -fx-opacity: 0.5;
-    -fx-effect: none;
-    -fx-cursor: default;
-}
