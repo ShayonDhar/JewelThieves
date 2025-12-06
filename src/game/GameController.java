@@ -87,7 +87,7 @@ public class GameController {
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
 
-        // Preparing the GAME-OVER message for the static environment
+        // Preparing the GAME-OVER and LEVEL_COMPLETE message for the static environment
         gameOverText = new Text("GAME OVER");
         gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
                         + "black; -fx-stroke-width: 5px");
@@ -117,39 +117,6 @@ public class GameController {
 
         // TODO Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
-
-        // Check for loot collection
-        Item item = level.getItemAt(player.getY(), player.getX());
-        if (item instanceof Loot loot) {
-            addScore(loot.getLootType().getValue());
-            loot.isOn = false;
-            level.removeItemFromGrid(player.getY(), player.getX());
-        }
-
-        // Check for clock collection
-        if (item instanceof Clock clock) {
-            timeRemaining += clock.getTimeBonus();
-            clock.isOn = false;
-            level.removeItemFromGrid(player.getY(), player.getX());
-        }
-
-        // Check for lever collection
-        if (item instanceof Lever lever) {
-            level.unlockGates(lever.getColour());
-            lever.isOn = false;
-            level.removeItemFromGrid(player.getY(), player.getX());
-        }
-
-        // Check for whether door can be unlocked
-        if (level.allLootAndLeversCollected()) {
-            if (item instanceof Door door) {
-                door.isOn = false;
-                level.removeItemFromGrid(player.getY(), player.getX());
-                isLevelComplete = true;
-                editTextArea();
-                levelCompleted();
-            }
-        }
 
         // Controlling the game time
         if (timeRemaining == 0) {
@@ -300,10 +267,40 @@ public class GameController {
             // Now perform the move based on the direction we just set
             player.move();
 
+            // COLLECTING ITEMS
             Item item = level.getItemAt(player.getY(), player.getX());
+
+            // Loot
             if (item instanceof Loot loot) {
                 addScore(loot.getLootType().getValue());
+                loot.isOn = false; // TODO What does this do?
                 level.removeItemFromGrid(player.getY(), player.getX());
+            }
+
+            // Check for clock collection
+            if (item instanceof Clock clock) {
+                timeRemaining += clock.getTimeBonus();
+                clock.isOn = false;
+                level.removeItemFromGrid(player.getY(), player.getX());
+            }
+
+            // Check for lever collection
+            if (item instanceof Lever lever) {
+                level.unlockGates(lever.getColour());
+                lever.isOn = false;
+                level.removeItemFromGrid(player.getY(), player.getX());
+            }
+
+            // TODO AW Check if this is correct
+            // Check for whether door can be unlocked
+            if (level.allLootAndLeversCollected()) {
+                if (item instanceof Door door) {
+                    door.isOn = false;
+                    level.removeItemFromGrid(player.getY(), player.getX());
+                    isLevelComplete = true;
+                    editTextArea();
+                    levelCompleted();
+                }
             }
 
             // Redraw the scene after moving
