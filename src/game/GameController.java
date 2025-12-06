@@ -7,10 +7,14 @@ import game.entity.npc.NPC;
 import game.item.Item;
 import game.item.Loot;
 import game.item.Clock;
+import game.item.Lever;
+import game.item.Door;
+import game.item.Gate;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.save.GameSaveManager;
+
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -44,6 +48,9 @@ public class GameController {
 
     private static Timeline tickTimeline;
 
+    @FXML private static Text gameOverText;
+    @FXML private static Text levelCompleteText;
+    private boolean isLevelComplete = false;
     public TilePane boardTilePane;
     public Level level;
     public Player player;
@@ -56,8 +63,6 @@ public class GameController {
 
     private int timeRemaining = START_TIME_REMAINING; // TODO Read time from the level file
 
-    @FXML
-    private static Text gameOverText;
     @FXML
     private StackPane rootStackPane;
 
@@ -86,8 +91,13 @@ public class GameController {
         gameOverText = new Text("GAME OVER");
         gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
                         + "black; -fx-stroke-width: 5px");
-        gameOverText.setVisible(false); // Hiding GAME-OVER for now
-        StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
+        levelCompleteText = new Text("LEVEL COMPLETE");
+        levelCompleteText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
+                + "black; -fx-stroke-width: 5px");
+        gameOverText.setVisible(false);
+        levelCompleteText.setVisible(false);
+        // Hiding GAME-OVER for now
+        StackPane overlay = new StackPane(gameOverText, levelCompleteText); // Stack Pane that contains the BorderPane
         ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
 
         // Setting the player, items from game save manager
@@ -112,13 +122,33 @@ public class GameController {
         Item item = level.getItemAt(player.getY(), player.getX());
         if (item instanceof Loot loot) {
             addScore(loot.getLootType().getValue());
+            loot.isOn = false;
             level.removeItemFromGrid(player.getY(), player.getX());
         }
 
         // Check for clock collection
         if (item instanceof Clock clock) {
             timeRemaining += clock.getTimeBonus();
+            clock.isOn = false;
             level.removeItemFromGrid(player.getY(), player.getX());
+        }
+
+        // Check for lever collection
+        if (item instanceof Lever lever) {
+            level.unlockGates(lever.getColour());
+            lever.isOn = false;
+            level.removeItemFromGrid(player.getY(), player.getX());
+        }
+
+        // Check for whether door can be unlocked
+        if (level.allLootAndLeversCollected()) {
+            if (item instanceof Door door) {
+                door.isOn = false;
+                level.removeItemFromGrid(player.getY(), player.getX());
+                isLevelComplete = true;
+                editTextArea();
+                levelCompleted();
+            }
         }
 
         // Controlling the game time
@@ -255,6 +285,16 @@ public class GameController {
             default -> System.out.println(UNHANDLED_KEY + event.getCode());
         }
 
+        Tile nextTile = level.getTile(player.getY(), player.getX());
+
+        if (nextTile.hasGate()) {
+            Gate gate = nextTile.getGate();
+
+            if (gate.isOn) {
+                return;
+            }
+        }
+
         // Checking if tick timeline is playing
         if (tickPlaying && timeRemaining != 0) {
             // Now perform the move based on the direction we just set
@@ -281,6 +321,16 @@ public class GameController {
         tickPlaying = false;
         tickTimeline.stop();
         gameOverText.setVisible(true);
+    }
+
+    /**
+     * Method to stop the timeline and suggest that the level has been completed
+     * Occurs when the door of the level is unlocked
+     */
+    public static void levelCompleted() {
+        tickPlaying = false;
+        tickTimeline.stop();
+        levelCompleteText.setVisible(true);
     }
 
     /** Method to indicate the level has finished.

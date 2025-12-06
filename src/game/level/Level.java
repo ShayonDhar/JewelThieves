@@ -44,6 +44,7 @@ public class Level {
     private List<Bomb> activeBombs;
     private List<Tile> exitTiles;
     private List<Item> items = new ArrayList<>();
+    private List<Gate> gates = new ArrayList<>();
     private Item[][] itemsGrid;
     private GameController controller;
     private Random smartThiefRandomMove = new Random();
@@ -699,6 +700,20 @@ public class Level {
     }
 
     /**
+     * Method that will unlock all gates of a given colour and will remove them from the
+     * arraylist of gates and from the map
+     * @param colour colour of the lever
+     */
+    public void unlockGates(Colour colour) {
+        for (Gate gate : gates) {
+            if (gate.getColour().equals(colour)) {
+                gate.isOn = false;
+                removeItemFromGrid(gate.getY(), gate.getX());
+            }
+        }
+    }
+
+    /**
      * Updates the state of the level by the specified time step.
      * This includes decreasing remaining time, updating NPC movement,
      * processing bomb countdowns and explosions, and checking win or loss conditions.
@@ -987,4 +1002,6 @@ public class Level {
     public List<Item> getAllItems() {
         return items;
     }
+
+    public List<Gate> getGates() { return gates;}
 }
