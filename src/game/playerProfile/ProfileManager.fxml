@@ -49,6 +49,12 @@
                     onAction="#deleteSelectedProfile"
                     prefWidth="300"
                     styleClass="menu-button"/>
+
+            <Button text = "View Unlocked levels"
+                    fx:id="ViewUnlockedLevels"
+                    onAction="#viewLevels"
+                    prefWidth = "300"
+                    styleClass="menu-button"/>
         </HBox>
 
         <!-- Back to previous menu -->
