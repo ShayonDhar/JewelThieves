@@ -18,9 +18,6 @@ public class ProfileController {
     private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 700;
     private GameController gameController;
-    public Button newProfileBtn;
-
-    public Button deleteProfileBtn;
     public ComboBox profileCombo;
     public Button startBtn;
     public Button cancelBtn;
@@ -30,24 +27,6 @@ public class ProfileController {
         refreshProfiles(null);
     }
 
-    @FXML
-    private void newProfile() {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileCreation.fxml"));
-            Pane root = loader.load();
-            ProfileCreationController creationController = loader.getController();
-            creationController.setParent(this);
-
-            Stage profileStage = new Stage();
-            Scene scene = new Scene(root, 400, 300);
-            profileStage.setScene(scene);
-            profileStage.setTitle("Create New Player Profile");
-            profileStage.show();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
     public void refreshProfiles(PlayerProfile selected) {
 
         // Load real profiles
@@ -69,40 +48,6 @@ public class ProfileController {
         } else {
             profileCombo.getSelectionModel().selectFirst();   // selects placeholder
         }
-    }
-
-    @FXML
-    private void deleteProfile() {
-
-        PlayerProfile selected = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
-
-        // No profile selected
-        if (selected == null) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("No profile selected.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Cannot delete the placeholder
-        if (selected.getName().equals("Select Player")) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a real profile to delete.");
-            alert.showAndWait();
-            return;
-        } else {
-            // Delete from file
-            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-            alert.setTitle("Success");
-            alert.setHeaderText("Profile Deleted");
-            ProfileManager.deleteProfile(selected);
-            alert.showAndWait();
-
-        }
-        // Refresh and select placeholder again
-        refreshProfiles(null);
     }
 
     @FXML

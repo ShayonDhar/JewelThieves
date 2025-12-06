@@ -56,6 +56,31 @@ public class MenuController {
             alert.showAndWait();
         }
     }
+    @FXML
+    public void buttonProfileManager() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileManager.fxml"));
+            Pane root = loader.load();
+
+
+            Stage selectionStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            selectionStage.setScene(scene);
+            selectionStage.setTitle("Edit Profiles");
+            selectionStage.show();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to open profile manager: " + e.getMessage());
+            alert.showAndWait();
+        }
+
+
+    }
 
 
     /**
@@ -102,7 +127,7 @@ public class MenuController {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileSelection.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelection.fxml"));
             Pane root = loader.load();
             loader.getController();
 

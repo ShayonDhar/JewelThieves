@@ -1,5 +1,7 @@
 package game.playerProfile;
 
+import javafx.event.ActionEvent;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,4 +69,5 @@ public class ProfileManager {
         list.removeIf(p -> p.getName().equalsIgnoreCase(profile.getName()));
         saveProfiles(list);
     }
+
 }

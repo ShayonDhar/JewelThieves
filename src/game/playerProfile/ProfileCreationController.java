@@ -10,9 +10,9 @@ public class ProfileCreationController {
     @FXML
     private TextField nameField;
 
-    private ProfileController parent;
+    private ProfileManagerController parent;
 
-    public void setParent(ProfileController parent) {
+    public void setParent(ProfileManagerController parent) {
         this.parent = parent;
     }
 

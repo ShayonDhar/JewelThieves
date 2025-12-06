@@ -27,15 +27,10 @@
    </top>
 
    <center>
-      <VBox alignment="CENTER"
-            maxHeight="300.0" maxWidth="500.0"
-            minHeight="253.0" minWidth="500.0"
-            prefHeight="253.0" prefWidth="500.0"
-            spacing="20.0"
-            BorderPane.alignment="BOTTOM_CENTER"
-            styleClass="menu-panel">
+      <VBox alignment="CENTER" spacing="20" styleClass="menu-panel">
 
-         <padding>
+
+      <padding>
             <Insets top="10.0" right="10.0" bottom="10.0" left="10.0"/>
          </padding>
 
@@ -46,6 +41,9 @@
          <Button fx:id="buttonLoadGame"
                  text="LOAD GAME"
                  onAction="#buttonLoadGame"
+                 styleClass="menu-button"/>
+         <Button text="MANAGE PROFILES"
+                 onAction = "#buttonProfileManager"
                  styleClass="menu-button"/>
 
          <Button text="QUIT"

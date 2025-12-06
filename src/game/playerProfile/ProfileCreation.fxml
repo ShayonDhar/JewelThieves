@@ -41,12 +41,12 @@
          <VBox spacing="10" alignment="CENTER">
             <Button text="Create"
                     onAction="#onCreate"
-                    prefWidth="120"
+                    prefWidth="200"
                     styleClass="level-button"/>
 
             <Button text="Cancel"
                     onAction="#onCancel"
-                    prefWidth="120"
+                    prefWidth="200"
                     styleClass="level-button"/>
          </VBox>
 
