@@ -8,7 +8,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -105,28 +104,22 @@ public class ProfileManagerController {
     public void viewLevelsUnlocked(ActionEvent actionEvent) {
         PlayerProfile selectedProfile = profileCombo.getSelectionModel().getSelectedItem();
 
-        // Validation: ensure a profile is selected
         if (selectedProfile == null || selectedProfile.getName().equals("Select Player")) {
             showAlert(Alert.AlertType.WARNING, "Please select a valid player profile before viewing unlocked levels.");
-            return; // Stop execution if no valid profile is selected
+            return;
         }
 
         try {
-            // Load the LevelMenu FXML
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
             Pane root = loader.load();
 
-            // Get the controller
             LevelMenuController controller = loader.getController();
 
-            // Pass the selected profile to the level menu
             controller.setProfile(selectedProfile);
 
-            // Get the current stage from the action event
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-
-            // Set up the scene
-            Scene scene = new Scene(root, 950, 700);  // Adjust width/height as needed
+            Scene scene = new Scene(root, 950, 700);
             scene.getStylesheets().add(getClass().getResource("levelMenu.css").toExternalForm());
 
             stage.setScene(scene);
