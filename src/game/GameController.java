@@ -9,6 +9,7 @@ import game.item.Loot;
 import game.item.Clock;
 import game.item.Lever;
 import game.item.Door;
+import game.item.Gate;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
@@ -274,6 +275,16 @@ public class GameController {
             case S -> player.setDirection(Direction.SOUTH);
             case D -> player.setDirection(Direction.EAST);
             default -> System.out.println(UNHANDLED_KEY + event.getCode());
+        }
+
+        Tile nextTile = level.getTile(player.getY(), player.getX());
+
+        if (nextTile.hasGate()) {
+            Gate gate = nextTile.getGate();
+
+            if (gate.isOn) {
+                return;
+            }
         }
 
         // Checking if tick timeline is playing
