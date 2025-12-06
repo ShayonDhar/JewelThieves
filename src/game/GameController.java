@@ -291,7 +291,6 @@ public class GameController {
                 level.removeItemFromGrid(player.getY(), player.getX());
             }
 
-            // TODO AW Check if this is correct
             // Check for whether door can be unlocked
             if (level.allLootAndLeversCollected()) {
                 if (item instanceof Door door) {

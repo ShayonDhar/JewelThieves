@@ -9,8 +9,10 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
+
 import java.util.*;
 import java.util.List;
+
 import javafx.scene.paint.Color;
 
 /**
@@ -705,10 +707,14 @@ public class Level {
      * @param colour colour of the lever
      */
     public void unlockGates(Colour colour) {
-        for (Gate gate : gates) {
-            if (gate.getColour().equals(colour)) {
-                gate.isOn = false;
-                removeItemFromGrid(gate.getY(), gate.getX());
+        for (int y = 0; y < levelHeight; y++) {
+            for (int x = 0; x < levelWidth; x++) {
+                if (itemsGrid[y][x] instanceof Gate gate) {
+                    if (gate.getColour().equals(colour)) {
+                        gate.isOn = false;
+                        removeItemFromGrid(gate.getY(), gate.getX());
+                    }
+                }
             }
         }
     }
