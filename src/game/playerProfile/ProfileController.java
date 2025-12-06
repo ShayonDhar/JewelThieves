@@ -76,15 +76,12 @@ public class ProfileController {
         ProfileSession.set(selectedProfile);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
             Pane root = loader.load();
 
             Stage gameStage = new Stage();
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            scene.getStylesheets().add(
-                    getClass().getResource("levelMenu.css").toExternalForm()
-            );
 
             gameStage.setScene(scene);
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
