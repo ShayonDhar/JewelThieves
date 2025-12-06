@@ -94,6 +94,19 @@
                                -fx-cursor: hand;">
                     <font><Font name="Times New Roman Bold" size="14.0"/></font>
                 </Button>
+                <Button text="🚪 QUIT" onAction="#buttonQuitAction"
+                        style="-fx-background-color: linear-gradient(to bottom, #8b0000, #4b0000);
+               -fx-text-fill: #fff8dc;
+               -fx-background-radius: 10;
+               -fx-border-color: #ff4444;
+               -fx-border-width: 2;
+               -fx-border-radius: 10;
+               -fx-effect: dropshadow(gaussian, rgba(139, 0, 0, 0.6), 10, 0.5, 0, 3);
+               -fx-padding: 10 25 10 25;
+               -fx-cursor: hand;">
+                    <font><Font name="Times New Roman Bold" size="14.0"/></font>
+                </Button>
+
             </VBox>
         </left>
 

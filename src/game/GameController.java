@@ -23,6 +23,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
@@ -450,4 +452,36 @@ public class GameController {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    private void buttonQuitAction() {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Unsaved Progress");
+        alert.setHeaderText("Ensure your game is saved.");
+        alert.setContentText("Any unsaved progress will be lost. Return to main menu?");
+
+        ButtonType menuButton = new ButtonType("Continue");
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(menuButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == menuButton) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGraphics.fxml"));
+                    Pane root = loader.load();
+
+                    Stage stage = (Stage) textArea.getScene().getWindow();
+                    Scene scene = new Scene(root, 950, 700);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
 }
