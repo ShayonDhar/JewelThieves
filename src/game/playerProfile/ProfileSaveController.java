@@ -141,14 +141,18 @@ public class ProfileSaveController {
                 root = (Pane) gameStage.getScene().getRoot();
                 scene = gameStage.getScene();
             }
+            if (gameController.saveManager == null) {
+                gameController.setSaveManager(new GameSaveManager(gameController));
+            }
+
 
             // Load saved level INTO controller
             gameController.loadSavedLevel(loadedLevel);
 
-            // IMPORTANT: attach key handler to movement
+
             scene.setOnKeyPressed(gameController::onKeyPressed);
 
-            // Give focus to the board
+
             gameController.boardTilePane.requestFocus();
 
             gameStage.setTitle("Jewel Thieves Group 01 - Game");

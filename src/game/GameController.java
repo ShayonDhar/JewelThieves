@@ -54,7 +54,7 @@ public class GameController {
     public Item [][] itemGrid;
     public TextArea textArea;
     public boolean tickPlaying = false;
-    private GameSaveManager saveManager;
+    public GameSaveManager saveManager;
     private int score = 0;
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
@@ -91,6 +91,9 @@ public class GameController {
     }
 
     public void loadLevel(int levelNumber) {
+        if (saveManager == null) {
+            saveManager = new GameSaveManager(this);
+        }
 
         LevelLoader loader = new LevelLoader(this);
         String filename = "Level" + levelNumber + ".txt";
@@ -107,20 +110,6 @@ public class GameController {
 
         drawGame();
     }
-    public void loadFromSave(Level savedLevel) {
-        if (savedLevel == null) return;
-
-        this.level = savedLevel;
-        this.player = level.getPlayer();
-        this.itemGrid = level.getItemsGrid();
-
-        tickTimeline.stop();
-        tickPlaying = false;
-
-        drawGame();
-    }
-
-
 
     /**
      * Updates the game state and redraws the scene.
@@ -429,53 +418,6 @@ public class GameController {
     }
 
     /**
-     * Quick save method - saves to save1.txt immediately without dialog.
-     */
-    @FXML
-    public void buttonQuickSaveAction() {
-        try {
-            boolean success = saveManager.save(level, "save1.txt");
-
-            if (success) {
-                System.out.println("Quick saved to save1.txt");
-                // Optional: Show a brief notification
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Quick load method - loads save1.txt immediately without dialog.
-     */
-    @FXML
-    public void buttonQuickLoadAction() {
-        try {
-            if (saveManager.saveExists("save1.txt")) {
-                // Stop the game tick before loading
-                if (tickPlaying) {
-                    tickTimeline.stop();
-                    tickPlaying = false;
-                }
-
-                Level loadedLevel = saveManager.load("save1.txt");
-
-                if (loadedLevel != null) {
-                    level = loadedLevel;
-                    player = level.getPlayer();
-                    itemGrid = level.getItemsGrid();
-                    drawGame();
-                    System.out.println("Quick loaded from save1.txt");
-                }
-            } else {
-                System.out.println("No quick save found (save1.txt)");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * Loads a specific save file when starting from the main menu.
      * Called by MenuController after the scene is loaded.
      *
@@ -483,7 +425,11 @@ public class GameController {
      */
     public void loadSaveFile(String filename) {
         try {
+            if (saveManager == null) {
+                saveManager = new GameSaveManager(this);
+            }
             Level loadedLevel = saveManager.load(filename);
+
 
             if (loadedLevel != null) {
                 level = loadedLevel;
@@ -503,22 +449,35 @@ public class GameController {
             e.printStackTrace();
         }
     }
+    public void setSaveManager(GameSaveManager sm) {
+        this.saveManager = sm;
+    }
+
+
     public void loadSavedLevel(Level savedLevel) {
         if (savedLevel == null) {
-            System.out.println("Saved level is null");
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Could not load save.");
+            alert.setContentText("The save file returned no level data.");
+            alert.showAndWait();
             return;
         }
 
-        // Overwrite current game state
+        // SaveManager MUST exist when loading a save
+        if (saveManager == null) {
+            saveManager = new GameSaveManager(this);
+        }
+
         this.level = savedLevel;
         this.player = level.getPlayer();
         this.itemGrid = level.getItemsGrid();
 
-        timeRemaining = START_TIME_REMAINING; // or load from save if you store it
-        score = 0; // or load from save if you store it
+        timeRemaining = START_TIME_REMAINING;
+        score = 0;
 
         drawGame();
     }
+
 
 
 
