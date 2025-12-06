@@ -1,11 +1,14 @@
 package game.playerProfile;
 
 import game.GameController;
+import game.level.Level;
+import game.save.GameSaveManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
@@ -97,4 +100,44 @@ public class LevelMenuController {
             e.printStackTrace();
         }
     }
+
+    public void loadFromSave(String saveFileName, Stage stage) {
+        try {
+            // Load the Game FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
+            Parent root = loader.load();
+
+            // Get the controller
+            GameController controller = loader.getController();
+
+            // Create the save manager with the controller
+            GameSaveManager gsm = new GameSaveManager(controller);
+
+            // Load the saved level from file
+            Level loadedLevel = gsm.load(saveFileName);
+            if (loadedLevel == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setHeaderText("Failed to load save file: " + saveFileName);
+                alert.showAndWait();
+                return;
+            }
+            controller.loadSavedLevel(loadedLevel);
+
+            // Create the scene and set the key event handler
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            scene.setOnKeyPressed(controller::onKeyPressed);
+
+            // Set the scene on the passed-in stage and show
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error loading saved game: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
+
+
 }

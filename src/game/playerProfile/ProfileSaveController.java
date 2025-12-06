@@ -1,6 +1,7 @@
 package game.playerProfile;
 
 import game.GameController;
+import game.level.Level;
 import game.save.GameSaveManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -85,50 +86,76 @@ public class ProfileSaveController {
         }
     }
 
-
     @FXML
     private void startGame() {
-        if (profileCombo.getSelectionModel().getSelectedItem() == null
-                || profileCombo.getSelectionModel().getSelectedItem().equals("")) {
+        // Get selected profile and save file
+        PlayerProfile selectedProfile = (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
+        String selectedSave = (String) saveFileCombo.getSelectionModel().getSelectedItem();
+
+        // Validate profile
+        if (selectedProfile == null || selectedProfile.getName().equals("Select Player")) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a profile to proceed");
+            alert.setHeaderText("You must select a real profile.");
             alert.showAndWait();
             return;
         }
 
-        PlayerProfile selectedProfile =
-                (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
-
-        if (selectedProfile.getName().equals("Select Player")) {
+        // Validate save file
+        if (selectedSave == null || selectedSave.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a real profile to proceed");
+            alert.setHeaderText("You must select a save file.");
             alert.showAndWait();
             return;
         }
 
+        // Load the saved level from the selected save file
+        GameSaveManager gsm = new GameSaveManager(gameController);
+        Level loadedLevel = gsm.load(selectedSave);
+
+        if (loadedLevel == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Failed to load save file.");
+            alert.showAndWait();
+            return;
+        }
+
+        // Set the selected profile in the session
         ProfileSession.set(selectedProfile);
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("LevelMenu.fxml"));
-            Pane root = loader.load();
+            // Get the current stage
+            Stage gameStage = (Stage) profileCombo.getScene().getWindow();
 
-            Stage gameStage = new Stage();
-            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            // Initialize GameController if it's not already
+            if (gameController == null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
+                Pane root = loader.load();
+                gameController = loader.getController();
 
-            scene.getStylesheets().add(
-                    getClass().getResource("levelMenu.css").toExternalForm()
-            );
+                // Set up scene
+                Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+                gameStage.setScene(scene);
+            }
 
-            gameStage.setScene(scene);
+            // Load the saved level into GameController
+            gameController.loadSavedLevel(loadedLevel);
+
+            // Show the stage
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Error starting game");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
         }
     }
+
+
+
+
 
     @FXML
     private void cancel() {

@@ -102,6 +102,19 @@ public class GameController {
 
         drawGame();
     }
+    public void loadFromSave(Level savedLevel) {
+        if (savedLevel == null) return;
+
+        this.level = savedLevel;
+        this.player = level.getPlayer();
+        this.itemGrid = level.getItemsGrid();
+
+        tickTimeline.stop();
+        tickPlaying = false;
+
+        drawGame();
+    }
+
 
 
     /**
@@ -452,6 +465,23 @@ public class GameController {
             e.printStackTrace();
         }
     }
+    public void loadSavedLevel(Level savedLevel) {
+        if (savedLevel == null) {
+            System.out.println("Saved level is null");
+            return;
+        }
+
+        // Overwrite current game state
+        this.level = savedLevel;
+        this.player = level.getPlayer();
+        this.itemGrid = level.getItemsGrid();
+
+        timeRemaining = START_TIME_REMAINING; // or load from save if you store it
+        score = 0; // or load from save if you store it
+
+        drawGame();
+    }
+
 
     @FXML
     private void buttonQuitAction() {
@@ -483,5 +513,4 @@ public class GameController {
             }
         });
     }
-
 }
