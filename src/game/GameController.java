@@ -363,6 +363,23 @@ public class GameController {
         }
     }
 
+    private static Alert getAlert(boolean success, String filename) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Saved");
+            alert.setHeaderText(null);
+            alert.setContentText("Game saved successfully as " + filename);
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to save the game. Please try again.");
+        }
+        return alert;
+    }
+
+
     /**
      * Handles the Load button action.
      * Shows a dialog to select a save file and loads it.
