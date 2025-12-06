@@ -59,7 +59,7 @@
                 fx:id="backButton"
                 onAction="#backToProfileManager"
                 prefWidth="200"
-                styleClass="menu-button"/>
+                styleClass="back-button"/>
 
     </VBox>
 </AnchorPane>

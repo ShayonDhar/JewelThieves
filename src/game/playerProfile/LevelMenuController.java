@@ -132,7 +132,7 @@ public class LevelMenuController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ProfileManager.fxml"));
             Parent root = loader.load();
 
-            // Get the stage from the button that triggered this method
+
             Stage stage = (Stage) backButton.getScene().getWindow();
 
             stage.setScene(new Scene(root));
