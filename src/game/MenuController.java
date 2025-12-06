@@ -6,7 +6,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.effect.GaussianBlur;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 import java.util.Optional;
@@ -24,6 +28,17 @@ public class MenuController {
     private static final int WINDOW_HEIGHT = 700;
 
     private Stage stage;
+
+    @FXML
+    private StackPane rootStackPane;
+
+    /**
+     * Initialize method called automatically when FXML loads.
+     */
+    @FXML
+    public void initialize() {
+        setupBackground();
+    }
 
     /**
      * Called by Main to give the menu controller access to the stage.
@@ -154,5 +169,59 @@ public class MenuController {
     @FXML
     public void buttonQuit() {
         System.exit(0);
+    }
+
+    /**
+     * Sets up the background image with blur and gradient overlays.
+     */
+    private void setupBackground() {
+        try {
+            String path = "resources/gamebackground2.jpg";
+            var inputStream = getClass().getResourceAsStream(path);
+
+            if (inputStream == null) {
+                return;
+            }
+
+            Image backgroundImage = new Image(inputStream);
+
+            ImageView bgView = new ImageView(backgroundImage);
+            bgView.setPreserveRatio(false);
+            bgView.fitWidthProperty().bind(rootStackPane.widthProperty());
+            bgView.fitHeightProperty().bind(rootStackPane.heightProperty());
+
+            GaussianBlur blur = new GaussianBlur();
+            blur.setRadius(2);
+            bgView.setEffect(blur);
+
+            // Create gradient overlays
+            Pane topGradient = new Pane();
+            topGradient.setStyle(
+                    "-fx-background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), transparent);"
+            );
+            topGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
+            topGradient.setPrefHeight(150);
+            topGradient.setMouseTransparent(true);
+
+            Pane bottomGradient = new Pane();
+            bottomGradient.setStyle(
+                    "-fx-background-color: linear-gradient(to top, rgba(0, 0, 0, 0.2), transparent);"
+            );
+            bottomGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
+            bottomGradient.setPrefHeight(150);
+            bottomGradient.setMouseTransparent(true);
+
+            bottomGradient.translateYProperty().bind(
+                    rootStackPane.heightProperty().subtract(bottomGradient.prefHeightProperty())
+            );
+
+            // Add in order: background image, top gradient, bottom gradient
+            rootStackPane.getChildren().add(0, bgView);
+            rootStackPane.getChildren().add(1, topGradient);
+            rootStackPane.getChildren().add(2, bottomGradient);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
