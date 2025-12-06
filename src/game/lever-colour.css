@@ -1,0 +1,25 @@
+.image-tint-BLUE {
+    /* Create a soft overlay tint by using an inner shadow with rgba color.
+       The radius and choke control how much of the image is covered. */
+    -fx-effect: innershadow( gaussian , rgba(0, 120, 255, 0.45) , 40 , 0.0 , 0 , 0 );
+}
+
+.image-tint-GREEN {
+    -fx-effect: innershadow(gaussian, rgba(0, 255, 0, 0.45), 40, 0.0, 0, 0);
+}
+
+.image-tint-MAGENTA {
+    -fx-effect: innershadow(gaussian, rgba(255, 0, 255, 0.45), 40, 0.0, 0, 0);
+}
+
+.image-tint-RED {
+    -fx-effect: innershadow(gaussian, rgba(255, 0, 0, 0.45), 40, 0.0, 0, 0);
+}
+
+.image-tint-YELLOW {
+    -fx-effect: innershadow(gaussian, rgba(255, 255, 0, 0.45), 40, 0.0, 0, 0);
+}
+
+.image-tint-CYAN {
+    -fx-effect: innershadow(gaussian, rgba(0, 255, 255, 0.45), 40, 0.0, 0, 0);
+}

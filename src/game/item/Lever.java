@@ -1,9 +1,14 @@
 package game.item;
 
 import game.entity.Entity;
+import game.entity.Player;
 import game.level.Colour;
 import game.level.Level;
+import javafx.scene.Node;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.effect.Blend;
+import javafx.scene.effect.ColorInput;
+import javafx.scene.image.ImageView;
 
 /**
  * The lever class which implements all the lever functions
@@ -38,8 +43,20 @@ public class Lever extends Item {
         return colour;
     }
 
+    /**
+     * Gets the item image to be displayed on the level.
+     *
+     * @return the item image
+     */
     @Override
-    public void collectItem(Entity entityName, Level level) {
-
+    public Node getSprite() {
+        if (sprite == null) {
+            sprite = new ImageView(Player.class.getResource("/game/resources/"
+                    + itemName.toLowerCase() + ".png").toExternalForm());
+            sprite.getStyleClass().add("image-tint-" + colour.name());
+            sprite.setFitWidth(SPRITE_WIDTH_HEIGHT);
+            sprite.setFitHeight(SPRITE_WIDTH_HEIGHT);
+        }
+        return sprite;
     }
 }

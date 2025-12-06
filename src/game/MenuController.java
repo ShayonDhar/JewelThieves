@@ -134,6 +134,9 @@ public class MenuController {
             // Register key input into the GameController
             scene.setOnKeyPressed(controller::onKeyPressed);
 
+            // Adding the css class for setting the lever colour
+            scene.getStylesheets().add(getClass().getResource("lever-colour.css").toExternalForm());
+
             // Setting the scene and displaying it
             gameStage.setScene(scene);
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
