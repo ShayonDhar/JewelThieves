@@ -38,9 +38,4 @@ public class Gate extends Item {
     public Colour getColour() {
         return colour;
     }
-
-    @Override
-    public void collectItem(Entity entityName, Level level) {
-
-    }
 }

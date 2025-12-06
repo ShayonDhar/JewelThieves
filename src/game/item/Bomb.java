@@ -48,29 +48,6 @@ public class Bomb extends Item {
         this.state = BombState.WAITING;
     }
 
-    /**
-     * The method which collects the item.
-     *
-     * @param entityName The name of the entity being collected
-     * @param level The current active level
-     */
-
-    @Override
-    public void collectItem(Entity entityName, Level level) {
-
-        if (!isOn) {
-            return;
-        }
-
-        if (entityName.getX() == x && entityName.getY() == y) {
-            trigger();
-            updateBombState(level);
-            entityName.getLevel().destroyTileContent(entityName.getX(), entityName.getY());
-        }
-
-        isOn = false;
-    }
-
     public BombState getState() {
         return state;
     }

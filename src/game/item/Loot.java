@@ -36,18 +36,6 @@ public class Loot extends Item {
         this.lootType = lootType;
     }
 
-    @Override
-    public void collectItem(Entity entityName, Level level) {
-        if (!isOn) {
-            return;
-        }
-
-        if (entityName.getX() == x && entityName.getY() == y) {
-
-            isOn = false;
-        }
-    }
-
     public LootType getLootType() {
         return lootType;
     }

@@ -37,25 +37,4 @@ public class Clock extends Item {
     public int getTimeBonus() {
         return timeBonus;
     }
-
-    /**
-     * When a player collects a clock, the value of the time on the clock.
-     * will be added to the time remaining for the player to complete the level
-     *
-     * @param entityName Name of the entity
-     * @param level The value of the level that the entity is on
-     */
-    @Override
-    public void collectItem(Entity entityName, Level level) {
-
-        if (!isOn) {
-            return;
-        }
-
-        if (entityName.getEntityName().equals(EntityName.PLAYER)) {
-            if (entityName.getX() == x && entityName.getY() == y) {
-                entityName.getLevel().update(timeBonus);
-            }
-        }
-    }
 }

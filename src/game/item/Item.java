@@ -85,13 +85,4 @@ public abstract class Item {
         }
         return sprite;
     }
-
-    /**
-     * Abstract method which Collects the item when interacted with player/NPC.
-     *
-     * @param entityName The name of the entity
-     * @param level the level the item was collected on
-     */
-
-    public abstract void collectItem(Entity entityName, Level level);
 }

@@ -28,9 +28,4 @@ public class Door extends Item {
     public Door(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn, ItemType.DOOR);
     }
-
-    @Override
-    public void collectItem(Entity entityName, Level level) {
-
-    }
 }
