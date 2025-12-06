@@ -699,6 +699,11 @@ public class Level {
         controller.showExplosionAtTiles(getExplosionTiles(x, y));
     }
 
+    /**
+     * Method that will unlock all gates of a given colour and will remove them from the
+     * arraylist of gates and from the map
+     * @param colour colour of the lever
+     */
     public void unlockGates(Colour colour) {
         for (Gate gate : gates) {
             if (gate.getColour().equals(colour)) {

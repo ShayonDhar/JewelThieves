@@ -304,6 +304,10 @@ public class GameController {
         gameOverText.setVisible(true);
     }
 
+    /**
+     * Method to stop the timeline and suggest that the level has been completed
+     * Occurs when the door of the level is unlocked
+     */
     public static void levelCompleted() {
         tickPlaying = false;
         tickTimeline.stop();
