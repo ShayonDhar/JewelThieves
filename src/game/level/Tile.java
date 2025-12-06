@@ -70,6 +70,7 @@ public class Tile {
     }
 
     public boolean hasGate() {
+        // TODO This always returns null, view Player move()
         return gate != null;
     }
 
@@ -149,10 +150,6 @@ public class Tile {
      */
     public void removeItem() {
         item = null;
-    }
-
-    public void setGate(Gate gate) {
-        this.gate = gate;
     }
 
     /**

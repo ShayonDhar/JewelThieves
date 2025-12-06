@@ -69,10 +69,18 @@ public class Player extends Entity {
             return;
         }
 
-        if (targetTile.hasGate()) {
-            return;
+        // Checking if gate is on the target tile
+        Item[][] items = level.getItemsGrid();
+        for (int y = 0; y < items.length; y++) {
+            for (int x = 0; x < items[y].length; x++) {
+                if (items[y][x] instanceof Gate && targetTile.getY() == y && targetTile.getX() == x) {
+                    return;
+                }
+            }
         }
 
+        // If flying assassin on the tile
+        // TODO This might not work as player can move onto a flying assassin tile
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
             return;
