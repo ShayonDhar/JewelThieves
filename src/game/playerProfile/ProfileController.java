@@ -1,6 +1,7 @@
 package game.playerProfile;
 
 import game.GameController;
+import game.level.Level;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -25,6 +26,7 @@ public class ProfileController {
     @FXML
     public void initialize() {
         refreshProfiles(null);
+
     }
 
     public void refreshProfiles(PlayerProfile selected) {
@@ -52,40 +54,28 @@ public class ProfileController {
 
     @FXML
     private void startGame() {
-        if (profileCombo.getSelectionModel().getSelectedItem() == null
-                || profileCombo.getSelectionModel().getSelectedItem().equals("")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a profile to proceed");
-            alert.showAndWait();
-            return;
-        }
 
         PlayerProfile selectedProfile =
                 (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
 
-        if (selectedProfile.getName().equals("Select Player")) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Warning");
-            alert.setHeaderText("You must select a real profile to proceed");
-            alert.showAndWait();
-            return;
-        }
-
-        // FIX: store profile before loading next window
         ProfileSession.set(selectedProfile);
 
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/game/GameGraphics.fxml"));
             Pane root = loader.load();
 
+            GameController controller = loader.getController();
+            controller.loadLevel(1);
+
             Stage gameStage = new Stage();
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
-
-
             gameStage.setScene(scene);
+
+            scene.setOnKeyPressed(controller::onKeyPressed);
+
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
+
 
         } catch (Exception e) {
             e.printStackTrace();

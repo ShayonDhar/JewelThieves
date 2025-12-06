@@ -82,6 +82,11 @@ public class GameController {
         gameOverText.setVisible(false); // Hiding GAME-OVER for now
         StackPane overlay = new StackPane(gameOverText); // Stack Pane that contains the BorderPane
         ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
+        boardTilePane.setOnKeyPressed(this::onKeyPressed);
+        boardTilePane.setFocusTraversable(true);
+        boardTilePane.requestFocus();
+
+
 
     }
 
@@ -481,6 +486,7 @@ public class GameController {
 
         drawGame();
     }
+
 
 
     @FXML
