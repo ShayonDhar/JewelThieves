@@ -9,10 +9,8 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
-
 import java.util.*;
 import java.util.List;
-
 import javafx.scene.paint.Color;
 
 /**
@@ -298,7 +296,6 @@ public class Level {
     public boolean allLootAndLeversCollected() {
         for (int y = 0; y < levelHeight; y++) {
             for (int x = 0; x < levelWidth; x++) {
-                // TODO AW issue here?
                 Item item = itemsGrid[y][x];
                 if (item instanceof Loot || item instanceof Lever) {
                     return false;
@@ -542,6 +539,7 @@ public class Level {
      *
      * @param smartCurrentTile smart thief current tile
      * @param mover            smart thief "random but valid" target tile
+     * @return Tile that is valid to move to but random
      */
     private Tile getRandomButValidMove(Tile smartCurrentTile, Entity mover) {
         List<Direction> smartDirections = new ArrayList<>(Arrays.asList(Direction.values()));
@@ -562,6 +560,7 @@ public class Level {
      *
      * @param from current tile of smart thief
      * @param to   target tile of smart thief
+     * @return Direction between two tiles
      */
     private Direction getDirectionBetween(Tile from, Tile to) {
 
@@ -701,7 +700,7 @@ public class Level {
 
     /**
      * Method that will unlock all gates of a given colour and will remove them from the
-     * arraylist of gates and from the map
+     * arraylist of gates and from the map.
      *
      * @param colour colour of the lever
      */
@@ -897,7 +896,6 @@ public class Level {
         flyingAssassin.setPosition(targetX, targetY);
     }
 
-
     /**
      * Handles Smart Thief item collection and exit interactions.
      *
@@ -998,13 +996,5 @@ public class Level {
 
     public void setActiveBombs(List<Bomb> bombs) {
         this.activeBombs = bombs;
-    }
-
-    public List<Item> getAllItems() {
-        return items;
-    }
-
-    public List<Gate> getGates() {
-        return gates;
     }
 }
