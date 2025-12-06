@@ -29,6 +29,8 @@ LEVER 4 0 2 false RED
 LEVER 4 1 1 false GREEN
 GATE 5 14 1 false RED
 GATE 6 2 2 false GREEN
+GATE 6 2 5 false GREEN
+GATE 6 5 5 false GREEN
 BOMB 7 5 1 false
 DOOR 8 9 3 false
 
