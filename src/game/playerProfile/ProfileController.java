@@ -30,24 +30,24 @@ public class ProfileController {
 
     public void refreshProfiles(PlayerProfile selected) {
 
-        // Load real profiles
+
         List<PlayerProfile> profiles = ProfileManager.loadProfiles();
 
-        // Create list with placeholder at the top
+
         ObservableList<PlayerProfile> option = FXCollections.observableArrayList();
 
         PlayerProfile placeholder = new PlayerProfile("Select Player", 1);
-        option.add(placeholder);               // index 0
-        option.addAll(profiles);               // real profiles follow
+        option.add(placeholder);
+        option.addAll(profiles);
 
-        // Assign list to ComboBox
+
         profileCombo.setItems(option);
 
-        // Select placeholder by default unless something was chosen
+
         if (selected != null) {
             profileCombo.getSelectionModel().select(selected);
         } else {
-            profileCombo.getSelectionModel().selectFirst();   // selects placeholder
+            profileCombo.getSelectionModel().selectFirst();
         }
     }
 
