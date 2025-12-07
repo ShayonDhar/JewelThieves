@@ -12,6 +12,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
+import java.util.Objects;
+
 /**
  * Class that controls the main menu display.
  *
@@ -94,10 +96,31 @@ public class MenuController {
             alert.setContentText("Failed to open profile manager: " + e.getMessage());
             alert.showAndWait();
         }
-
-
     }
 
+    @FXML
+    public void buttonLeaderboard() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("highscore/Leaderboard.fxml"));
+            Pane root = loader.load();
+
+            Stage leaderboardStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            leaderboardStage.setScene(scene);
+            leaderboardStage.setTitle("Leaderboard - Jewel Thieves");
+            //leaderboardStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("/resources/icon.png"))));
+            leaderboardStage.setResizable(false);
+            leaderboardStage.show();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to open leaderboard: " + e.getMessage());
+            alert.showAndWait();
+        }
+    }
 
     /**
      * Loads the game scene and tells it to load a specific save file.

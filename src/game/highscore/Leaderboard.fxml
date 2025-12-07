@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="rootStackPane" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="game.highscore.LeaderboardController">
+
+    <VBox alignment="CENTER" spacing="30" maxWidth="900">
+        <padding>
+            <Insets top="40" right="40" bottom="40" left="40"/>
+        </padding>
+
+        <Label text="LEADERBOARD"
+               style="-fx-text-fill: #fc8d07;
+                      -fx-effect: dropshadow(gaussian, rgb(0,0,0), 15, 0.5, 0, 4);">
+            <font>
+                <Font name="Arial Black" size="48"/>
+            </font>
+        </Label>
+
+        <TableView fx:id="leaderboardTable" prefWidth="850" prefHeight="480">
+            <columns>
+                <TableColumn fx:id="rankColumn" text="Rank" prefWidth="100"/>
+                <TableColumn fx:id="playerColumn" text="Player" prefWidth="350"/>
+                <TableColumn fx:id="scoreColumn" text="Score" prefWidth="200"/>
+                <TableColumn fx:id="levelColumn" text="Level Reached" prefWidth="200"/>
+            </columns>
+        </TableView>
+
+        <Button text="CLOSE" onAction="#closeWindow"
+                style="-fx-background-color: linear-gradient(to bottom, #dc143c, #a01020);
+                       -fx-text-fill: #fff8dc;
+                       -fx-background-radius: 10;
+                       -fx-border-color: #ff6b6b;
+                       -fx-border-width: 2;
+                       -fx-border-radius: 10;
+                       -fx-effect: dropshadow(gaussian, rgba(220, 20, 60, 0.6), 10, 0.5, 0, 3);
+                       -fx-padding: 12 50 12 50;
+                       -fx-cursor: hand;
+                       -fx-font-size: 16;">
+            <font>
+                <Font name="Times New Roman Bold" size="16"/>
+            </font>
+        </Button>
+    </VBox>
+</StackPane>

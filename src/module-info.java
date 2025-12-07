@@ -17,4 +17,6 @@ module JewelThieves {
     opens game.playerProfile to javafx.fxml, javafx.graphics;
     exports game.save to javafx.fxml, javafx.graphics;
     opens game.save to javafx.fxml, javafx.graphics;
+    opens game.highscore to javafx.fxml, javafx.base;
+
 }

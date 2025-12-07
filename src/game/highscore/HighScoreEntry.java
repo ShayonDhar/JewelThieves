@@ -55,6 +55,24 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
     }
 
     /**
+     * Gets the name of the player.
+     *
+     * @return player name
+     */
+    public String getPlayerName() {
+        return playerName;
+    }
+
+    /**
+     * Gets the time stamp.
+     *
+     * @return the timestamp
+     */
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    /**
      * Gets the score value.
      *
      * @return the score
