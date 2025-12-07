@@ -14,11 +14,19 @@ import java.io.*;
  */
 public class HighScoreManager {
 
+    private static final String HIGH_SCORE = "highscores";
+    private static final String LEVEL = "level_";
+    private static final String FAILED_TO_SAVE_HIGH_SCORE = "Failed to save high scores for level ";
+    private static final String FAILED_LOAD = "Could not load high scores for level ";
+    private static final String FAILED_SAVE = "Failed to save level ";
+    private static final String SCORES = "_scores";
+    private static final String SCORES_TXT = SCORES + ".txt";
+    private static final String FAILED_TO_LOAD = "Failed to load ";
     private final Map<Integer, LevelHighScoreTable> levelTables;
     private final String saveDirectory;
 
     public HighScoreManager() {
-        this("highscores");
+        this(HIGH_SCORE);
     }
 
     /**
@@ -45,7 +53,7 @@ public class HighScoreManager {
      * @return the full file path for the level's high score file
      */
     private String getFilePath(int levelNumber) {
-        return saveDirectory + File.separator + "level_" + levelNumber + "_scores.txt";
+        return saveDirectory + File.separator + LEVEL + levelNumber + SCORES_TXT;
     }
 
     /**
@@ -71,7 +79,7 @@ public class HighScoreManager {
             try {
                 saveLevel(levelNumber);
             } catch (IOException e) {
-                System.out.println("Failed to save high scores for level " +
+                System.out.println(FAILED_TO_SAVE_HIGH_SCORE +
                         levelNumber + ": " + e.getMessage());
             }
         }
@@ -94,7 +102,7 @@ public class HighScoreManager {
             try {
                 table.loadFromFile(getFilePath(levelNumber));
             } catch (IOException e) {
-                System.out.println("Could not load high scores for level " +
+                System.out.println(FAILED_LOAD +
                         levelNumber + ": " + e.getMessage());
             }
             levelTables.put(levelNumber, table);
@@ -118,17 +126,15 @@ public class HighScoreManager {
 
     /**
      * Saves all currently loaded high score tables to disk.
-     * <p>
      * Errors saving individual levels are logged but do not prevent
      * other levels from being saved.
-     * </p>
      */
     public void saveAll() {
         for (Integer levelNumber : levelTables.keySet()) {
             try {
                 saveLevel(levelNumber);
             } catch (IOException e) {
-                System.out.println("Failed to save level " + levelNumber +
+                System.out.println(FAILED_SAVE + levelNumber +
                         ": " + e.getMessage());
             }
         }
@@ -151,24 +157,24 @@ public class HighScoreManager {
     /**
      * Loads all high score files from the save directory.
      * This method scans the save directory for all files matching the
-     *  file pattern and loads each one.
+     * file pattern and loads each one.
      */
     public void loadAll() {
         File dir = new File(saveDirectory);
         File[] files = dir.listFiles((d, name) ->
-                name.startsWith("level_") && name.endsWith("_scores.txt"));
+                name.startsWith(LEVEL) && name.endsWith(SCORES_TXT));
 
         if (files != null) {
             for (File file : files) {
                 try {
                     // Extract level number from filename
                     String filename = file.getName();
-                    String levelStr = filename.substring(6, filename.indexOf("_scores"));
+                    String levelStr = filename.substring(6, filename.indexOf(SCORES));
                     int levelNumber = Integer.parseInt(levelStr);
 
                     loadLevel(levelNumber);
                 } catch (Exception e) {
-                    System.out.println("Failed to load " + file.getName() +
+                    System.out.println(FAILED_TO_LOAD + file.getName() +
                             ": " + e.getMessage());
                 }
             }
@@ -187,8 +193,6 @@ public class HighScoreManager {
 
     /**
      * Gets all level numbers that have high score tables currently loaded.
-     * This does not include levels that have files on disk but are not
-     * currently loaded in memory.
      *
      * @return a set of level numbers with loaded high score tables
      */
@@ -205,7 +209,7 @@ public class HighScoreManager {
         // Delete all files
         File dir = new File(saveDirectory);
         File[] files = dir.listFiles((d, name) ->
-                name.startsWith("level_") && name.endsWith("_scores.txt"));
+                name.startsWith(LEVEL) && name.endsWith(SCORES_TXT));
 
         if (files != null) {
             for (File file : files) {
