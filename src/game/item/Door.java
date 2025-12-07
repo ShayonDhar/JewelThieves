@@ -1,9 +1,5 @@
 package game.item;
 
-import game.entity.Entity;
-import game.level.Level;
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * Door class which implements all the door functions
  * and allows the door object to be created.
@@ -25,6 +21,7 @@ public class Door extends Item {
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Door(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn, ItemType.DOOR);
     }

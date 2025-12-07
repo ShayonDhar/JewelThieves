@@ -1,7 +1,7 @@
 package game.highscore;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 /**
  * Manages high score tables for all game levels.
@@ -25,6 +25,9 @@ public class HighScoreManager {
     private final Map<Integer, LevelHighScoreTable> levelTables;
     private final String saveDirectory;
 
+    /**
+     * Sets the highscore for this current game.
+     */
     public HighScoreManager() {
         this(HIGH_SCORE);
     }
@@ -62,8 +65,8 @@ public class HighScoreManager {
      * if it qualifies.
      *
      * @param levelNumber the level number (must be positive)
-     * @param playerName the name of the player
-     * @param score the score to record
+     * @param playerName  the name of the player
+     * @param score       the score to record
      * @return true if the score was added to the high score table
      * @throws NullPointerException if playerName is null
      */
@@ -79,8 +82,8 @@ public class HighScoreManager {
             try {
                 saveLevel(levelNumber);
             } catch (IOException e) {
-                System.out.println(FAILED_TO_SAVE_HIGH_SCORE +
-                        levelNumber + ": " + e.getMessage());
+                System.out.println(FAILED_TO_SAVE_HIGH_SCORE
+                        + levelNumber + ": " + e.getMessage());
             }
         }
 
@@ -102,8 +105,8 @@ public class HighScoreManager {
             try {
                 table.loadFromFile(getFilePath(levelNumber));
             } catch (IOException e) {
-                System.out.println(FAILED_LOAD +
-                        levelNumber + ": " + e.getMessage());
+                System.out.println(FAILED_LOAD
+                        + levelNumber + ": " + e.getMessage());
             }
             levelTables.put(levelNumber, table);
         }
@@ -114,7 +117,7 @@ public class HighScoreManager {
      * Saves the high scores for a specific level to disk.
      *
      * @param levelNumber the level number
-     * @throws IOException if an I/O error occurs during saving
+     * @throws IOException              if an I/O error occurs during saving
      * @throws IllegalArgumentException if no high score table exists for the level
      */
     public void saveLevel(int levelNumber) throws IOException {
@@ -134,8 +137,8 @@ public class HighScoreManager {
             try {
                 saveLevel(levelNumber);
             } catch (IOException e) {
-                System.out.println(FAILED_SAVE + levelNumber +
-                        ": " + e.getMessage());
+                System.out.println(FAILED_SAVE + levelNumber
+                        + ": " + e.getMessage());
             }
         }
     }
@@ -174,8 +177,8 @@ public class HighScoreManager {
 
                     loadLevel(levelNumber);
                 } catch (Exception e) {
-                    System.out.println(FAILED_TO_LOAD + file.getName() +
-                            ": " + e.getMessage());
+                    System.out.println(FAILED_TO_LOAD + file.getName()
+                            + ": " + e.getMessage());
                 }
             }
         }

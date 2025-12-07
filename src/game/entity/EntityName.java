@@ -24,31 +24,6 @@ public enum EntityName {
     }
 
     /**
-     * Gets the display name of this entity.
-     *
-     * @return the display name
-     */
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    /**
-     * Converts a string into the matching Entity name.
-     *
-     * @param name the string to convert
-     * @return the matching {@code EntityName}
-     * @throws IllegalArgumentException if no constant matches the given string
-     */
-    public static EntityName fromString(String name) {
-        for (EntityName e : values()) {
-            if (e.displayName.equalsIgnoreCase(name)) {
-                return e;
-            }
-        }
-        throw new IllegalArgumentException("Unknown entity name: " + name);
-    }
-
-    /**
      * Returns the display name of this entity.
      *
      * @return the display name

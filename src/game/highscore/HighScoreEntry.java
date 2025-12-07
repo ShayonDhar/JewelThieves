@@ -14,17 +14,15 @@ import java.util.Objects;
  * @version 1.0.0
  */
 public class HighScoreEntry implements Comparable<HighScoreEntry> {
-    /**
-     * The date-time formatter used for serializing timestamps to file format.
-     */
+
+    public static final String SPLIT_REGEX = "\\|";
+    public static final String TO_STRING_FORMAT = "%s: %d";
+    // The date-time formatter used for serializing timestamps to file format.
     private static final DateTimeFormatter FORMATTER =
             DateTimeFormatter.ISO_LOCAL_DATE_TIME;
     private static final int PART_LENGTH = 3;
     private static final String INVALID_SCORE_FORMAT = "Invalid high score entry format: ";
     private static final String FILE_STRING_FORMAT = "%s|%d|%s";
-    public static final String SPLIT_REGEX = "\\|";
-    public static final String TO_STRING_FORMAT = "%s: %d";
-
     private final String playerName;
     private final int score;
     private final LocalDateTime timestamp;
@@ -57,30 +55,12 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
     }
 
     /**
-     * Gets the player's name.
-     *
-     * @return the player name
-     */
-    public String getPlayerName() {
-        return playerName;
-    }
-
-    /**
      * Gets the score value.
      *
      * @return the score
      */
     public int getScore() {
         return score;
-    }
-
-    /**
-     * Gets the timestamp when this score was achieved.
-     *
-     * @return the timestamp
-     */
-    public LocalDateTime getTimestamp() {
-        return timestamp;
     }
 
     /**
@@ -119,9 +99,9 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
             return false;
         }
         HighScoreEntry other = (HighScoreEntry) obj;
-        return score == other.score &&
-                Objects.equals(playerName, other.playerName) &&
-                Objects.equals(timestamp, other.timestamp);
+        return score == other.score
+                && Objects.equals(playerName, other.playerName)
+                && Objects.equals(timestamp, other.timestamp);
     }
 
     /**

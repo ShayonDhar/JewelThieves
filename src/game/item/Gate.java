@@ -1,11 +1,8 @@
 package game.item;
 
-import game.entity.Entity;
 import game.entity.Player;
 import game.level.Colour;
-import game.level.Level;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 
 /**
@@ -33,7 +30,7 @@ public class Gate extends Item {
      *                 whether the item has been claimed or triggered.
      * @param colour The colour of the gate.
      */
-
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Gate(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
         super(itemName, itemID, x, y, isOn, ItemType.GATE);
         this.colour = colour;

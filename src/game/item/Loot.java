@@ -1,11 +1,5 @@
 package game.item;
 
-import game.entity.Entity;
-import game.entity.EntityName;
-import game.entity.Player;
-import game.level.Level;
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * Loot class which holds all the loot functions
  * for the different loot functions and also allows loot
@@ -39,7 +33,4 @@ public class Loot extends Item {
     public LootType getLootType() {
         return lootType;
     }
-
-    // TODO: Add floorFollowingThief and Smart thief handling of picking up loot here
-
 }

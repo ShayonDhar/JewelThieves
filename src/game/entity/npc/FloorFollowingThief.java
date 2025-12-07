@@ -71,10 +71,6 @@ public class FloorFollowingThief extends NPC {
     }
 
     @Override
-    public void addToHighscore(int value) {
-    }
-
-    @Override
     public void move() {
         /*TODO: Implement the left hand wall following once Tile is fully available.
         FloorFollowingThief movement is based on the left hand rule and the

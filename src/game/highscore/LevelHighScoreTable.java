@@ -1,7 +1,7 @@
 package game.highscore;
 
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 /**
  * Manages the high score table for a single game level.
@@ -27,6 +27,7 @@ public class LevelHighScoreTable {
     private static final String LEVEL_TO_STRING = "Level ";
     private static final String NO_SCORES_YET = "No scores yet.\n";
     private static final String TO_STRING_FORMAT = "%2d. %s\n";
+    public static final int REPEAT_DISPLAY = 40;
 
     /**
      * The level number this high score table represents.
@@ -42,15 +43,6 @@ public class LevelHighScoreTable {
     public LevelHighScoreTable(int levelNumber) {
         this.levelNumber = levelNumber;
         this.entries = new ArrayList<>();
-    }
-
-    /**
-     * Gets the level number for this high score table.
-     *
-     * @return the level number
-     */
-    public int getLevelNumber() {
-        return levelNumber;
     }
 
     /**
@@ -192,8 +184,8 @@ public class LevelHighScoreTable {
 
             int fileLevelNumber = Integer.parseInt(line.substring(6));
             if (fileLevelNumber != levelNumber) {
-                throw new IOException(LEVEL_MISMATCH + levelNumber +
-                        ", found " + fileLevelNumber);
+                throw new IOException(LEVEL_MISMATCH + levelNumber
+                        + ", found " + fileLevelNumber);
             }
 
             // Read entries
@@ -224,7 +216,7 @@ public class LevelHighScoreTable {
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(LEVEL_TO_STRING).append(levelNumber).append(HIGH_SCORES);
-        sb.append("=".repeat(40)).append("\n");
+        sb.append("=".repeat(REPEAT_DISPLAY)).append("\n");
 
         for (int i = 0; i < entries.size(); i++) {
             sb.append(String.format(TO_STRING_FORMAT, i + 1, entries.get(i)));

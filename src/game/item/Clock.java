@@ -1,10 +1,5 @@
 package game.item;
 
-import game.entity.Entity;
-import game.entity.EntityName;
-import game.level.Level;
-import javafx.scene.canvas.GraphicsContext;
-
 /**
  * Clock class which allows the clock object to created
  * It implements all the clock functions.
@@ -14,6 +9,7 @@ import javafx.scene.canvas.GraphicsContext;
  */
 
 public class Clock extends Item {
+    public static final int TIME_BONUS = 5;
     private final int timeBonus;
 
     /**
@@ -29,9 +25,10 @@ public class Clock extends Item {
      *                 whether the item has been claimed or triggered.
      * @param timeBonus The time to be added to the level after clock has been collected
      */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Clock(String itemName, int itemID, int x, int y, boolean isOn, int timeBonus) {
         super(itemName, itemID, x, y, isOn, ItemType.CLOCK);
-        this.timeBonus = 5;
+        this.timeBonus = TIME_BONUS;
     }
 
     public int getTimeBonus() {

@@ -1,11 +1,8 @@
 package game.item;
 
-import game.entity.Entity;
 import game.entity.Player;
-import game.level.Level;
+import java.util.Objects;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
@@ -27,6 +24,7 @@ public abstract class Item {
     public static final int SPRITE_WIDTH_HEIGHT = 32;
     public boolean isOn;
     protected String itemName;
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     protected int itemID;
     protected int x;
     protected int y;
@@ -46,6 +44,7 @@ public abstract class Item {
      *             whether the item has been claimed or triggered.
      * @param itemType The type of item e.g. Gate
      */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Item(String itemName, int itemID, int x, int y, boolean isOn, ItemType itemType) {
         this.itemName = itemName;
         this.itemID = itemID;
@@ -55,6 +54,7 @@ public abstract class Item {
         this.itemType = itemType;
     }
 
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public int getItemID() {
         return itemID;
     }
@@ -78,8 +78,8 @@ public abstract class Item {
      */
     public Node getSprite() {
         if (sprite == null) {
-            sprite = new ImageView(Player.class.getResource("/game/resources/"
-                    + itemName.toLowerCase() + ".png").toExternalForm());
+            sprite = new ImageView(Objects.requireNonNull(Player.class.getResource("/game/resources/"
+                    + itemName.toLowerCase() + ".png")).toExternalForm());
             sprite.setFitWidth(SPRITE_WIDTH_HEIGHT);
             sprite.setFitHeight(SPRITE_WIDTH_HEIGHT);
         }

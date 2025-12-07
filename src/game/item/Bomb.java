@@ -1,20 +1,16 @@
 package game.item;
 
-import game.GameController;
-import game.entity.Entity;
 import game.entity.Player;
 import game.level.Level;
-import java.util.ArrayList;
-import java.util.List;
-
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
+
+import java.util.Objects;
 
 /**
  * The bomb class which implements all the bomb
@@ -43,6 +39,7 @@ public class Bomb extends Item {
      * @param isOn     is a boolean that will either be true or false. It tells us
      *                 whether the item has been claimed or triggered.
      */
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Bomb(String itemName, int itemID, int x, int y, boolean isOn) {
         super(itemName, itemID, x, y, isOn, ItemType.BOMB);
         this.state = BombState.WAITING;
@@ -146,8 +143,8 @@ public class Bomb extends Item {
     @Override
     public Node getSprite() {
         if (sprite == null) {
-            sprite = new ImageView(Player.class.getResource("/game/resources/"
-                    + itemName.toLowerCase() + ".png").toExternalForm());
+            sprite = new ImageView(Objects.requireNonNull(Player.class.getResource("/game/resources/"
+                    + itemName.toLowerCase() + ".png")).toExternalForm());
             sprite.setFitWidth(SPRITE_WIDTH_HEIGHT);
             sprite.setFitHeight(SPRITE_WIDTH_HEIGHT);
         }
@@ -167,7 +164,6 @@ public class Bomb extends Item {
         }
 
         // Center the text on top of the image
-
         return new StackPane(sprite, countdownText);
     }
 }

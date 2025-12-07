@@ -4,10 +4,9 @@ import game.entity.Direction;
 import game.entity.EntityName;
 import game.entity.Player;
 import game.level.Level;
+import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-
-import java.util.Objects;
 
 /*
 SmartThief implementation:
@@ -50,16 +49,6 @@ public class SmartThief extends NPC {
         );
         sprite.setFitWidth(SPRITE_SIZE);
         sprite.setFitHeight(SPRITE_SIZE);
-    }
-
-    /**
-     * Adds the score to the highscore table.
-     *
-     * @param value value to be added to High score
-     */
-    @Override
-    public void addToHighscore(int value) {
-        
     }
 
     @Override

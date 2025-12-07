@@ -1,13 +1,8 @@
 package game.item;
 
-import game.entity.Entity;
 import game.entity.Player;
 import game.level.Colour;
-import game.level.Level;
 import javafx.scene.Node;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.effect.Blend;
-import javafx.scene.effect.ColorInput;
 import javafx.scene.image.ImageView;
 
 /**
@@ -34,6 +29,7 @@ public class Lever extends Item {
      * @param colour the colour of the lever
      */
 
+    @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public Lever(String itemName, int itemID, int x, int y, boolean isOn, Colour colour) {
         super(itemName, itemID, x, y, isOn, ItemType.LEVER);
         this.colour = colour;

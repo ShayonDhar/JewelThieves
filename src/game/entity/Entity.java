@@ -12,7 +12,7 @@ import game.level.Level;
  */
 public abstract class Entity {
     private final boolean blocksMovement;
-    private EntityName entityName;
+    private final EntityName entityName;
     private int xcoordinate;
     private int ycoordinate;
     private Direction direction;
@@ -114,15 +114,6 @@ public abstract class Entity {
     }
 
     /**
-     * Sets the name of the entity.
-     *
-     * @param entityName new entity name
-     */
-    public void setEntityName(EntityName entityName) {
-        this.entityName = entityName;
-    }
-
-    /**
      * Gets the direction the entity is facing.
      *
      * @return current direction
@@ -194,11 +185,4 @@ public abstract class Entity {
                 + '}';
 
     }
-
-    /**
-     * Adds the value to the High score.
-     *
-     * @param value value to be added to High score
-     */
-    public abstract void addToHighscore(int value);
 }
