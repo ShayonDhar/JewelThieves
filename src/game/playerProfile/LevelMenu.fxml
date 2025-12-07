@@ -168,6 +168,7 @@
 
         <!-- Back Button (match green button style) -->
         <Button text="Back to Profile Manager"
+                fx:id="backButton"
                 onAction="#backToProfileManager"
                 prefWidth="300"
                 style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);

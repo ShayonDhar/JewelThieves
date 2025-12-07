@@ -24,8 +24,7 @@ public class LevelMenuController {
     public Label level8Label;
     public Label level9Label;
     public Label level10Label;
-    @FXML
-    private Button backButton;
+    public Button backButton;
 
     private PlayerProfile profile;
 
