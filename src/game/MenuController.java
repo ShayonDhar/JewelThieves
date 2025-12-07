@@ -1,6 +1,5 @@
 package game;
 
-import game.save.GameSaveManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,8 +11,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-
-import java.util.Optional;
 
 /**
  * Class that controls the main menu display.
@@ -55,43 +52,52 @@ public class MenuController {
     @FXML
     public void buttonLoadGame() {
         try {
-            // Create a temporary save manager just to list saves
-            GameSaveManager saveManager = new GameSaveManager(null);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
+            Pane root = loader.load();
 
-            // Get list of available save files
-            String[] saveFiles = saveManager.listSaves();
 
-            if (saveFiles.length == 0) {
-                // No saves found
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No Saves Found");
-                alert.setHeaderText(null);
-                alert.setContentText("No save files found. Start a new game first!");
-                alert.showAndWait();
-                return;
-            }
+            Stage selectionStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            selectionStage.setScene(scene);
+            selectionStage.setTitle("Select Profile to Load");
+            selectionStage.show();
 
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(saveFiles[0], saveFiles);
-            dialog.setTitle("Load Game");
-            dialog.setHeaderText("Select a save file to load");
-            dialog.setContentText("Save file:");
-
-            Optional<String> result = dialog.showAndWait();
-
-            if (result.isPresent()) {
-                String selectedFile = result.get();
-                loadGameWithSave(selectedFile);
-            }
 
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText(null);
-            alert.setContentText("Failed to load game: " + e.getMessage());
+            alert.setContentText("Failed to open profile selection: " + e.getMessage());
             alert.showAndWait();
         }
     }
+    @FXML
+    public void buttonProfileManager() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileManager.fxml"));
+            Pane root = loader.load();
+
+
+            Stage selectionStage = new Stage();
+            Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+            selectionStage.setScene(scene);
+            selectionStage.setTitle("Edit Profiles");
+            selectionStage.show();
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to open profile manager: " + e.getMessage());
+            alert.showAndWait();
+        }
+
+
+    }
+
 
     /**
      * Loads the game scene and tells it to load a specific save file.
@@ -136,9 +142,9 @@ public class MenuController {
 
         try {
             // Load FXML using FXMLLoader instance (not static)
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelection.fxml"));
             Pane root = loader.load();
-            GameController controller = loader.getController();
+            loader.getController();
 
             // New stage
             Stage gameStage = new Stage();
@@ -146,8 +152,6 @@ public class MenuController {
             // Load the scene onto the scene
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-            // Register key input into the GameController
-            scene.setOnKeyPressed(controller::onKeyPressed);
 
             // Adding the css class for setting the lever colour
             scene.getStylesheets().add(getClass().getResource("lever-colour.css").toExternalForm());

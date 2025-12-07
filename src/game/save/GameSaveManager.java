@@ -4,6 +4,7 @@ import game.GameController;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
+import game.playerProfile.ProfileSession;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,6 +32,11 @@ public class GameSaveManager {
     public GameSaveManager(GameController controller) {
         this.levelLoader = new LevelLoader(controller);
         ensureSaveDirectoryExists();
+    }
+
+    public GameSaveManager() {
+        ensureSaveDirectoryExists();
+        this.levelLoader = null;
     }
 
     /**
@@ -165,9 +171,9 @@ public class GameSaveManager {
      */
     public String generateSaveFilename() {
         int saveNumber = 1;
-        while (saveExists("save" + saveNumber + ".txt")) {
+        while (saveExists(ProfileSession.getCurrentName() + saveNumber + ".txt")) {
             saveNumber++;
         }
-        return "save" + saveNumber + ".txt";
+        return ProfileSession.getCurrentName() + saveNumber + ".txt";
     }
 }

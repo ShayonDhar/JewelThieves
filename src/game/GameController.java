@@ -13,25 +13,34 @@ import game.item.Gate;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
+import game.playerProfile.ProfileController;
 import game.save.GameSaveManager;
 
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Optional;
+
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.ButtonBar;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 
 /**
@@ -79,10 +88,6 @@ public class GameController {
                 Duration.millis(TICK_DURATION), event -> tick()));
         tickTimeline.setCycleCount(Animation.INDEFINITE); // Loop indefinitely
 
-        // Reading a text file
-        LevelLoader loader = new LevelLoader(this);
-        level = loader.load("LevelOne.txt");
-
         // Setting the text area
         textArea.setText("Time: " + timeRemaining + "s\nScore: " + score);
         textArea.setEditable(false);
@@ -99,13 +104,32 @@ public class GameController {
         // Hiding GAME-OVER for now
         StackPane overlay = new StackPane(gameOverText, levelCompleteText); // Stack Pane that contains the BorderPane
         ((BorderPane) boardTilePane.getParent()).setCenter(new StackPane(boardTilePane, overlay));
+        boardTilePane.setOnKeyPressed(this::onKeyPressed);
+        boardTilePane.setFocusTraversable(true);
+        boardTilePane.requestFocus();
 
-        // Setting the player, items from game save manager
+
+
+    }
+
+    public void loadLevel(int levelNumber) {
+        if (saveManager == null) {
+            saveManager = new GameSaveManager(this);
+        }
+
+        LevelLoader loader = new LevelLoader(this);
+        String filename = "Level" + levelNumber + ".txt";
+
+        level = loader.load(filename);
+
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
+
+        timeRemaining = START_TIME_REMAINING;
+        score = 0;
+
         saveManager = new GameSaveManager(this);
 
-        // Drawing the game
         drawGame();
     }
 
@@ -320,6 +344,16 @@ public class GameController {
     }
 
     /**
+     * Checks whether the game is over.
+     *
+     * @return the current game state
+     */
+
+    private boolean isGameOver() {
+        return tickPlaying;
+    }
+
+    /**
      * Method to stop the timeline and suggest that the level has been completed
      * Occurs when the door of the level is unlocked
      */
@@ -365,24 +399,30 @@ public class GameController {
     @FXML
     public void buttonSaveAction() {
         try {
-            String filename = saveManager.generateSaveFilename();
+            // Block saving if the level is failed
+            if (level == null || isGameOver()) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Cannot Save");
+                alert.setHeaderText(null);
+                alert.setContentText("The game cannot be saved because the level has failed.");
+                alert.showAndWait();
+                return;
+            }
 
+            // Make sure saveManager exists
+            if (saveManager == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Save Error");
+                alert.setHeaderText(null);
+                alert.setContentText("Save system not initialized.");
+                alert.showAndWait();
+                return;
+            }
+
+            String filename = saveManager.generateSaveFilename();
             boolean success = saveManager.save(level, filename);
 
-            Alert alert;
-            if (success) {
-                // Show success message
-                alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Game Saved");
-                alert.setHeaderText(null);
-                alert.setContentText("Game saved successfully as " + filename);
-            } else {
-                // Show error message
-                alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Save Failed");
-                alert.setHeaderText(null);
-                alert.setContentText("Failed to save the game. Please try again.");
-            }
+            Alert alert = getAlert(success, filename);
             alert.showAndWait();
 
         } catch (Exception e) {
@@ -395,6 +435,23 @@ public class GameController {
         }
     }
 
+    private static Alert getAlert(boolean success, String filename) {
+        Alert alert;
+        if (success) {
+            alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Game Saved");
+            alert.setHeaderText(null);
+            alert.setContentText("Game saved successfully as " + filename);
+        } else {
+            alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Save Failed");
+            alert.setHeaderText(null);
+            alert.setContentText("Failed to save the game. Please try again.");
+        }
+        return alert;
+    }
+
+
     /**
      * Handles the Load button action.
      * Shows a dialog to select a save file and loads it.
@@ -402,119 +459,28 @@ public class GameController {
     @FXML
     public void buttonLoadAction() {
         try {
-            // Get list of available save files
-            String[] saveFiles = saveManager.listSaves();
+            // Load the Profile Selection screen
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
+            Pane root = loader.load();
 
-            if (saveFiles.length == 0) {
-                // No saves found
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("No Saves Found");
-                alert.setHeaderText(null);
-                alert.setContentText("No save files found. Start a new game first!");
-                alert.showAndWait();
-                return;
-            }
 
-            // Show choice dialog to select a save file
-            ChoiceDialog<String> dialog = new ChoiceDialog<>(saveFiles[0], saveFiles);
-            dialog.setTitle("Load Game");
-            dialog.setHeaderText("Select a save file to load");
-            dialog.setContentText("Save file:");
+            ProfileController profileController = loader.getController();
+            profileController.setGameController(this);
 
-            Optional<String> result = dialog.showAndWait();
-
-            if (result.isPresent()) {
-                String selectedFile = result.get();
-
-                // Stop the game tick before loading
-                if (tickPlaying) {
-                    tickTimeline.stop();
-                    tickPlaying = false;
-                }
-
-                // Load the game
-                Level loadedLevel = saveManager.load(selectedFile);
-
-                if (loadedLevel != null) {
-                    // Update the level and player references
-                    level = loadedLevel;
-                    player = level.getPlayer();
-                    itemGrid = level.getItemsGrid();
-
-                    // Redraw the game
-                    drawGame();
-
-                    // Show success message
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Game Loaded");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Game loaded successfully from " + selectedFile);
-                    alert.showAndWait();
-
-                } else {
-                    // Load failed
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Load Failed");
-                    alert.setHeaderText(null);
-                    alert.setContentText("Failed to load the game. The save file may be corrupted.");
-                    alert.showAndWait();
-                }
-            }
+            // Create a new stage for the profile selection
+            Stage profileStage = new Stage();
+            Scene scene = new Scene(root, 450, 300); // adjust to FXML size
+            profileStage.setScene(scene);
+            profileStage.setTitle("Select Profile & Save");
+            profileStage.show();
 
         } catch (Exception e) {
             e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Load Error");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while loading: " + e.getMessage());
+            alert.setContentText("An error occurred while opening the profile selection screen: " + e.getMessage());
             alert.showAndWait();
-        }
-    }
-
-    /**
-     * Quick save method - saves to save1.txt immediately without dialog.
-     */
-    @FXML
-    public void buttonQuickSaveAction() {
-        try {
-            boolean success = saveManager.save(level, "save1.txt");
-
-            if (success) {
-                System.out.println("Quick saved to save1.txt");
-                // Optional: Show a brief notification
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Quick load method - loads save1.txt immediately without dialog.
-     */
-    @FXML
-    public void buttonQuickLoadAction() {
-        try {
-            if (saveManager.saveExists("save1.txt")) {
-                // Stop the game tick before loading
-                if (tickPlaying) {
-                    tickTimeline.stop();
-                    tickPlaying = false;
-                }
-
-                Level loadedLevel = saveManager.load("save1.txt");
-
-                if (loadedLevel != null) {
-                    level = loadedLevel;
-                    player = level.getPlayer();
-                    itemGrid = level.getItemsGrid();
-                    drawGame();
-                    System.out.println("Quick loaded from save1.txt");
-                }
-            } else {
-                System.out.println("No quick save found (save1.txt)");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 
@@ -526,7 +492,11 @@ public class GameController {
      */
     public void loadSaveFile(String filename) {
         try {
+            if (saveManager == null) {
+                saveManager = new GameSaveManager(this);
+            }
             Level loadedLevel = saveManager.load(filename);
+
 
             if (loadedLevel != null) {
                 level = loadedLevel;
@@ -596,5 +566,67 @@ public class GameController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public void setSaveManager(GameSaveManager sm) {
+        this.saveManager = sm;
+    }
+
+
+    public void loadSavedLevel(Level savedLevel) {
+        if (savedLevel == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setHeaderText("Could not load save.");
+            alert.setContentText("The save file returned no level data.");
+            alert.showAndWait();
+            return;
+        }
+
+        // SaveManager MUST exist when loading a save
+        if (saveManager == null) {
+            saveManager = new GameSaveManager(this);
+        }
+
+        this.level = savedLevel;
+        this.player = level.getPlayer();
+        this.itemGrid = level.getItemsGrid();
+
+        timeRemaining = START_TIME_REMAINING;
+        score = 0;
+
+        drawGame();
+    }
+
+
+
+
+    @FXML
+    private void buttonQuitAction() {
+
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Unsaved Progress");
+        alert.setHeaderText("Ensure your game is saved.");
+        alert.setContentText("Any unsaved progress will be lost. Return to main menu?");
+
+        ButtonType menuButton = new ButtonType("Continue");
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(menuButton, cancelButton);
+
+        alert.showAndWait().ifPresent(response -> {
+            if (response == menuButton) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("MenuGraphics.fxml"));
+                    Pane root = loader.load();
+
+                    Stage stage = (Stage) textArea.getScene().getWindow();
+                    Scene scene = new Scene(root, 950, 700);
+                    stage.setScene(scene);
+                    stage.show();
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 }

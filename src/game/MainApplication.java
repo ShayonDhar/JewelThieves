@@ -18,7 +18,7 @@ public class MainApplication extends Application {
 
     // Constants for the window dimensions
     private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 400;
+    private static final int WINDOW_HEIGHT = 650;
 
     /**
      * The method that launches the JavaFX application.

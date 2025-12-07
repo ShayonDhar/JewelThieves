@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="800.0" prefWidth="800.0"
+            xmlns="http://javafx.com/javafx/21.0.9"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="game.playerProfile.LevelMenuController"
+            stylesheets="@levelMenu.css"
+            styleClass="root-bg">
+
+    <VBox alignment="TOP_CENTER" spacing="30.0"
+          AnchorPane.topAnchor="0.0"
+          AnchorPane.bottomAnchor="0.0"
+          AnchorPane.leftAnchor="0.0"
+          AnchorPane.rightAnchor="0.0"
+          styleClass="main-box">
+
+        <Label text="Jewel Thief: Unlocked Levels"
+               styleClass="title-label"/>
+
+        <GridPane hgap="25" vgap="25"
+                  alignment="CENTER"
+                  styleClass="level-grid">
+
+            <columnConstraints>
+                <ColumnConstraints minWidth="160" prefWidth="180"/>
+                <ColumnConstraints minWidth="160" prefWidth="180"/>
+                <ColumnConstraints minWidth="160" prefWidth="180"/>
+            </columnConstraints>
+
+            <rowConstraints>
+                <RowConstraints minHeight="90" prefHeight="100"/>
+                <RowConstraints minHeight="90" prefHeight="100"/>
+                <RowConstraints minHeight="90" prefHeight="100"/>
+                <RowConstraints minHeight="90" prefHeight="100"/>
+            </rowConstraints>
+
+            <Label fx:id="level1Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="level-label"/>
+            <Label fx:id="level2Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="level-label"/>
+            <Label fx:id="level3Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="level-label"/>
+            <Label fx:id="level4Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="level-label"/>
+            <Label fx:id="level5Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="level-label"/>
+            <Label fx:id="level6Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="level-label"/>
+            <Label fx:id="level7Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="level-label"/>
+            <Label fx:id="level8Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="level-label"/>
+            <Label fx:id="level9Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="level-label"/>
+            <Label fx:id="level10Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="level-label"/>
+
+        </GridPane>
+
+        <!-- Back Button -->
+        <Button text="Back to Profile Manager"
+                fx:id="backButton"
+                onAction="#backToProfileManager"
+                prefWidth="200"
+                styleClass="back-button"/>
+
+    </VBox>
+</AnchorPane>
+

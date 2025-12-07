@@ -9,6 +9,8 @@ import game.item.*;
 import game.level.Colour;
 import game.level.Level;
 import game.level.Tile;
+import game.playerProfile.PlayerProfile;
+import game.playerProfile.ProfileSession;
 import javafx.scene.paint.Color;
 
 import java.io.PrintWriter;
