@@ -1,6 +1,7 @@
 .text-area .scroll-bar:vertical,
 .text-area .scroll-bar:horizontal {
     -fx-opacity: 0;       /* Make them invisible /
-    -fx-pref-width: 0;    / Hide vertical scrollbar width /
-    -fx-pref-height: 0;   / Hide horizontal scrollbar height */
+    -fx-max-width: 0;    / Hide vertical scrollbar width /
+    -fx-max-height: 0;   / Hide horizontal scrollbar height */
+
 }
