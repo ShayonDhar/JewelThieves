@@ -16,7 +16,8 @@ import java.util.*;
  * This class handles all NPC-related logic including movement calculations,
  * combat interactions, and item collection for different NPC types.
  *
- * @author Refactored from Level.java
+ * @author Alex Samuel
+ * @author Shayon Dhar
  * @version 1.0.0
  */
 public class NPCManager {
