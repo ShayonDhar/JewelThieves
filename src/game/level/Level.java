@@ -35,6 +35,7 @@ public class Level {
     private Player player;
     private int levelWidth;
     private int levelHeight;
+    private int levelNumber; // Added for high score tracking
     private int remainingTime;
     private boolean levelComplete;
     private boolean levelFailed;
@@ -532,9 +533,9 @@ public class Level {
         for (int y = 0; y < levelHeight; y++) {
             for (int x = 0; x < levelWidth; x++) {
                 if (itemsGrid[y][x] instanceof Gate gate && gate.getColour().equals(colour)) {
-                        gate.isOn = false;
-                        removeItemFromGrid(gate.getY(), gate.getX());
-                    }
+                    gate.isOn = false;
+                    removeItemFromGrid(gate.getY(), gate.getX());
+                }
 
             }
         }
@@ -587,6 +588,14 @@ public class Level {
         this.levelHeight = height;
     }
 
+    public int getLevelNumber() {
+        return levelNumber;
+    }
+
+    public void setLevelNumber(int levelNumber) {
+        this.levelNumber = levelNumber;
+    }
+
     public int getRemainingTime() {
         return remainingTime;
     }
@@ -633,5 +642,13 @@ public class Level {
 
     public boolean isLevelFailed() {
         return levelFailed;
+    }
+
+    public void setLevelComplete(boolean complete) {
+        this.levelComplete = complete;
+    }
+
+    public boolean isLevelComplete() {
+        return levelComplete;
     }
 }

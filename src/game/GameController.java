@@ -4,6 +4,7 @@ import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
 import game.entity.npc.NPC;
+import game.highscore.HighScoreManager;
 import game.item.Item;
 import game.item.Loot;
 import game.item.Clock;
@@ -55,6 +56,7 @@ public class GameController {
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
     private static final int START_TIME_REMAINING = 30;
+    private static final int TIME_BONUS_MULTIPLIER = 10; // Points per second remaining
 
     private static Timeline tickTimeline;
 
@@ -67,10 +69,13 @@ public class GameController {
     public TextArea textArea;
     public static boolean tickPlaying = false;
     public GameSaveManager saveManager;
+    private HighScoreManager highScoreManager;
     private int score = 0;
+    private int currentLevelNumber = 1;
+    private String currentPlayerName = "Player"; // TODO: Get from profile system
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
-    private int timeRemaining = START_TIME_REMAINING; // TODO Read time from the level file
+    private int timeRemaining = START_TIME_REMAINING;
 
     @FXML
     private StackPane rootStackPane;
@@ -80,6 +85,7 @@ public class GameController {
      */
     @FXML
     public void initialize() {
+        highScoreManager = new HighScoreManager();
 
         setupBackground();
 
@@ -95,7 +101,7 @@ public class GameController {
         // Preparing the GAME-OVER and LEVEL_COMPLETE message for the static environment
         gameOverText = new Text("GAME OVER");
         gameOverText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
-                        + "black; -fx-stroke-width: 5px");
+                + "black; -fx-stroke-width: 5px");
         levelCompleteText = new Text("LEVEL COMPLETE");
         levelCompleteText.setStyle("-fx-font-size: 75px; -fx-fill: white; -fx-font-weight: bold; -fx-stroke: "
                 + "black; -fx-stroke-width: 5px");
@@ -107,9 +113,6 @@ public class GameController {
         boardTilePane.setOnKeyPressed(this::onKeyPressed);
         boardTilePane.setFocusTraversable(true);
         boardTilePane.requestFocus();
-
-
-
     }
 
     public void loadLevel(int levelNumber) {
@@ -121,6 +124,7 @@ public class GameController {
         String filename = "Level" + levelNumber + ".txt";
 
         level = loader.load(filename);
+        currentLevelNumber = levelNumber;
 
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
@@ -138,8 +142,6 @@ public class GameController {
      * Updates periodically to update the entity positions, the state of items, and the game time
      */
     public void tick() {
-
-        // TODO Tick NPCs, bombs + time (Just NPCs for now)
         level.updateLevel(1);
 
         // Controlling the game time
@@ -159,7 +161,6 @@ public class GameController {
      * Method to draw the game onto the FXML GUI.
      */
     public void drawGame() {
-
         // Clear the tilePane i.e. everything from the tiles
         boardTilePane.getChildren().clear();
 
@@ -169,7 +170,6 @@ public class GameController {
         // Looping through height/width of tilePane
         for (int y = 0; y < level.getLevelHeight(); y++) {
             for (int x = 0; x < level.getLevelWidth(); x++) {
-
                 // Gets the tile object from the level, and converts the colours/item/entity to a StackPane
                 Tile tile = level.getTile(y, x);
                 StackPane tileStack = tile.toStackPane();
@@ -204,7 +204,6 @@ public class GameController {
 
             long remaining = effect.endTime - System.currentTimeMillis();
 
-            // TODO add comments explaining code on this please
             if (remaining <= 0) {
                 toRemove.add(effect);
             } else {
@@ -266,7 +265,6 @@ public class GameController {
      * @param event key that is pressed on the keyboard.
      */
     public void onKeyPressed(KeyEvent event) {
-
         // Read the key input as a direction within the game
         switch (event.getCode()) {
             case W -> player.setDirection(Direction.NORTH);
@@ -297,7 +295,7 @@ public class GameController {
             // Loot
             if (item instanceof Loot loot) {
                 addScore(loot.getLootType().getValue());
-                loot.isOn = false; // TODO What does this do?
+                loot.isOn = false;
                 level.removeItemFromGrid(player.getY(), player.getX());
             }
 
@@ -320,9 +318,7 @@ public class GameController {
                 if (item instanceof Door door) {
                     door.isOn = false;
                     level.removeItemFromGrid(player.getY(), player.getX());
-                    boolean isLevelComplete = true;
-                    editTextArea();
-                    levelCompleted();
+                    handleLevelComplete();
                 }
             }
 
@@ -332,6 +328,100 @@ public class GameController {
 
         // Marking the event as being "done dealt with"
         event.consume();
+    }
+
+    /**
+     * Handles level completion: calculates final score, records high score,
+     * and displays results.
+     */
+    private void handleLevelComplete() {
+        tickPlaying = false;
+        tickTimeline.stop();
+
+        // Calculate final score with time bonus
+        int finalScore = calculateFinalScore();
+
+        // Record the high score
+        boolean madeHighScore = highScoreManager.recordScore(
+                currentLevelNumber,
+                currentPlayerName,
+                finalScore
+        );
+
+        // Update display
+        editTextArea();
+        levelCompleteText.setVisible(true);
+
+        // Show high score notification
+        if (madeHighScore) {
+            showHighScoreAlert(finalScore);
+        } else {
+            showLevelCompleteAlert(finalScore);
+        }
+    }
+
+    /**
+     * Calculates the final score including time bonus.
+     *
+     * @return the final score with time bonus applied
+     */
+    private int calculateFinalScore() {
+        int timeBonus = timeRemaining * TIME_BONUS_MULTIPLIER;
+        return score + timeBonus;
+    }
+
+    /**
+     * Shows an alert when the player achieves a high score.
+     *
+     * @param finalScore the player's final score
+     */
+    private void showHighScoreAlert(int finalScore) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("New High Score!");
+        alert.setHeaderText("Congratulations!");
+        alert.setContentText(
+                "You made the high score table!\n" +
+                        "Final Score: " + finalScore + "\n\n" +
+                        getHighScoreTableString()
+        );
+        alert.showAndWait();
+    }
+
+    /**
+     * Shows an alert when the player completes the level but doesn't make high score.
+     *
+     * @param finalScore the player's final score
+     */
+    private void showLevelCompleteAlert(int finalScore) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Level Complete");
+        alert.setHeaderText("Well Done!");
+        alert.setContentText(
+                "Level completed!\n" +
+                        "Final Score: " + finalScore + "\n\n"
+        );
+        alert.showAndWait();
+    }
+
+    /**
+     * Gets a formatted string of the current level's high score table.
+     *
+     * @return formatted high score table string
+     */
+    private String getHighScoreTableString() {
+        return highScoreManager.getHighScoreTable(currentLevelNumber).toString();
+    }
+
+    /**
+     * Displays the high score table for the current level.
+     */
+    @FXML
+    public void buttonViewHighScoresAction() {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("High Scores - Level " + currentLevelNumber);
+        alert.setHeaderText(null);
+        alert.setContentText(getHighScoreTableString());
+        alert.showAndWait();
     }
 
     /** Method to stop timeline and indicate "game-over".
@@ -348,9 +438,7 @@ public class GameController {
      *
      * @return the current game state
      */
-
     private boolean isGameOver() {
-
         return gameOverText != null && gameOverText.isVisible();
     }
 
@@ -370,15 +458,6 @@ public class GameController {
     public void finishLevel() {
         tickTimeline.stop();
         System.out.println("LEVEL COMPLETE");
-
-        // TODO: Create a finish level screen OR Load next level
-
-        /*
-        Note from Anton:
-        Tried doing Level Complete message like the Game-over message but since its in a static environment
-        I had to set up a stack pane that holds a border pane (view initialize()), and this didnt allow me
-        to set up two different overlays
-         */
     }
 
     /** Method to increase the score.
@@ -391,6 +470,14 @@ public class GameController {
 
     public int getScore() {
         return score;
+    }
+
+    public void setCurrentLevelNumber(int levelNumber) {
+        this.currentLevelNumber = levelNumber;
+    }
+
+    public void setCurrentPlayerName(String playerName) {
+        this.currentPlayerName = playerName;
     }
 
     /**
@@ -435,7 +522,6 @@ public class GameController {
         }
     }
 
-
     private static Alert getAlert(boolean success, String filename) {
         Alert alert;
         if (success) {
@@ -451,7 +537,6 @@ public class GameController {
         }
         return alert;
     }
-
 
     /**
      * Handles the Load button action.
@@ -488,7 +573,6 @@ public class GameController {
         }
     }
 
-
     /**
      * Loads a specific save file when starting from the main menu.
      * Called by MenuController after the scene is loaded.
@@ -501,7 +585,6 @@ public class GameController {
                 saveManager = new GameSaveManager(this);
             }
             Level loadedLevel = saveManager.load(filename);
-
 
             if (loadedLevel != null) {
                 level = loadedLevel;
@@ -572,6 +655,7 @@ public class GameController {
             e.printStackTrace();
         }
     }
+
     public void setSaveManager(GameSaveManager sm) {
         this.saveManager = sm;
     }
@@ -600,12 +684,8 @@ public class GameController {
         drawGame();
     }
 
-
-
-
     @FXML
     private void buttonQuitAction() {
-
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Unsaved Progress");
         alert.setHeaderText("Ensure your game is saved.");

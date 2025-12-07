@@ -13,6 +13,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * This class reads the data from the level file.
@@ -37,8 +39,36 @@ public class LevelLoader {
      */
     public Level load(String filename) {
         Level level = new Level(controller);
+
+        // Extract and set level number from filename
+        int levelNumber = extractLevelNumber(filename);
+        level.setLevelNumber(levelNumber);
+
         parseFile(filename, level);
         return level;
+    }
+
+    /**
+     * Extracts the level number from the filename.
+     *
+     * @param filename the filename to extract the level number from
+     * @return the level number, or 1 if extraction fails
+     */
+    private int extractLevelNumber(String filename) {
+        try {
+            // Pattern matches "Level" followed by digits
+            Pattern pattern = Pattern.compile("Level(\\d+)", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(filename);
+
+            if (matcher.find()) {
+                return Integer.parseInt(matcher.group(1));
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Could not extract level number from: " + filename);
+        }
+
+        // Default to level 1 if extraction fails
+        return 1;
     }
 
     /**
