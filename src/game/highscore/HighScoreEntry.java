@@ -2,6 +2,7 @@ package game.highscore;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 /**
  * Represents a single entry in a high score table.
@@ -21,26 +22,17 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
     private static final int PART_LENGTH = 3;
     private static final String INVALID_SCORE_FORMAT = "Invalid high score entry format: ";
     private static final String FILE_STRING_FORMAT = "%s|%d|%s";
+    public static final String SPLIT_REGEX = "\\|";
+    public static final String TO_STRING_FORMAT = "%s: %d";
 
-    /**
-     * The name of the player who achieved this score.
-     */
     private final String playerName;
-
-    /**
-     * The score value achieved by the player.
-     */
     private final int score;
-
-    /**
-     * The timestamp when this score was achieved.
-     */
     private final LocalDateTime timestamp;
 
     /**
      * Creates a new high score entry with the current timestamp.
      *
-     * @param playerName the name of the player (must not be null)
+     * @param playerName the name of the player
      * @param score the score achieved by the player
      */
     public HighScoreEntry(String playerName, int score) {
@@ -53,9 +45,9 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
      * Creates a new high score entry with a specified timestamp.
      * This constructor is used when loading entries from a file.
      *
-     * @param playerName the name of the player (must not be null)
+     * @param playerName the name of the player
      * @param score the score achieved by the player
-     * @param timestamp the timestamp when the score was achieved (must not be null)
+     * @param timestamp the timestamp when the score was achieved
      * @throws NullPointerException if playerName or timestamp is null
      */
     public HighScoreEntry(String playerName, int score, LocalDateTime timestamp) {
@@ -111,6 +103,39 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
     }
 
     /**
+     * Indicates whether some other object is equal to this one.
+     * Two HighScoreEntry objects are considered equal if they have the same
+     * player name, score, and timestamp.
+     *
+     * @param obj the reference object with which to compare
+     * @return true if this object is equal to the obj argument
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        HighScoreEntry other = (HighScoreEntry) obj;
+        return score == other.score &&
+                Objects.equals(playerName, other.playerName) &&
+                Objects.equals(timestamp, other.timestamp);
+    }
+
+    /**
+     * Returns a hash code value for this entry.
+     * The hash code is computed based on the player name, score, and timestamp.
+     *
+     * @return a hash code value for this object
+     */
+    @Override
+    public int hashCode() {
+        return Objects.hash(playerName, score, timestamp);
+    }
+
+    /**
      * Converts this entry to a file format string.
      *
      * @return a string representation for file storage
@@ -130,7 +155,7 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
      * @throws IllegalArgumentException if the line format is invalid
      */
     public static HighScoreEntry fromFileString(String line) {
-        String[] parts = line.split("\\|");
+        String[] parts = line.split(SPLIT_REGEX);
         if (parts.length != PART_LENGTH) {
             throw new IllegalArgumentException(INVALID_SCORE_FORMAT + line);
         }
@@ -149,7 +174,6 @@ public class HighScoreEntry implements Comparable<HighScoreEntry> {
      */
     @Override
     public String toString() {
-        return String.format("%s: %d", playerName, score);
+        return String.format(TO_STRING_FORMAT, playerName, score);
     }
 }
-

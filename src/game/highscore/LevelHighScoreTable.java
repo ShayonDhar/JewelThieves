@@ -203,7 +203,7 @@ public class LevelHighScoreTable {
                         HighScoreEntry entry = HighScoreEntry.fromFileString(line);
                         entries.add(entry);
                     } catch (Exception e) {
-                        System.err.println(SKIPPING_INVALID_ENTRY + line);
+                        System.out.println(SKIPPING_INVALID_ENTRY + line);
                     }
                 }
             }
