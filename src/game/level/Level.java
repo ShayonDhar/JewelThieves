@@ -5,14 +5,9 @@ import game.TilePosition;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
-import game.entity.npc.FloorFollowingThief;
-import game.entity.npc.FlyingAssassin;
-import game.entity.npc.SmartThief;
 import game.item.*;
 
 import java.util.*;
-import java.util.List;
-
 import javafx.scene.paint.Color;
 
 /**
@@ -49,15 +44,14 @@ public class Level {
     private List<Gate> gates = new ArrayList<>();
     private Item[][] itemsGrid;
     private GameController controller;
-    private Random smartThiefRandomMove = new Random();
-    private SmartThiefPathfinder pathfinder;
+    private NPCManager npcManager;
 
     /**
      * Constructor which loads the level from the level loader.
      */
     public Level(GameController controller) {
         this.controller = controller;
-        this.pathfinder = new SmartThiefPathfinder(this);
+        this.npcManager = new NPCManager(this);
     }
 
     /**
@@ -127,7 +121,7 @@ public class Level {
      * @param y the y-coordinate to check
      * @return true if the coordinates are inside the grid, otherwise false
      */
-    private boolean isInBounds(int x, int y) {
+    public boolean isInBounds(int x, int y) {
         return x >= 0 && y >= 0 && x < levelWidth && y < levelHeight;
     }
 
@@ -165,7 +159,7 @@ public class Level {
      * @param followingColour the specific colour the floor following thief follows.
      * @return whether the colour matches or not
      */
-    private boolean tileSharesFollowingColour(Tile tile, Colour followingColour) {
+    public boolean tileSharesFollowingColour(Tile tile, Colour followingColour) {
 
         //  If either tile or required colour is missing, can't be valid
         if (tile == null || followingColour == null) {
@@ -330,7 +324,7 @@ public class Level {
      * @param target the tile the mover wants to step onto.
      * @return true if movement onto the tile is blocked, false otherwise.
      */
-    private boolean blocksMovement(Entity mover, Tile target) {
+    public boolean blocksMovement(Entity mover, Tile target) {
         if (target == null) {
             return true;
         }
@@ -411,178 +405,6 @@ public class Level {
         }
 
         return false;
-    }
-
-    /**
-     * Determines the next tile that an NPC should move to based on that NPCs
-     * movement rules.
-     *
-     * @param npc the NPC requesting its next tile
-     * @return the tile the NPC should move to, or null if no valid move exists
-     */
-    public Tile getNextTileForNpc(Entity npc) {
-        Tile current = getTile(npc.getY(), npc.getX());
-        if (current == null) {
-            return null;
-        }
-
-        return switch (npc) {
-            case FlyingAssassin flyingAssassin -> getNextTileForFlyingAssassin(flyingAssassin, current);
-            case FloorFollowingThief floorThief -> getNextTileForFloorFollowingThief(floorThief, current);
-            case SmartThief smartThief -> getNextTileForSmartThief(smartThief, current);
-            default -> null;
-        };
-    }
-
-    /**
-     * Calculates the next tile for a Flying Assassin NPC.
-     * Flying Assassins move in straight lines and reverse direction when hitting boundaries.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param current        the tile the assassin is currently on
-     * @return the next tile to move to, or null if no valid move exists
-     */
-    private Tile getNextTileForFlyingAssassin(FlyingAssassin flyingAssassin, Tile current) {
-        Direction flyingDirection = flyingAssassin.getDirection();
-        int dx = getOffsetX(flyingDirection);
-        int dy = getOffsetY(flyingDirection);
-
-        int nextX = current.getX() + dx;
-        int nextY = current.getY() + dy;
-
-        // If about to leave bounds, turn around
-        if (!isInBounds(nextX, nextY)) {
-            flyingDirection = flyingDirection.opposite();
-            flyingAssassin.setDirection(flyingDirection);
-
-            dx = getOffsetX(flyingDirection);
-            dy = getOffsetY(flyingDirection);
-
-            nextX = current.getX() + dx;
-            nextY = current.getY() + dy;
-
-            if (!isInBounds(nextX, nextY)) {
-                return null;
-            }
-        }
-
-        return getTile(nextY, nextX);
-    }
-
-    /**
-     * Calculates the next tile for a Floor Following Thief NPC.
-     * Floor Following Thieves follow a specific colour and use directional priority.
-     *
-     * @param floorThief the Floor Following Thief entity
-     * @param current    the tile the thief is currently on
-     * @return the next tile to move to, or null if no valid move exists
-     */
-    private Tile getNextTileForFloorFollowingThief(FloorFollowingThief floorThief, Tile current) {
-        Colour followingColour = floorThief.getFollowingColour();
-        Direction[] directionPriority = floorThief.getDirectionPriority();
-
-        for (Direction floorDirection : directionPriority) {
-            Tile candidateTile = findNextValidTile(current, floorDirection);
-            if (candidateTile != null
-                    && !(tileSharesFollowingColour(current, followingColour)
-                    || tileSharesFollowingColour(candidateTile, followingColour))
-                    && !blocksMovement(floorThief, candidateTile)) {
-                floorThief.setDirection(floorDirection);
-                return candidateTile;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Calculates the next tile for a Smart Thief NPC.
-     * Smart Thieves use pathfinding to reach targets, falling back to random valid moves.
-     *
-     * @param smartThief the Smart Thief entity
-     * @param current    the tile the thief is currently on
-     * @return the next tile to move to, or null if no valid move exists
-     */
-    private Tile getNextTileForSmartThief(SmartThief smartThief, Tile current) {
-        // Try pathfinding first
-        Tile nextTileMovingTo = pathfinder.findShortestPathTarget(current);
-        if (nextTileMovingTo != null && !blocksMovement(smartThief, nextTileMovingTo)) {
-            updateSmartThiefDirection(smartThief, current, nextTileMovingTo);
-            return nextTileMovingTo;
-        }
-
-        // Fall back to random valid move
-        Tile randomlyMovingTo = getRandomButValidMove(current, smartThief);
-        if (randomlyMovingTo != null) {
-            updateSmartThiefDirection(smartThief, current, randomlyMovingTo);
-            return randomlyMovingTo;
-        }
-
-        return null;
-    }
-
-    /**
-     * Updates the Smart Thief's facing direction based on target tile.
-     *
-     * @param smartThief the Smart Thief whose direction needs updating
-     * @param from       the current tile
-     * @param to         the target tile
-     */
-    private void updateSmartThiefDirection(SmartThief smartThief, Tile from, Tile to) {
-        Direction direction = getDirectionBetween(from, to);
-        if (direction != null) {
-            smartThief.setDirection(direction);
-        }
-    }
-
-    /**
-     * Returns a "random but valid" tile that Smart Thief could move to
-     * as part of its movement from the given tile, or null if no such move exists.
-     *
-     * @param smartCurrentTile smart thief current tile
-     * @param mover            smart thief "random but valid" target tile
-     * @return Tile that is valid to move to but random
-     */
-    private Tile getRandomButValidMove(Tile smartCurrentTile, Entity mover) {
-        List<Direction> smartDirections = new ArrayList<>(Arrays.asList(Direction.values()));
-        Collections.shuffle(smartDirections, smartThiefRandomMove);
-
-        for (Direction direction : smartDirections) {
-            Tile candidateTile = findNextValidTile(smartCurrentTile, direction);
-            if (candidateTile != null && !blocksMovement(mover, candidateTile)) {
-                return candidateTile;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Works out direction smart thief would travel from one tile to another.
-     * Assumes both tiles are on the same row/column (as they should)
-     *
-     * @param from current tile of smart thief
-     * @param to   target tile of smart thief
-     * @return Direction between two tiles
-     */
-    private Direction getDirectionBetween(Tile from, Tile to) {
-
-        int directionX = to.getX() - from.getX();
-        int directionY = to.getY() - from.getY();
-
-        if (directionX > 0) {
-            return Direction.EAST;
-        }
-        if (directionX < 0) {
-            return Direction.WEST;
-        }
-        if (directionY > 0) {
-            return Direction.SOUTH;
-        }
-        if (directionY < 0) {
-            return Direction.NORTH;
-        }
-
-        return null;
     }
 
     /**
@@ -709,12 +531,11 @@ public class Level {
     public void unlockGates(Colour colour) {
         for (int y = 0; y < levelHeight; y++) {
             for (int x = 0; x < levelWidth; x++) {
-                if (itemsGrid[y][x] instanceof Gate gate) {
-                    if (gate.getColour().equals(colour)) {
+                if (itemsGrid[y][x] instanceof Gate gate && gate.getColour().equals(colour)) {
                         gate.isOn = false;
                         removeItemFromGrid(gate.getY(), gate.getX());
                     }
-                }
+
             }
         }
     }
@@ -731,207 +552,8 @@ public class Level {
             return;
         }
 
-        updateAllNPCs();
+        npcManager.updateAllNPCs();
     }
-
-    /**
-     * Updates all NPCs in the level, handling their movement and interactions.
-     */
-    private void updateAllNPCs() {
-        List<Entity> entityCopy = new ArrayList<>(entities);
-        List<Entity> toRemove = new ArrayList<>();
-
-        for (Entity entity : entityCopy) {
-            if (entity instanceof game.entity.npc.NPC npc && npc.isAlive()) {
-                Tile targetTile = calculateNPCMovement(npc);
-                if (targetTile != null) {
-                    handleNPCMovementAndInteractions(npc, targetTile, entityCopy, toRemove);
-                }
-            }
-        }
-
-        entities.removeAll(toRemove);
-    }
-
-    /**
-     * Calculates the target tile for an NPCs movement.
-     *
-     * @param npc the NPC to calculate movement for
-     * @return the target tile, or null if no valid movement exists
-     */
-    private Tile calculateNPCMovement(game.entity.npc.NPC npc) {
-        Tile currentTile = getTile(npc.getY(), npc.getX());
-        if (currentTile == null) {
-            return null;
-        }
-
-        return getNextTileForNpc(npc);
-    }
-
-    /**
-     * Handles NPC movement and all related interactions (combat, item collection, etc.).
-     *
-     * @param npc        the NPC being updated
-     * @param targetTile the tile the NPC is moving to
-     * @param entityCopy copy of all entities for collision checking
-     * @param toRemove   list to track entities that should be removed
-     */
-    private void handleNPCMovementAndInteractions(game.entity.npc.NPC npc, Tile targetTile,
-                                                  List<Entity> entityCopy, List<Entity> toRemove) {
-        int targetX = targetTile.getX();
-        int targetY = targetTile.getY();
-
-        if (npc instanceof FlyingAssassin flyingAssassin) {
-            handleFlyingAssassinInteractions(flyingAssassin, targetX, targetY, entityCopy, toRemove);
-        } else if (npc instanceof SmartThief smartThief) {
-            handleSmartThiefInteractions(smartThief, targetX, targetY);
-        } else if (npc instanceof FloorFollowingThief floorThief) {
-            floorThief.setPosition(targetX, targetY);
-        }
-    }
-
-    /**
-     * Handles Flying Assassin combat interactions with player and other NPCs.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param targetX        target X coordinate
-     * @param targetY        target Y coordinate
-     * @param entityCopy     copy of all entities
-     * @param toRemove       list of entities to remove
-     */
-    private void handleFlyingAssassinInteractions(FlyingAssassin flyingAssassin, int targetX, int targetY,
-                                                  List<Entity> entityCopy, List<Entity> toRemove) {
-        int currentX = flyingAssassin.getX();
-        int currentY = flyingAssassin.getY();
-
-        if (checkPlayerOnCurrentTile(currentX, currentY)) {
-            return;
-        }
-        handleNPCsOnCurrentTile(flyingAssassin, currentX, currentY, entityCopy, toRemove);
-
-        if (checkPlayerOnTargetTile(flyingAssassin, targetX, targetY)) {
-            return;
-        }
-
-        handleNPCsOnTargetTile(flyingAssassin, targetX, targetY, entityCopy, toRemove);
-        moveFlyingAssassin(flyingAssassin, targetX, targetY);
-    }
-
-    /**
-     * Checks if the player is on the current tile of the Flying Assassin.
-     *
-     * @param currentX current X coordinate of the Flying Assassin
-     * @param currentY current Y coordinate of the Flying Assassin
-     * @return true if player is killed and game over triggered, false otherwise
-     */
-    private boolean checkPlayerOnCurrentTile(int currentX, int currentY) {
-        if (player != null && player.isAlive() && player.getX() == currentX && player.getY() == currentY) {
-            player.die(false);
-            GameController.gameOver();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Handles NPCs located on the current tile of the Flying Assassin.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param currentX       current X coordinate
-     * @param currentY       current Y coordinate
-     * @param entityCopy     copy of all entities
-     * @param toRemove       list of entities to remove
-     */
-    private void handleNPCsOnCurrentTile(FlyingAssassin flyingAssassin, int currentX, int currentY,
-                                         List<Entity> entityCopy, List<Entity> toRemove) {
-        for (Entity otherNPC : entityCopy) {
-            if (otherNPC != flyingAssassin && otherNPC != player && otherNPC.isAlive()
-                    && otherNPC.getX() == currentX && otherNPC.getY() == currentY) {
-                otherNPC.die(false);
-                toRemove.add(otherNPC);
-            }
-        }
-    }
-
-    /**
-     * Checks if the player is on the target tile of the Flying Assassin.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param targetX        target X coordinate
-     * @param targetY        target Y coordinate
-     * @return true if player is killed and game over triggered, false otherwise
-     */
-    private boolean checkPlayerOnTargetTile(FlyingAssassin flyingAssassin, int targetX, int targetY) {
-        if (player != null && player.isAlive() && player.getX() == targetX && player.getY() == targetY) {
-            player.die(false);
-            flyingAssassin.setPosition(targetX, targetY);
-            GameController.gameOver();
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Handles NPCs located on the target tile of the Flying Assassin.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param targetX        target X coordinate
-     * @param targetY        target Y coordinate
-     * @param entityCopy     copy of all entities
-     * @param toRemove       list of entities to remove
-     */
-    private void handleNPCsOnTargetTile(FlyingAssassin flyingAssassin, int targetX, int targetY,
-                                        List<Entity> entityCopy, List<Entity> toRemove) {
-        for (Entity otherNPC : entityCopy) {
-            if (otherNPC != flyingAssassin && otherNPC != player && otherNPC.isAlive()
-                    && otherNPC.getX() == targetX && otherNPC.getY() == targetY) {
-                otherNPC.die(false);
-                toRemove.add(otherNPC);
-            }
-        }
-    }
-
-    /**
-     * Moves the Flying Assassin to the target tile.
-     *
-     * @param flyingAssassin the Flying Assassin entity
-     * @param targetX        target X coordinate
-     * @param targetY        target Y coordinate
-     */
-    private void moveFlyingAssassin(FlyingAssassin flyingAssassin, int targetX, int targetY) {
-        flyingAssassin.setPosition(targetX, targetY);
-    }
-
-    /**
-     * Handles Smart Thief item collection and exit interactions.
-     *
-     * @param smartThief the Smart Thief entity
-     * @param targetX    target X coordinate
-     * @param targetY    target Y coordinate
-     */
-    private void handleSmartThiefInteractions(SmartThief smartThief, int targetX, int targetY) {
-        smartThief.setPosition(targetX, targetY);
-
-        Item item = itemsGrid[targetY][targetX];
-
-        if (item instanceof Loot) {
-            removeItemFromGrid(targetY, targetX);
-        } else if (item instanceof Lever lever) {
-            openGatesOfColour(lever.getColour());
-            removeItemFromGrid(targetY, targetX);
-        } else if (item instanceof Door && allLootAndLeversCollected()) {
-            levelFailed = true; // Thief wins, player loses
-        } else if (item instanceof Clock) {
-            removeItemFromGrid(targetY, targetX);
-        }
-        if (activeBombs != null) {
-            for (Bomb bomb : new ArrayList<>(activeBombs)) {
-                bomb.updateBombState(this);
-            }
-        }
-
-    }
-
 
     public Tile[][] getLevelGrid() {
         return levelGrid;
@@ -1003,5 +625,13 @@ public class Level {
 
     public void setActiveBombs(List<Bomb> bombs) {
         this.activeBombs = bombs;
+    }
+
+    public void setLevelFailed(boolean failed) {
+        this.levelFailed = failed;
+    }
+
+    public boolean isLevelFailed() {
+        return levelFailed;
     }
 }
