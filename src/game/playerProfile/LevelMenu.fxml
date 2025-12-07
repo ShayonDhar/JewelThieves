@@ -11,56 +11,177 @@
             xmlns="http://javafx.com/javafx/21.0.9"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="game.playerProfile.LevelMenuController"
-            stylesheets="@levelMenu.css"
-            styleClass="root-bg">
+            style="-fx-background-color: #1e3a5f;">
 
-    <VBox alignment="TOP_CENTER" spacing="30.0"
-          AnchorPane.topAnchor="0.0"
-          AnchorPane.bottomAnchor="0.0"
-          AnchorPane.leftAnchor="0.0"
-          AnchorPane.rightAnchor="0.0"
-          styleClass="main-box">
+    <VBox alignment="TOP_CENTER" spacing="40"
+          AnchorPane.topAnchor="20"
+          AnchorPane.leftAnchor="20"
+          AnchorPane.rightAnchor="20"
+          AnchorPane.bottomAnchor="20">
 
+        <!-- Title (match main menu style) -->
         <Label text="Jewel Thief: Unlocked Levels"
-               styleClass="title-label"/>
+               style="-fx-font-size: 42px;
+                      -fx-font-family: 'Arial Black';
+                      -fx-text-fill: #fc8d07;
+                      -fx-effect: dropshadow(gaussian, rgb(0,0,0), 15, 0.5, 0, 4);"/>
 
-        <GridPane hgap="25" vgap="25"
-                  alignment="CENTER"
-                  styleClass="level-grid">
+        <!-- Level grid styled to match golden buttons -->
+        <GridPane hgap="25" vgap="25" alignment="CENTER">
 
-            <columnConstraints>
-                <ColumnConstraints minWidth="160" prefWidth="180"/>
-                <ColumnConstraints minWidth="160" prefWidth="180"/>
-                <ColumnConstraints minWidth="160" prefWidth="180"/>
-            </columnConstraints>
+            <!-- Reusable style string for each level tile -->
+            <!-- Golden gradient, black text, drop shadow -->
+            <!-- MATCHES "Load Game" button style -->
 
-            <rowConstraints>
-                <RowConstraints minHeight="90" prefHeight="100"/>
-                <RowConstraints minHeight="90" prefHeight="100"/>
-                <RowConstraints minHeight="90" prefHeight="100"/>
-                <RowConstraints minHeight="90" prefHeight="100"/>
-            </rowConstraints>
+            <Label fx:id="level1Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="0" GridPane.columnIndex="0"/>
 
-            <Label fx:id="level1Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="0" styleClass="level-label"/>
-            <Label fx:id="level2Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="0" styleClass="level-label"/>
-            <Label fx:id="level3Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="0" styleClass="level-label"/>
-            <Label fx:id="level4Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="1" styleClass="level-label"/>
-            <Label fx:id="level5Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="1" styleClass="level-label"/>
-            <Label fx:id="level6Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="1" styleClass="level-label"/>
-            <Label fx:id="level7Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="2" styleClass="level-label"/>
-            <Label fx:id="level8Label" minWidth="100" minHeight="60" GridPane.columnIndex="1" GridPane.rowIndex="2" styleClass="level-label"/>
-            <Label fx:id="level9Label" minWidth="100" minHeight="60" GridPane.columnIndex="2" GridPane.rowIndex="2" styleClass="level-label"/>
-            <Label fx:id="level10Label" minWidth="100" minHeight="60" GridPane.columnIndex="0" GridPane.rowIndex="3" styleClass="level-label"/>
+            <Label fx:id="level2Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+            <Label fx:id="level3Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+
+            <Label fx:id="level4Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+
+            <Label fx:id="level5Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+            <Label fx:id="level6Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+
+            <!-- Continue same pattern for level7–level10 -->
+            <Label fx:id="level7Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+
+            <Label fx:id="level8Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+            <Label fx:id="level9Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+
+            <Label fx:id="level10Label" minWidth="160" minHeight="80"
+                   style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                          -fx-text-fill: #1a1a1a;
+                          -fx-font-family: 'Times New Roman Bold';
+                          -fx-font-size: 24px;
+                          -fx-background-radius: 10;
+                          -fx-border-color: #ffed4e;
+                          -fx-border-width: 2;
+                          -fx-border-radius: 10;
+                          -fx-alignment: center;
+                          -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);"
+                   GridPane.rowIndex="3" GridPane.columnIndex="0"/>
 
         </GridPane>
 
-        <!-- Back Button -->
+        <!-- Back Button (match green button style) -->
         <Button text="Back to Profile Manager"
-                fx:id="backButton"
                 onAction="#backToProfileManager"
-                prefWidth="200"
-                styleClass="back-button"/>
+                prefWidth="300"
+                style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);
+                       -fx-text-fill: #ffffff;
+                       -fx-background-radius: 10;
+                       -fx-border-color: #7fff7f;
+                       -fx-border-width: 2;
+                       -fx-border-radius: 10;
+                       -fx-effect: dropshadow(gaussian, rgba(50,205,50,0.7), 10, 0.5, 0, 3);
+                       -fx-padding: 10 40 10 40;
+                       -fx-cursor: hand;"/>
 
     </VBox>
+
 </AnchorPane>
+
 
