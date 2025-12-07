@@ -59,14 +59,13 @@ public class GameController {
 
     @FXML private static Text gameOverText;
     @FXML private static Text levelCompleteText;
-    private boolean isLevelComplete = false;
     public TilePane boardTilePane;
     public Level level;
     public Player player;
     public Item [][] itemGrid;
     public TextArea textArea;
     public static boolean tickPlaying = false;
-    private GameSaveManager saveManager;
+    public GameSaveManager saveManager;
     private int score = 0;
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
@@ -320,7 +319,7 @@ public class GameController {
                 if (item instanceof Door door) {
                     door.isOn = false;
                     level.removeItemFromGrid(player.getY(), player.getX());
-                    isLevelComplete = true;
+                    boolean isLevelComplete = true;
                     editTextArea();
                     levelCompleted();
                 }
