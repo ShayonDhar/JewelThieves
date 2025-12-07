@@ -59,7 +59,7 @@
             </Button>
 
             <Button mnemonicParsing="false" onAction="#buttonProfileManager" text="👤 MANAGE PROFILES"
-                    style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);
+                    style="-fx-background-color: linear-gradient(to bottom, #30bb30, #2e9d2e);
                -fx-text-fill: #ffffff;
                -fx-background-radius: 10;
                -fx-border-color: #7fff7f;

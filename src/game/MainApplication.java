@@ -17,8 +17,8 @@ import javafx.stage.Stage;
 public class MainApplication extends Application {
 
     // Constants for the window dimensions
-    private static final int WINDOW_WIDTH = 600;
-    private static final int WINDOW_HEIGHT = 650;
+    private static final int WINDOW_WIDTH = 700;
+    private static final int WINDOW_HEIGHT = 450;
 
     /**
      * The method that launches the JavaFX application.
