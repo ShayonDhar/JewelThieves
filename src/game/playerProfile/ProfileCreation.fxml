@@ -1,56 +1,92 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.geometry.Pos?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0"
-            xmlns="http://javafx.com/javafx/21"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="game.playerProfile.ProfileCreationController"
-            stylesheets="@levelMenu.css"
-            styleClass="root-bg">
+<StackPane xmlns="http://javafx.com/javafx/21"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="game.playerProfile.ProfileCreationController"
+           style="-fx-background-color: #1e3a5f;"
+           fx:id="rootStackPane">
 
-   <children>
-      <VBox spacing="20" alignment="CENTER"
-            AnchorPane.topAnchor="20"
-            AnchorPane.bottomAnchor="20"
-            AnchorPane.leftAnchor="20"
-            AnchorPane.rightAnchor="20">
+   <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+               prefHeight="400" prefWidth="600"
+               style="-fx-background-radius: 15;
+                       -fx-border-color: #20b2aa;
+                       -fx-border-width: 0;
+                       -fx-effect: dropshadow(gaussian, rgba(6,128,121,0.6), 20, 0.4, 0, 0);">
 
-         <!-- Title -->
-         <Label text="Create New Profile"
-                style="-fx-font-size: 26px;
-              -fx-font-weight: bold;
-              -fx-text-fill: #f5e3b4;
-              -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 4, 0.5, 2, 2);" />
+      <top>
+         <Label text="CREATE NEW PROFILE"
+                alignment="CENTER"
+                BorderPane.alignment="CENTER"
+                style="-fx-text-fill: #fc8d07;
+                          -fx-font-family: 'Arial Black';
+                          -fx-font-size: 36px;
+                          -fx-effect: dropshadow(gaussian, rgb(0,0,0), 15, 0.5, 0, 4);">
+            <BorderPane.margin>
+               <Insets top="20" right="10" bottom="10" left="10"/>
+            </BorderPane.margin>
+         </Label>
+      </top>
 
-         <!-- Player name input -->
-         <VBox spacing="5" alignment="CENTER_LEFT">
-            <Label text="Player Name:"
-                   style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-            <TextField fx:id="nameField"
-                       prefWidth="250"
-                       promptText="Enter player name" />
+      <center>
+         <VBox spacing="20" alignment="CENTER">
+            <padding>
+               <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- Player Name Input -->
+            <VBox spacing="5" alignment="CENTER_LEFT">
+               <Label text="Player Name:"
+                      style="-fx-font-size: 16px; -fx-font-weight: bold; -fx-text-fill: #f5e3b4;" />
+               <TextField fx:id="nameField" prefWidth="250"
+                          promptText="Enter player name"
+                          style="-fx-background-radius: 10;
+                                      -fx-border-radius: 10;
+                                      -fx-border-color: #20b2aa;
+                                      -fx-border-width: 2;
+                                      -fx-padding: 5 10 5 10;" />
+            </VBox>
+
+            <!-- Buttons -->
+            <VBox spacing="10" alignment="CENTER">
+               <Button text="Create" onAction="#onCreate"
+                       style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);
+                                   -fx-text-fill: #ffffff;
+                                   -fx-background-radius: 10;
+                                   -fx-border-color: #7fff7f;
+                                   -fx-border-width: 2;
+                                   -fx-border-radius: 10;
+                                   -fx-effect: dropshadow(gaussian, rgba(50,205,50,0.7), 10, 0.5, 0, 3);
+                                   -fx-padding: 10 40 10 40;
+                                   -fx-cursor: hand;
+                                   -fx-font-family: 'Times New Roman Bold';
+                                   -fx-font-size: 16;" />
+
+               <Button text="Cancel" onAction="#onCancel"
+                       style="-fx-background-color: linear-gradient(to bottom, #dc143c, #a01020);
+                                   -fx-text-fill: #fff8dc;
+                                   -fx-background-radius: 10;
+                                   -fx-border-color: #ff6b6b;
+                                   -fx-border-width: 2;
+                                   -fx-border-radius: 10;
+                                   -fx-effect: dropshadow(gaussian, rgba(220, 20, 60,0.6), 10, 0.5, 0, 3);
+                                   -fx-padding: 10 40 10 40;
+                                   -fx-cursor: hand;
+                                   -fx-font-family: 'Times New Roman Bold';
+                                   -fx-font-size: 16;" />
+
+            </VBox>
+
          </VBox>
+      </center>
 
-         <!-- Buttons -->
-         <VBox spacing="10" alignment="CENTER">
-            <Button text="Create"
-                    onAction="#onCreate"
-                    prefWidth="200"
-                    styleClass="level-button"/>
+   </BorderPane>
 
-            <Button text="Cancel"
-                    onAction="#onCancel"
-                    prefWidth="200"
-                    styleClass="level-button"/>
-         </VBox>
-
-      </VBox>
-   </children>
-
-</AnchorPane>
+</StackPane>
