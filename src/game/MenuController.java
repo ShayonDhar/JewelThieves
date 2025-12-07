@@ -102,7 +102,7 @@ public class MenuController {
     /**
      * Loads the game scene and tells it to load a specific save file.
      */
-    private void loadGameWithSave(String saveFilename) {
+    public void loadGameWithSave(String saveFilename) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("GameGraphics.fxml"));
             Pane root = loader.load();

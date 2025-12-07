@@ -145,8 +145,6 @@ public class ProfileSaveController {
                 gameController.setSaveManager(new GameSaveManager(gameController));
             }
 
-
-            // Load saved level INTO controller
             gameController.loadSavedLevel(loadedLevel);
 
 
@@ -178,4 +176,7 @@ public class ProfileSaveController {
         stage.close();
     }
 
+    public void setGameController(GameController controller) {
+        this.gameController = controller;
+    }
 }

@@ -14,6 +14,7 @@ import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.playerProfile.ProfileController;
+import game.playerProfile.ProfileSaveController;
 import game.save.GameSaveManager;
 
 import java.util.List;
@@ -349,12 +350,13 @@ public class GameController {
      */
 
     private boolean isGameOver() {
-        return tickPlaying;
+
+        return gameOverText != null && gameOverText.isVisible();
     }
 
     /**
      * Method to stop the timeline and suggest that the level has been completed
-     * Occurs when the door of the level is unlocked
+     * Occurs when the door of the level is unlocked.
      */
     public static void levelCompleted() {
         tickPlaying = false;
@@ -398,12 +400,11 @@ public class GameController {
     @FXML
     public void buttonSaveAction() {
         try {
-            // Block saving if the level is failed
-            if (level == null || isGameOver()) {
+            if (isGameOver()) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Cannot Save");
                 alert.setHeaderText(null);
-                alert.setContentText("The game cannot be saved because the level has failed.");
+                alert.setContentText("The game cannot be saved because it is over.");
                 alert.showAndWait();
                 return;
             }
@@ -434,6 +435,7 @@ public class GameController {
         }
     }
 
+
     private static Alert getAlert(boolean success, String filename) {
         Alert alert;
         if (success) {
@@ -458,19 +460,22 @@ public class GameController {
     @FXML
     public void buttonLoadAction() {
         try {
-            // Load the Profile Selection screen
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("playerProfile/ProfileSelectionLoad.fxml"));
+            // Load the Profile Selection screen for LOAD mode
+            FXMLLoader loader = new FXMLLoader(
+                    getClass().getResource("playerProfile/ProfileSelectionLoad.fxml")
+            );
+
             Pane root = loader.load();
 
+            // Get controller and inject the GameController for callbacks
+            ProfileSaveController Controller = loader.getController();
+            Controller.setGameController(this);
 
-            ProfileController profileController = loader.getController();
-            profileController.setGameController(this);
-
-            // Create a new stage for the profile selection
+            // Create a popup stage for load selection
             Stage profileStage = new Stage();
-            Scene scene = new Scene(root, 450, 300); // adjust to FXML size
+            Scene scene = new Scene(root, 450, 300);
             profileStage.setScene(scene);
-            profileStage.setTitle("Select Profile & Save");
+            profileStage.setTitle("Load Save File");
             profileStage.show();
 
         } catch (Exception e) {
@@ -478,10 +483,11 @@ public class GameController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Load Error");
             alert.setHeaderText(null);
-            alert.setContentText("An error occurred while opening the profile selection screen: " + e.getMessage());
+            alert.setContentText("Could not open profile selection screen: " + e.getMessage());
             alert.showAndWait();
         }
     }
+
 
     /**
      * Loads a specific save file when starting from the main menu.
@@ -569,7 +575,6 @@ public class GameController {
     public void setSaveManager(GameSaveManager sm) {
         this.saveManager = sm;
     }
-
 
     public void loadSavedLevel(Level savedLevel) {
         if (savedLevel == null) {

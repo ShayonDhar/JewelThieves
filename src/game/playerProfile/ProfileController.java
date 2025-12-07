@@ -18,7 +18,6 @@ import java.util.List;
 public class ProfileController {
     private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 700;
-    private GameController gameController;
     public ComboBox profileCombo;
     public Button startBtn;
     public Button cancelBtn;
@@ -100,10 +99,6 @@ public class ProfileController {
     private void cancel() {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
         stage.close();
-    }
-
-    public void setGameController(GameController controller) {
-        this.gameController = controller;
     }
 
 
