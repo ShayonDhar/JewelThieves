@@ -153,8 +153,8 @@ public class MenuController {
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 
-            // Adding the css class for setting the lever colour
-            scene.getStylesheets().add(getClass().getResource("lever-colour.css").toExternalForm());
+//            // Adding the css class for setting the lever colour
+//            scene.getStylesheets().add(getClass().getResource("lever-colour.css").toExternalForm());
 
             // Setting the scene and displaying it
             gameStage.setScene(scene);

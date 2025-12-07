@@ -86,6 +86,9 @@ public class ProfileController {
             // Attach movement handler
             scene.setOnKeyPressed(controller::onKeyPressed);
 
+            // Adding the css class for setting the lever colour
+            scene.getStylesheets().add(getClass().getResource("/game/lever-colour.css").toExternalForm());
+
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
 
