@@ -58,7 +58,7 @@
                <font><Font name="Times New Roman Bold" size="16.0"/></font>
             </Button>
 
-            <Button mnemonicParsing="false" onAction="#buttonProfileManager" text="🧍 MANAGE PROFILES"
+            <Button mnemonicParsing="false" onAction="#buttonProfileManager" text="👤 MANAGE PROFILES"
                     style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);
                -fx-text-fill: #ffffff;
                -fx-background-radius: 10;

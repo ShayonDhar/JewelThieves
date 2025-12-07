@@ -34,7 +34,7 @@ public class ProfileManagerController {
             creationController.setParent(this);
 
             Stage profileStage = new Stage();
-            Scene scene = new Scene(root, 400, 300);
+            Scene scene = new Scene(root);
 
             profileStage.setScene(scene);
             profileStage.setTitle("Create New Player Profile");
