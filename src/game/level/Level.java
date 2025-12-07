@@ -6,7 +6,6 @@ import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
 import game.item.*;
-
 import java.util.*;
 import javafx.scene.paint.Color;
 
