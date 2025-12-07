@@ -1,0 +1,48 @@
+/* ComboBox display area */
+.combo-box {
+    -fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+    -fx-text-fill: #1a1a1a;
+    -fx-background-radius: 10;
+    -fx-border-color: #ffed4e;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+    -fx-padding: 6;
+    -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);
+}
+
+/* The arrow button */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.combo-box .arrow-button .arrow {
+    -fx-background-color: #1a1a1a;
+}
+
+/* The popup list background */
+.combo-box-popup .list-view {
+    -fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+    -fx-control-inner-background: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 5;
+    -fx-border-color: #ffed4e;
+    -fx-border-width: 2;
+    -fx-border-radius: 10;
+}
+
+/* Individual list cells */
+.combo-box-popup .list-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1a1a1a;
+    -fx-font-family: "Times New Roman";
+    -fx-font-size: 16px;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: rgba(255, 185, 0, 0.45);
+}
+
+
+.combo-box-popup .list-cell:selected {
+    -fx-background-color: rgba(255,215,0,0.55);
+}

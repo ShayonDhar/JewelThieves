@@ -10,12 +10,13 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.text.Font?>
 <AnchorPane prefHeight="300.0" prefWidth="450.0"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="game.playerProfile.ProfileManagerController"
-            stylesheets="@../MainMenu.css"
-            styleClass="root-bg">
+            style="-fx-background-color: #1e3a5f;"
+            stylesheets="@ProfileManagerComboBox.css">
 
     <VBox alignment="TOP_CENTER" spacing="20.0"
           AnchorPane.topAnchor="20.0"
@@ -25,47 +26,82 @@
 
         <!-- Title -->
         <Label text="Profile Manager"
-               style="-fx-font-size: 26px;
-                      -fx-font-weight: bold;
-                      -fx-text-fill: #f5e3b4;
-                      -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.7), 4, 0.5, 2, 2);"/>
+               style="-fx-font-size: 36px;
+                      -fx-font-family: 'Arial Black';
+                      -fx-text-fill: #fc8d07;
+                      -fx-effect: dropshadow(gaussian, rgb(0,0,0), 15, 0.5, 0, 4);"/>
 
-        <!-- List of existing profiles -->
         <ComboBox fx:id="profileCombo"
                   prefWidth="250.0"
-                  styleClass="menu-combo"
-                  promptText="Select a Profile"/>
+                  promptText="Select a Profile"
+                  styleClass="combo-box"/>
+
 
         <!-- Buttons arranged in 2 columns -->
         <GridPane hgap="15" vgap="15" alignment="CENTER">
+
             <Button text="Create New Profile"
                     onAction="#createNewProfile"
                     prefWidth="300"
-                    styleClass="menu-button"
-                    GridPane.rowIndex="0"
-                    GridPane.columnIndex="0"/>
+                    style="-fx-background-color: linear-gradient(to bottom, #1e90ff, #1c7ed6);
+                           -fx-text-fill: #ffffff;
+                           -fx-background-radius: 10;
+                           -fx-border-color: #4fc3f7;
+                           -fx-border-width: 2;
+                           -fx-border-radius: 10;
+                           -fx-effect: dropshadow(gaussian, rgba(30, 144, 255, 0.8), 10, 0.5, 0, 3);
+                           -fx-padding: 10 40 10 40;
+                           -fx-cursor: hand;">
+                <font><Font name="Times New Roman Bold" size="16.0"/></font>
+            </Button>
 
             <Button text="Delete Profile"
                     onAction="#deleteSelectedProfile"
                     prefWidth="300"
-                    styleClass="menu-button"
-                    GridPane.rowIndex="0"
-                    GridPane.columnIndex="1"/>
+                    style="-fx-background-color: linear-gradient(to bottom, #dc143c, #a01020);
+                           -fx-text-fill: #fff8dc;
+                           -fx-background-radius: 10;
+                           -fx-border-color: #ff6b6b;
+                           -fx-border-width: 2;
+                           -fx-border-radius: 10;
+                           -fx-effect: dropshadow(gaussian, rgba(220, 20, 60, 0.6), 10, 0.5, 0, 3);
+                           -fx-padding: 10 40 10 40;
+                           -fx-cursor: hand;">
+                <font><Font name="Times New Roman Bold" size="16.0" /></font>
+            </Button>
 
             <Button text="View Unlocked Levels"
                     onAction="#viewLevelsUnlocked"
                     prefWidth="400"
-                    styleClass="menu-button"
-                    GridPane.rowIndex="1"
-                    GridPane.columnIndex="0"
-                    GridPane.columnSpan="2"/>
+                    style="-fx-background-color: linear-gradient(to bottom, #ffd700, #daa520);
+                           -fx-text-fill: #1a1a1a;
+                           -fx-background-radius: 10;
+                           -fx-border-color: #ffed4e;
+                           -fx-border-width: 2;
+                           -fx-border-radius: 10;
+                           -fx-effect: dropshadow(gaussian, rgba(255,215,0,0.7), 10, 0.5, 0, 3);
+                           -fx-padding: 10 40 10 40;
+                           -fx-cursor: hand;">
+                <font><Font name="Times New Roman Bold" size="16.0"/></font>
+            </Button>
+
         </GridPane>
 
         <!-- Back to previous menu -->
         <Button text="Back"
                 onAction="#closeWindow"
                 prefWidth="300"
-                styleClass="menu-button"/>
+                style="-fx-background-color: linear-gradient(to bottom, #32cd32, #2e9d2e);
+                       -fx-text-fill: #ffffff;
+                       -fx-background-radius: 10;
+                       -fx-border-color: #7fff7f;
+                       -fx-border-width: 2;
+                       -fx-border-radius: 10;
+                       -fx-effect: dropshadow(gaussian, rgba(50,205,50,0.7), 10, 0.5, 0, 3);
+                       -fx-padding: 10 40 10 40;
+                       -fx-cursor: hand;">
+            <font><Font name="Times New Roman Bold" size="16.0"/></font>
+        </Button>
 
     </VBox>
 </AnchorPane>
