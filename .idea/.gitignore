@@ -10,3 +10,5 @@
 /dataSources.local.xml
 # Ignoring the stored checkstyle
 /checkstyle-idea.xml
+# Ignorning the JavaFX project structure library path
+/.idea/libraries/JavaFX.xml
