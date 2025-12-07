@@ -14,6 +14,7 @@ import javafx.scene.image.ImageView;
  * @version 1.0
  */
 
+@SuppressWarnings("checkstyle:AbbreviationAsWordInName")
 public abstract class NPC extends Entity {
 
     private static final int ROTATE_TO_EAST = 90;

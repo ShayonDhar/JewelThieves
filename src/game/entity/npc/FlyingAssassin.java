@@ -2,7 +2,9 @@ package game.entity.npc;
 
 import game.entity.Direction;
 import game.entity.EntityName;
+import game.entity.Player;
 import game.level.Level;
+import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -29,7 +31,8 @@ public class FlyingAssassin extends NPC {
         super(EntityName.FLYING_ASSASSIN, x, y, direction, alive, blocksMovement, level);
 
         sprite = new ImageView(
-                new Image(game.entity.Player.class.getResource("/game/resources/flyingassassin.png").toExternalForm())
+                new Image(Objects.requireNonNull(Player.class.getResource(
+                        "/game/resources/flyingassassin.png")).toExternalForm())
         );
         sprite.setFitWidth(SPRITE_SIZE);
         sprite.setFitHeight(SPRITE_SIZE);
@@ -38,10 +41,6 @@ public class FlyingAssassin extends NPC {
     @Override
     public void move() {
         // Implemented in Level!
-    }
-
-    @Override
-    public void addToHighscore(int value) {
     }
 
     /* TODO: Check tile/level boundariesH

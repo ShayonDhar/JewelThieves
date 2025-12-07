@@ -2,8 +2,9 @@ package game.entity;
 
 import game.GameController;
 import game.item.*;
-import game.level.Tile;
 import game.level.Level;
+import game.level.Tile;
+import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -18,17 +19,16 @@ import javafx.scene.image.ImageView;
  * @version 1.0.0
  */
 public class Player extends Entity {
-    private static final String PLAYER_PNG = "/game/resources/player.png";
     private static final int SPRITE_SIZE = 35;
     private static final int ROTATE_TO_EAST = 90;
     private static final int ROTATE_TO_SOUTH = 180;
     private static final int ROTATE_TO_WEST = 270;
     private final GameController controller;
     private final Level level;
-    private int highscore;
 
     private final ImageView sprite = new ImageView(
-            new Image(Player.class.getResource("/game/resources/player.png").toExternalForm()));
+            new Image(Objects.requireNonNull(Player.class.getResource(
+                    "/game/resources/player.png")).toExternalForm()));
 
     /**
      * Constructs a new Player entity.
@@ -80,7 +80,6 @@ public class Player extends Entity {
         }
 
         // If flying assassin on the tile
-        // TODO This might not work as player can move onto a flying assassin tile
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
             return;
@@ -138,7 +137,7 @@ public class Player extends Entity {
                     // Player cannot stand on a bomb tile.
                     break;
                 default:
-                    System.out.println("Game over"); // TODO: Make this an alert in the game.
+                    System.out.println("Game over");
                     break;
             }
             targetTile.removeItem();
@@ -189,16 +188,6 @@ public class Player extends Entity {
                 break;
         }
         return sprite;
-    }
-
-    /**
-     * Adds value to Highscore.
-     *
-     * @param value value to be added to Highscore
-     */
-    @Override
-    public void addToHighscore(int value) {
-        this.highscore += value;
     }
 }
 
