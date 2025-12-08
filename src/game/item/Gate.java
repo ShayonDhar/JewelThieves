@@ -10,7 +10,7 @@ import javafx.scene.image.ImageView;
  * Allows the gate object to be created.
  *
  * @author Alex Samuel
- * @version 1.0
+ * @version 1.0.0
  */
 
 public class Gate extends Item {
@@ -36,6 +36,11 @@ public class Gate extends Item {
         this.colour = colour;
     }
 
+    /**
+     * Gets the colour of the gate.
+     *
+     * @return colour of gate
+     */
     public Colour getColour() {
         return colour;
     }

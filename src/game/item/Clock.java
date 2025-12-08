@@ -31,6 +31,11 @@ public class Clock extends Item {
         this.timeBonus = TIME_BONUS;
     }
 
+    /**
+     * Gets the time bonus.
+     *
+     * @return time bonus
+     */
     public int getTimeBonus() {
         return timeBonus;
     }
