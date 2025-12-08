@@ -1,5 +1,8 @@
 package game.highscore;
 
+import java.time.format.DateTimeFormatter;
+import java.util.Set;
+import java.util.TreeSet;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -9,10 +12,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-
-import java.time.format.DateTimeFormatter;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Controller for the leaderboard UI. Displays top 10 high scores per level
@@ -26,7 +25,8 @@ public class LeaderboardController {
     private static final String BACKGROUND_IMAGE_PATH = "resources/gamebackground2.jpg";
     private static final double BACKGROUND_BLUR_RADIUS = 3.0;
     private static final String OVERLAY_STYLE = "-fx-background-color: rgba(0,0,0,0.5);";
-    private static final String PLACEHOLDER_STYLE = "-fx-text-fill: #ffd700; -fx-font-size: 24px; -fx-font-weight: bold;";
+    private static final String PLACEHOLDER_STYLE = "-fx-text-fill: #ffd700; "
+            + "-fx-font-size: 24px; -fx-font-weight: bold;";
     private static final String NO_SCORES_MESSAGE = "No high scores recorded for this level yet.";
     private static final String LEVEL_TITLE_FORMAT = "Level %d - Top 10 Scores";
     private static final int DEFAULT_LEVEL_IF_EMPTY = 1;
