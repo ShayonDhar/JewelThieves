@@ -14,9 +14,7 @@ import game.item.Loot;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
-import game.playerProfile.ProfileController;
-import game.playerProfile.ProfileSaveController;
-import game.playerProfile.ProfileSession;
+import game.playerProfile.*;
 import game.save.GameSaveManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -377,6 +375,18 @@ public class GameController {
         });
 
         fade.play();
+        List<PlayerProfile> profiles = ProfileManager.loadProfiles();
+        for (PlayerProfile p : profiles) {
+            if (p.getName().equalsIgnoreCase(currentPlayerName)) {
+                int newUnlock = currentLevelNumber + 1;
+                if (newUnlock > p.getMaxUnlockedLevel()) {
+                    p.setMaxUnlockedLevel(newUnlock);
+                }
+            }
+        }
+
+        ProfileManager.saveProfiles(profiles);
+
     }
 
     /**

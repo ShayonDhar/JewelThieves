@@ -7,26 +7,36 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
-import javafx.scene.paint.Color;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javafx.scene.paint.Color;
 
 /**
  * This class reads the data from the level file.
  * It then loads the data stored in this file onto the game.
  *
  * @author Alex Samuel.
+ * @version 1.0.0
  */
 public class LevelLoader {
 
     private static final int TILE_COLOR_COUNT = 4;
     private final GameController controller;
 
+    /**
+     * Responsible for loading and initializing game levels.
+     * The LevelLoader uses the provided controller
+     * to manage level data, set up entities, and handle transitions
+     * between different stages of the game.
+     *
+     * @param controller GameController instance that coordinates
+     *                   game logic, player state, and interactions during
+     *                   level loading
+     */
     public LevelLoader(GameController controller) {
         this.controller = controller;
     }

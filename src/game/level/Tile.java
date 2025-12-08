@@ -17,23 +17,24 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
 /**
- * Represents a single tile within the game level grid. Each tile has a fixed
- * position defined by its x and y coordinates, and contains four colours that
- * determine valid movement between tiles.
- * May contain at most one item (such as loot, a clock, a bomb, or a
- * lever). Tiles may also hold multiple NPCs at the same time,
- * and provide methods for adding or removing them.
- * May contain a gate, which blocks movement until opened via a
- * matching lever. Tiles may also be designated as exit tiles,
- * (used for completing the level).
- * This class also manages bomb behaviour.
+ * Represents a single tile within the game level grid.
+ * Each tile has a fixed position defined by its x and y coordinates, and contains
+ * four colours that determine valid movement between tiles.
+ * May contain at most one item such as loot, a clock, a bomb, or a lever.
+ * Tiles may also hold multiple NPCs at the same time.
+ * May contain a gate which blocks movement until opened via a matching lever.
+ * Tiles may also be designated as exit tiles used for completing the level.
  *
- * @author Alex Samuel, Shayon Dhar
+ * @author Alex Samuel
+ * @author Shayon Dhar
+ * @version 1.0.0
  */
-
 public class Tile {
 
+    private static final int TILE_INNER_SQUARE_SIZE = 25;
     private static final int MAX_COLOURS = 4;
+    public static final int COLOUR_3 = 3;
+    public static final double V_3 = 0.3;
 
     private final int x;
     private final int y;
@@ -47,8 +48,13 @@ public class Tile {
 
     private List<NPC> npc = new ArrayList<>();
 
-    private static final int TILE_INNER_SQUARE_SIZE = 25;
-
+    /**
+     * Constructs a new Tile with the specified position and colours.
+     *
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     * @param colours an array of four colours for the tile
+     */
     public Tile(int x, int y, Color[] colours) {
         validateColourSize(colours.length);
         this.x = x;
@@ -56,53 +62,93 @@ public class Tile {
         this.colours = colours;
     }
 
+    /**
+     * Validates that the colour array size does not exceed the maximum allowed.
+     *
+     * @param size the size of the colour array to validate
+     */
     private void validateColourSize(int size) {
         if (size > MAX_COLOURS) {
             throw new IllegalArgumentException("A tile can have at most " + MAX_COLOURS + " colours.");
         }
     }
 
+    /**
+     * Gets the x-coordinate of this tile.
+     *
+     * @return the x-coordinate
+     */
     public int getX() {
         return x;
     }
+
+    /**
+     * Gets the y-coordinate of this tile.
+     *
+     * @return the y-coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Checks if this tile has a gate.
+     *
+     * @return true if the tile has a gate, false otherwise
+     */
     public boolean hasGate() {
-        // TODO This always returns null, view Player move()
         return gate != null;
     }
 
+    /**
+     * Checks if this tile is an exit tile.
+     *
+     * @return true if this tile is an exit, false otherwise
+     */
     public boolean isExit() {
         return isExit;
     }
 
+    /**
+     * Gets the item on this tile.
+     *
+     * @return the item on this tile, or null if no item exists
+     */
     public Item getItem() {
         return item;
     }
 
+    /**
+     * Sets the item on this tile.
+     *
+     * @param item the item to place on this tile
+     */
     public void setItem(Item item) {
         this.item = item;
     }
 
+    /**
+     * Gets the list of NPCs on this tile.
+     *
+     * @return the list of NPCs
+     */
     public List<NPC> getNpc() {
         return npc;
     }
 
     /**
-     * Checks whether a tile has a bomb.
+     * Checks whether this tile has a bomb.
      *
-     * @return whether the tile has a bomb
+     * @return true if the tile has a bomb, false otherwise
      */
     public boolean hasBomb() {
         return bomb != null;
     }
 
     /**
-     * Checks whether a tile contains a flying assassin.
+     * Checks whether this tile contains a flying assassin.
      *
-     * @return whether the tile contains the flying assassin or not
+     * @return true if the tile contains a flying assassin, false otherwise
      */
     public boolean containsFlyingAssassin() {
         for (Entity npc : getNpc()) {
@@ -113,49 +159,98 @@ public class Tile {
         return false;
     }
 
+    /**
+     * Gets the array of colours for this tile.
+     *
+     * @return the array of colours
+     */
     public Color[] getColours() {
         return colours;
     }
 
+    /**
+     * Gets the colours as a collection.
+     *
+     * @return a collection of colours
+     */
     public Collection<Color> getColoursAsList() {
         return Arrays.asList(colours);
     }
 
+    /**
+     * Sets the colours for this tile.
+     *
+     * @param colours the new array of colours
+     */
     public void setColours(Color[] colours) {
         this.colours = colours;
     }
 
+    /**
+     * Sets the list of NPCs on this tile.
+     *
+     * @param npc the list of NPCs
+     */
     public void setNpc(List<NPC> npc) {
         this.npc = npc;
     }
 
+    /**
+     * Sets whether this tile is an exit tile.
+     *
+     * @param exit true if this tile is an exit, false otherwise
+     */
     public void setExit(boolean exit) {
         isExit = exit;
     }
 
+    /**
+     * Gets the gate on this tile.
+     *
+     * @return the gate, or null if no gate exists
+     */
     public Gate getGate() {
         return gate;
     }
 
+    /**
+     * Gets the bomb on this tile.
+     *
+     * @return the bomb, or null if no bomb exists
+     */
     public Bomb getBomb() {
         return bomb;
     }
 
+    /**
+     * Sets the bomb on this tile.
+     *
+     * @param bomb the bomb to place on this tile
+     */
     public void setBomb(Bomb bomb) {
         this.bomb = bomb;
     }
 
     /**
-     * Removes an item from the tile.
+     * Removes the item from this tile.
      */
     public void removeItem() {
         item = null;
     }
 
     /**
-     * Method to convert a tile into a StackPane JavaFX object.
-     * This allows for a tile to be displayed within a StackPane on the TileGrid.
-     * @return a StackPane object for the GameController to read
+     * Sets the gate on this tile.
+     *
+     * @param gate the gate to place on this tile
+     */
+    public void setGate(Gate gate) {
+        this.gate = gate;
+    }
+
+    /**
+     * Converts this tile into a StackPane JavaFX object for display.
+     *
+     * @return a StackPane representation of this tile
      */
     public StackPane toStackPane() {
         StackPane root = new StackPane();
@@ -164,7 +259,7 @@ public class Tile {
         Rectangle r0 = createOutlinedRect(colours[0]);
         Rectangle r1 = createOutlinedRect(colours[1]);
         Rectangle r2 = createOutlinedRect(colours[2]);
-        Rectangle r3 = createOutlinedRect(colours[3]);
+        Rectangle r3 = createOutlinedRect(colours[COLOUR_3]);
 
         gridPane.add(r0, 0, 0);
         gridPane.add(r1, 1, 0);
@@ -177,31 +272,36 @@ public class Tile {
 
     /**
      * Creates a rectangle with an outline stroke.
+     *
      * @param fill the fill color of the rectangle
      * @return a Rectangle with stroke applied
      */
     private Rectangle createOutlinedRect(Color fill) {
         Rectangle rect = new Rectangle(TILE_INNER_SQUARE_SIZE, TILE_INNER_SQUARE_SIZE, fill);
 
-        rect.setStroke(new Color(0, 0, 0, 0.3));
+        rect.setStroke(new Color(0, 0, 0, V_3));
         rect.setStrokeWidth(1);
         rect.setStrokeType(StrokeType.INSIDE);
 
         return rect;
     }
 
-
+    /**
+     * Returns a string representation of this tile.
+     *
+     * @return a string describing this tile's properties
+     */
     @Override
     public String toString() {
-        return "Tile{" +
-                "x=" + x +
-                ", y=" + y +
-                ", colours=" + Arrays.toString(colours) +
-                ", item=" + item +
-                ", gate=" + gate +
-                ", bomb=" + (item instanceof Bomb) +
-                ", isExit=" + isExit +
-                ", npc=" + npc +
-                '}';
+        return "Tile{"
+                + "x=" + x
+                + ", y=" + y
+                + ", colours=" + Arrays.toString(colours)
+                + ", item=" + item
+                + ", gate=" + gate
+                + ", bomb=" + (item instanceof Bomb)
+                + ", isExit=" + isExit
+                + ", npc=" + npc
+                + '}';
     }
 }

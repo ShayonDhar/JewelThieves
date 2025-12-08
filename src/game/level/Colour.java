@@ -5,8 +5,8 @@ import javafx.scene.paint.Color;
 /**
  * Defines the colours of each level.
  *
- * @author Shayon Dar
- * @version 1.0
+ * @author Shayon Dhar
+ * @version 1.0.0
  */
 
 public enum Colour {
@@ -69,7 +69,6 @@ public enum Colour {
      *
      * @return the fx colour
      */
-
     public Color getFXColor() {
         return fxColor;
     }
@@ -81,7 +80,6 @@ public enum Colour {
      * @param c the colour character
      * @return An error or the colour
      */
-
     public static Colour fromCode(char c) {
         for (Colour col : values()) {
             if (col.code == c) {

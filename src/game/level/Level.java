@@ -50,6 +50,8 @@ public class Level {
 
     /**
      * Constructor which loads the level from the level loader.
+     *
+     * @param controller for game
      */
     public Level(GameController controller) {
         this.controller = controller;
@@ -69,7 +71,9 @@ public class Level {
         int dx = getOffsetX(direction);
         int dy = getOffsetY(direction);
 
-        if (dx == 0 && dy == 0) return null; //  invalid direction
+        if (dx == 0 && dy == 0) {
+            return null; //  invalid direction
+        }
 
         int nextX = currentTile.getX() + dx;
         int nextY = currentTile.getY() + dy;
@@ -450,8 +454,7 @@ public class Level {
 
         //  Bombs
         if (item instanceof Bomb bomb) {
-            if (bomb.getState() == BombState.WAITING
-                    || bomb.getState() == BombState.COUNTING) {
+            if (bomb.getState() == BombState.WAITING) {
                 bomb.trigger();
             }
             return;
