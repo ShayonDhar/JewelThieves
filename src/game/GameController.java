@@ -377,6 +377,18 @@ public class GameController {
         });
 
         fade.play();
+        List<PlayerProfile> profiles = ProfileManager.loadProfiles();
+        for (PlayerProfile p : profiles) {
+            if (p.getName().equalsIgnoreCase(currentPlayerName)) {
+                int newUnlock = currentLevelNumber + 1;
+                if (newUnlock > p.getMaxUnlockedLevel()) {
+                    p.setMaxUnlockedLevel(newUnlock);
+                }
+            }
+        }
+
+        ProfileManager.saveProfiles(profiles);
+
     }
 
     /**
