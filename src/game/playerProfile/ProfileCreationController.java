@@ -99,7 +99,7 @@ public class ProfileCreationController {
     }
 
     /**
-     * Displays an informational alert with the given title and message.
+     * Displays an information alert with the given title and message.
      *
      * @param title   the alert title
      * @param message the message to display
