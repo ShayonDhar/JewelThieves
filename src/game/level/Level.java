@@ -479,10 +479,21 @@ public class Level {
         for (int cx = 0; cx < levelWidth; cx++) {
             destroyTileContent(cx, y);
         }
-
         //  vertical blast
         for (int cy = 0; cy < levelHeight; cy++) {
             destroyTileContent(x, cy);
+        }
+        // Murder the player
+        for (TilePosition position : getExplosionTiles(x, y)) {
+            int targetX = position.x();
+            int targetY = position.y();
+
+            // Kill player
+            // If the player is standing in the blast zone:
+            if (player != null && player.isAlive() && player.getX() == targetX && player.getY() == targetY) {
+                player.die(false);
+                GameController.gameOver();
+            }
         }
     }
 
