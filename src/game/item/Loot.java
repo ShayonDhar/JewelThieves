@@ -6,9 +6,8 @@ package game.item;
  * objects to be created.
  *
  * @author Elijah
- * @version 1.0
+ * @version 1.0.0
  */
-
 public class Loot extends Item {
     private final LootType lootType;
     /**
@@ -30,6 +29,11 @@ public class Loot extends Item {
         this.lootType = lootType;
     }
 
+    /**
+     * Gets the loot type.
+     *
+     * @return loot type
+     */
     public LootType getLootType() {
         return lootType;
     }

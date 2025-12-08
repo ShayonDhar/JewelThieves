@@ -54,19 +54,39 @@ public abstract class Item {
         this.itemType = itemType;
     }
 
+    /**
+     * Gets the item id.
+     *
+     * @return item id
+     */
     @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
     public int getItemID() {
         return itemID;
     }
 
+    /**
+     * Gets the x value.
+     *
+     * @return x coordinate
+     */
     public int getX() {
         return x;
     }
 
+    /**
+     * Gets the y value.
+     *
+     * @return y coordinate
+     */
     public int getY() {
         return y;
     }
 
+    /**
+     * Gets the item type.
+     *
+     * @return item type
+     */
     public ItemType getItemType() {
         return itemType;
     }

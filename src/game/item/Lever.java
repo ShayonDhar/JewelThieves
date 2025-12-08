@@ -9,8 +9,8 @@ import javafx.scene.image.ImageView;
  * The lever class which implements all the lever functions
  * and allows the lever object to be created.
  *
- * @author Shayon Dar
- * @version 1.0
+ * @author Shayon Dhar
+ * @version 1.0.0
  */
 
 public class Lever extends Item {
