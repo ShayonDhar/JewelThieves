@@ -54,7 +54,6 @@ public class GameController {
 
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
-    private static final int START_TIME_REMAINING = 30;
     private static final int TIME_BONUS_MULTIPLIER = 10; // Points per second remaining
 
     private static Timeline tickTimeline;
@@ -63,6 +62,7 @@ public class GameController {
     @FXML private static Text levelCompleteText;
     public TilePane boardTilePane;
     public Level level;
+    private int startTimeRemaining;
     public Player player;
     public Item [][] itemGrid;
     public TextArea textArea;
@@ -74,7 +74,7 @@ public class GameController {
     private String currentPlayerName = ProfileSession.getCurrentName();
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
-    private int timeRemaining = START_TIME_REMAINING;
+    private int timeRemaining = startTimeRemaining;
 
     @FXML
     private StackPane rootStackPane;
@@ -133,13 +133,17 @@ public class GameController {
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
 
-        timeRemaining = START_TIME_REMAINING;
+        // FIXED: timer comes from the Level object
+        startTimeRemaining = level.getRemainingTime();
+        timeRemaining = startTimeRemaining;
+
         score = 0;
 
         saveManager = new GameSaveManager(this);
 
         drawGame();
     }
+
 
     /**
      * Updates the game state and redraws the scene.
@@ -694,7 +698,7 @@ public class GameController {
         this.player = level.getPlayer();
         this.itemGrid = level.getItemsGrid();
 
-        timeRemaining = START_TIME_REMAINING;
+        timeRemaining = startTimeRemaining;
         score = 0;
 
         drawGame();
