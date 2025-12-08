@@ -1,7 +1,7 @@
 package game.playerProfile;
 
 import game.GameController;
-import game.level.Level;
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,36 +13,54 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.List;
-
+/**
+ * Controller responsible for managing player profiles within the profile selection screen.
+ * This class handles displaying available profiles, validating the selected profile,
+ * launching the game window with the chosen profile, and returning to the previous scene.
+ *
+ * @author Alex Samuel
+ * @version 1.0
+ */
 public class ProfileController {
+
     private static final int WINDOW_WIDTH = 950;
     private static final int WINDOW_HEIGHT = 700;
+
+    /** ComboBox displaying the available player profiles. */
     public ComboBox profileCombo;
+
+    /** Button used to start the game with the selected profile. */
     public Button startBtn;
+
+    /** Button used to cancel and close the profile selection window. */
     public Button cancelBtn;
 
+    /**
+     * Initializes the controller after its FXML components are loaded.
+     * Loads and populates the profile list.
+     */
     @FXML
     public void initialize() {
         refreshProfiles(null);
-
     }
 
+    /**
+     * Reloads all player profiles from storage and updates the ComboBox.
+     * A placeholder entry is added at the top, and the method can optionally
+     * auto-select a given profile.
+     *
+     * @param selected the profile to pre-select, or null to select the placeholder
+     */
     public void refreshProfiles(PlayerProfile selected) {
 
-
         List<PlayerProfile> profiles = ProfileManager.loadProfiles();
-
-
         ObservableList<PlayerProfile> option = FXCollections.observableArrayList();
 
         PlayerProfile placeholder = new PlayerProfile("Select Player", 1);
         option.add(placeholder);
         option.addAll(profiles);
 
-
         profileCombo.setItems(option);
-
 
         if (selected != null) {
             profileCombo.getSelectionModel().select(selected);
@@ -51,13 +69,18 @@ public class ProfileController {
         }
     }
 
+    /**
+     * Starts the game using the profile selected in the ComboBox.
+     * This method validates that a real profile is chosen (not the placeholder or null),
+     * stores it in, loads the game UI, initializes the first level,
+     * and opens the game window.
+     */
     @FXML
     private void startGame() {
 
         PlayerProfile selectedProfile =
                 (PlayerProfile) profileCombo.getSelectionModel().getSelectedItem();
 
-        // Validate selection: prevent starting with placeholder or null
         if (selectedProfile == null
                 || selectedProfile.getName().equals("Select Player")) {
 
@@ -69,7 +92,6 @@ public class ProfileController {
             return;
         }
 
-        // Store selected profile
         ProfileSession.set(selectedProfile);
 
         try {
@@ -83,11 +105,11 @@ public class ProfileController {
             Scene scene = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
             gameStage.setScene(scene);
 
-            // Attach movement handler
             scene.setOnKeyPressed(controller::onKeyPressed);
 
-            // Adding the css class for setting the lever colour
-            scene.getStylesheets().add(getClass().getResource("/game/lever-colour.css").toExternalForm());
+            scene.getStylesheets().add(
+                    getClass().getResource("/game/lever-colour.css").toExternalForm()
+            );
 
             gameStage.setTitle("Jewel Thieves Group 01 - Game");
             gameStage.show();
@@ -97,12 +119,12 @@ public class ProfileController {
         }
     }
 
-
+    /**
+     * Closes the profile selection window.
+     */
     @FXML
     private void cancel() {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
         stage.close();
     }
-
-
 }
