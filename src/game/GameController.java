@@ -363,6 +363,17 @@ public class GameController {
         } else {
             showLevelCompleteAlert(finalScore);
         }
+        FadeTransition fade = new FadeTransition(Duration.seconds(1.5), levelCompleteText);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        // After fade-out, hide text and load next level
+        fade.setOnFinished(e -> {
+            levelCompleteText.setVisible(false);
+            loadLevel(currentLevelNumber + 1);
+        });
+
+        fade.play();
     }
 
     /**
