@@ -16,6 +16,7 @@ import game.level.LevelLoader;
 import game.level.Tile;
 import game.playerProfile.ProfileController;
 import game.playerProfile.ProfileSaveController;
+import game.playerProfile.ProfileSession;
 import game.save.GameSaveManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class GameController {
     private HighScoreManager highScoreManager;
     private int score = 0;
     private int currentLevelNumber = 1;
-    private String currentPlayerName = "Player"; // TODO: Get from profile system
+    private String currentPlayerName = ProfileSession.getCurrentName();
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
     private int timeRemaining = START_TIME_REMAINING;
@@ -322,6 +323,7 @@ public class GameController {
                     door.isOn = false;
                     level.removeItemFromGrid(player.getY(), player.getX());
                     handleLevelComplete();
+                    loadLevel(currentLevelNumber + 1);
                 }
             }
 
