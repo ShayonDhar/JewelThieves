@@ -16,6 +16,7 @@ import game.level.LevelLoader;
 import game.level.Tile;
 import game.playerProfile.ProfileController;
 import game.playerProfile.ProfileSaveController;
+import game.playerProfile.ProfileSession;
 import game.save.GameSaveManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,7 +71,7 @@ public class GameController {
     private HighScoreManager highScoreManager;
     private int score = 0;
     private int currentLevelNumber = 1;
-    private String currentPlayerName = "Player"; // TODO: Get from profile system
+    private String currentPlayerName = ProfileSession.getCurrentName();
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
     private int timeRemaining = START_TIME_REMAINING;
@@ -361,6 +362,17 @@ public class GameController {
         } else {
             showLevelCompleteAlert(finalScore);
         }
+        FadeTransition fade = new FadeTransition(Duration.seconds(1.5), levelCompleteText);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        // After fade-out, hide text and load next level
+        fade.setOnFinished(e -> {
+            levelCompleteText.setVisible(false);
+            loadLevel(currentLevelNumber + 1);
+        });
+
+        fade.play();
     }
 
     /**
