@@ -1,7 +1,9 @@
 package game.highscore;
 
 import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Manages the high score table for a single game level.
@@ -15,10 +17,14 @@ import java.util.*;
  * @version 1.0.0
  */
 public class LevelHighScoreTable {
+
     /**
      * The maximum number of entries to keep in the high score table.
      */
     private static final int MAX_ENTRIES = 10;
+    private static final int REPEAT_DISPLAY = 40;
+    private static final int BEGIN_INDEX = 6;
+
     private static final String LEVEL = "LEVEL:";
     private static final String INVALID_FILE_FORMAT = "Invalid high score file format";
     private static final String LEVEL_MISMATCH = "Level mismatch: expected ";
@@ -27,7 +33,7 @@ public class LevelHighScoreTable {
     private static final String LEVEL_TO_STRING = "Level ";
     private static final String NO_SCORES_YET = "No scores yet.\n";
     private static final String TO_STRING_FORMAT = "%2d. %s\n";
-    public static final int REPEAT_DISPLAY = 40;
+    private static final String FOUND = ", found ";
 
     /**
      * The level number this high score table represents.
@@ -47,43 +53,20 @@ public class LevelHighScoreTable {
 
     /**
      * Attempts to add a new score to the high score table.
-     * If the player already has a score in the table, only the higher score is kept.
      * The score is only added if it qualifies for the top 10.
+     * Players can have multiple entries in the table.
      *
      * @param playerName the name of the player
      * @param score the score to add
-     * @return true if the score was added or updated in the table
+     * @return true if the score was added to the table
      * @throws NullPointerException if playerName is null
      */
     public boolean addScore(String playerName, int score) {
         HighScoreEntry newEntry = new HighScoreEntry(playerName, score);
 
-        // Check if player already has an entry
-        HighScoreEntry existingEntry = null;
-        for (HighScoreEntry entry : entries) {
-            if (entry.getPlayerName().equalsIgnoreCase(playerName)) {
-                existingEntry = entry;
-                break;
-            }
-        }
-
-        if (existingEntry != null) {
-            // Player already has a score
-            if (score > existingEntry.getScore()) {
-                // New score is better - remove old entry and add new one
-                entries.remove(existingEntry);
-                entries.add(newEntry);
-                Collections.sort(entries);
-                return true;
-            } else {
-                // New score is worse or equal - don't add it
-                return false;
-            }
-        }
-
-        // Player doesn't have an entry yet - check if score qualifies
-        if (entries.size() < MAX_ENTRIES ||
-                newEntry.compareTo(entries.getLast()) < 0) {
+        // Check if score qualifies for top 10
+        if (entries.size() < MAX_ENTRIES
+                || newEntry.compareTo(entries.getLast()) < 0) {
 
             entries.add(newEntry);
             Collections.sort(entries);
@@ -205,10 +188,10 @@ public class LevelHighScoreTable {
                 throw new IOException(INVALID_FILE_FORMAT);
             }
 
-            int fileLevelNumber = Integer.parseInt(line.substring(6));
+            int fileLevelNumber = Integer.parseInt(line.substring(BEGIN_INDEX));
             if (fileLevelNumber != levelNumber) {
                 throw new IOException(LEVEL_MISMATCH + levelNumber
-                        + ", found " + fileLevelNumber);
+                        + FOUND + fileLevelNumber);
             }
 
             // Read entries

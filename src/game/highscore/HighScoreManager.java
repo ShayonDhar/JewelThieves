@@ -71,10 +71,7 @@ public class HighScoreManager {
      * @throws NullPointerException if playerName is null
      */
     public boolean recordScore(int levelNumber, String playerName, int score) {
-        LevelHighScoreTable table = levelTables.computeIfAbsent(
-                levelNumber,
-                LevelHighScoreTable::new
-        );
+        LevelHighScoreTable table = getHighScoreTable(levelNumber);
 
         boolean added = table.addScore(playerName, score);
 
