@@ -49,23 +49,28 @@ import javafx.util.Duration;
  * @version $1.0.
  */
 public class GameController {
-
+    public static final double fadeTransitionTime = 1.5;
+    public static final int showExpressionDuration = 250;
+    public static final int SceneRootV1 = 450;
+    public static final int SceneRootV2 = 300;
+    public static final int prefferedHeight = 150;
+    public static final int blurRadius = 10;
+    public static final int sceneStageRootV1 = 950;
+    public static final int sceneStageRootV2 = 700;
+    public static boolean tickPlaying = false;
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
     private static final int TIME_BONUS_MULTIPLIER = 10; // Points per second remaining
-
     private static Timeline tickTimeline;
-
     @FXML private static Text gameOverText;
     @FXML private static Text levelCompleteText;
     public TilePane boardTilePane;
     public Level level;
-    private int startTimeRemaining;
-    public Player player;
-    public Item [][] itemGrid;
-    public TextArea textArea;
-    public static boolean tickPlaying = false;
     public GameSaveManager saveManager;
+    public Item [][] itemGrid;
+    public Player player;
+    public TextArea textArea;
+    private int startTimeRemaining;
     private HighScoreManager highScoreManager;
     private int score = 0;
     private int currentLevelNumber = 1;
@@ -141,7 +146,6 @@ public class GameController {
 
         drawGame();
     }
-
 
     /**
      * Updates the game state and redraws the scene.
@@ -234,9 +238,8 @@ public class GameController {
      * @param tiles a list of TilePosition objects.
      */
     public void showExplosionAtTiles(List<TilePosition> tiles) {
-        long duration = 250;
         for (TilePosition pos : tiles) {
-            activeExplosions.add(new ExplosionEffect(pos.x(), pos.y(), duration));
+            activeExplosions.add(new ExplosionEffect(pos.x(), pos.y(), showExpressionDuration));
         }
     }
 
@@ -364,7 +367,8 @@ public class GameController {
         } else {
             showLevelCompleteAlert(finalScore);
         }
-        FadeTransition fade = new FadeTransition(Duration.seconds(1.5), levelCompleteText);
+        
+        FadeTransition fade = new FadeTransition(Duration.seconds(fadeTransitionTime), levelCompleteText);
         fade.setFromValue(1.0);
         fade.setToValue(0.0);
 
@@ -588,7 +592,7 @@ public class GameController {
 
             // Create a popup stage for load selection
             Stage profileStage = new Stage();
-            Scene scene = new Scene(root, 450, 300);
+            Scene scene = new Scene(root, SceneRootV1, SceneRootV2);
             profileStage.setScene(scene);
             profileStage.setTitle("Load Save File");
             profileStage.show();
@@ -652,7 +656,7 @@ public class GameController {
             bgView.fitHeightProperty().bind(rootStackPane.heightProperty());
 
             GaussianBlur blur = new GaussianBlur();
-            blur.setRadius(10);
+            blur.setRadius(blurRadius);
             bgView.setEffect(blur);
 
             // Create gradient overlays
@@ -661,7 +665,7 @@ public class GameController {
                     "-fx-background-color: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);"
             );
             topGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
-            topGradient.setPrefHeight(150);
+            topGradient.setPrefHeight(prefferedHeight);
             topGradient.setMouseTransparent(true);
 
             Pane bottomGradient = new Pane();
@@ -669,7 +673,7 @@ public class GameController {
                     "-fx-background-color: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);"
             );
             bottomGradient.prefWidthProperty().bind(rootStackPane.widthProperty());
-            bottomGradient.setPrefHeight(150);
+            bottomGradient.setPrefHeight(prefferedHeight);
             bottomGradient.setMouseTransparent(true);
 
             bottomGradient.translateYProperty().bind(
@@ -690,6 +694,11 @@ public class GameController {
         this.saveManager = sm;
     }
 
+    /**
+     * Loads the saved level.
+     *
+     * @param savedLevel the saved level of the player.
+     */
     public void loadSavedLevel(Level savedLevel) {
         if (savedLevel == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -733,7 +742,7 @@ public class GameController {
                     Pane root = loader.load();
 
                     Stage stage = (Stage) textArea.getScene().getWindow();
-                    Scene scene = new Scene(root, 950, 700);
+                    Scene scene = new Scene(root, sceneStageRootV1, sceneStageRootV2);
                     stage.setScene(scene);
                     stage.show();
 

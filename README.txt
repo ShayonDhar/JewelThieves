@@ -1,1 +1,0 @@
-Run MainApplication with your configurations VM options set to your Java-FX module path
