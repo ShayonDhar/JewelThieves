@@ -1,7 +1,7 @@
 module JewelThieves {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.desktop;
+    requires javafx.graphics;
 
     opens game to  javafx.graphics, javafx.fxml;
     exports game;
