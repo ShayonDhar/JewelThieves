@@ -47,20 +47,43 @@ public class LevelHighScoreTable {
 
     /**
      * Attempts to add a new score to the high score table.
-     * The score is only added if it qualifies for the top 10. If the table
-     * is full and the new score is lower than all existing scores, it will
-     * not be added.
+     * If the player already has a score in the table, only the higher score is kept.
+     * The score is only added if it qualifies for the top 10.
      *
      * @param playerName the name of the player
      * @param score the score to add
-     * @return true if the score was added to the table, else return false
+     * @return true if the score was added or updated in the table
      * @throws NullPointerException if playerName is null
      */
     public boolean addScore(String playerName, int score) {
         HighScoreEntry newEntry = new HighScoreEntry(playerName, score);
 
+        // Check if player already has an entry
+        HighScoreEntry existingEntry = null;
+        for (HighScoreEntry entry : entries) {
+            if (entry.getPlayerName().equalsIgnoreCase(playerName)) {
+                existingEntry = entry;
+                break;
+            }
+        }
+
+        if (existingEntry != null) {
+            // Player already has a score
+            if (score > existingEntry.getScore()) {
+                // New score is better - remove old entry and add new one
+                entries.remove(existingEntry);
+                entries.add(newEntry);
+                Collections.sort(entries);
+                return true;
+            } else {
+                // New score is worse or equal - don't add it
+                return false;
+            }
+        }
+
+        // Player doesn't have an entry yet - check if score qualifies
         if (entries.size() < MAX_ENTRIES ||
-                newEntry.compareTo(entries.get(entries.size() - 1)) < 0) {
+                newEntry.compareTo(entries.getLast()) < 0) {
 
             entries.add(newEntry);
             Collections.sort(entries);
@@ -97,7 +120,7 @@ public class LevelHighScoreTable {
         if (entries.size() < MAX_ENTRIES) {
             return true;
         }
-        return score > entries.get(entries.size() - 1).getScore();
+        return score > entries.getLast().getScore();
     }
 
     /**
