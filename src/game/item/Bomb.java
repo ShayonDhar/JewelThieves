@@ -2,6 +2,7 @@ package game.item;
 
 import game.entity.Player;
 import game.level.Level;
+import java.util.Objects;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
@@ -9,8 +10,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
-
-import java.util.Objects;
 
 /**
  * The bomb class which implements all the bomb
@@ -22,6 +21,7 @@ import java.util.Objects;
 public class Bomb extends Item {
     private static final int BOMB_COUNTDOWN = 4; // Not 3 to account for trigger time
     private static final int TRIGGERED_TIME = 3;
+    private static final int BOMB_TEXT_SIZE = 35;
     private BombState state;
     private int countdown = BOMB_COUNTDOWN;
 
@@ -152,7 +152,7 @@ public class Bomb extends Item {
         // Countdown text
         Text countdownText = new Text(String.valueOf(countdown));
         countdownText.setFill(Color.ORANGE);
-        countdownText.setFont(Font.font("Arial", FontWeight.BOLD, 35));
+        countdownText.setFont(Font.font("Arial", FontWeight.BOLD, BOMB_TEXT_SIZE));
         countdownText.setStroke(Color.BLACK);   // outline for visibility
         countdownText.setStrokeWidth(1);
 
