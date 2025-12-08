@@ -1,13 +1,12 @@
 package game.highscore;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
 
 /**
  * Represents a single entry (row) in a high score leaderboard.
@@ -52,7 +51,6 @@ public class ScoreRow {
 
     /**
      * Factory method to create a ScoreRow from a LocalDateTime timestamp.
-     * <p>
      * The date will be formatted using the pattern
      *
      * @param rank       the current rank (1-based)
@@ -180,11 +178,13 @@ public class ScoreRow {
 
     @Override
     public String toString() {
-        return "ScoreRow{" +
-                "rank=" + rank +
-                ", playerName=" + playerName +
-                ", score=" + score +
-                ", date=" + date +
-                '}';
+        return "ScoreRow{"
+                + "rank="
+                + rank
+                + ", playerName="
+                + playerName
+                + ", score="
+                + score + ", date=" + date
+                + '}';
     }
 }

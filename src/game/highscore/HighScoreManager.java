@@ -22,6 +22,7 @@ public class HighScoreManager {
     private static final String SCORES = "_scores";
     private static final String SCORES_TXT = SCORES + ".txt";
     private static final String FAILED_TO_LOAD = "Failed to load ";
+    private static final int BEGIN_INDEX = 6;
     private final Map<Integer, LevelHighScoreTable> levelTables;
     private final String saveDirectory;
 
@@ -169,7 +170,7 @@ public class HighScoreManager {
                 try {
                     // Extract level number from filename
                     String filename = file.getName();
-                    String levelStr = filename.substring(6, filename.indexOf(SCORES));
+                    String levelStr = filename.substring(BEGIN_INDEX, filename.indexOf(SCORES));
                     int levelNumber = Integer.parseInt(levelStr);
 
                     loadLevel(levelNumber);

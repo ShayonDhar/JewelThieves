@@ -40,8 +40,7 @@ DOOR 10 3 3 false
 
 #Exits
 
-EXIT 13 2
-EXIT 0 5
+EXIT 3 3
 
 #Time
 
