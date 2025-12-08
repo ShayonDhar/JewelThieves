@@ -97,7 +97,7 @@ public class ProfileManager {
      * Deletes a profile from storage and removes all save files
      * associated with that profile.
      * The method removes the matching profile entry from {@code playerProfiles.txt}
-     * and deletes any files inside the {@code saves} directory whose names begin
+     * and deletes any files inside the SAVES directory whose names begin
      * with the profile's name.
      *
      * @param profile the profile to remove
