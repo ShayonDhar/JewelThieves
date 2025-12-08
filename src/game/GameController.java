@@ -16,6 +16,7 @@ import game.level.LevelLoader;
 import game.level.Tile;
 import game.playerProfile.ProfileController;
 import game.playerProfile.ProfileSaveController;
+import game.playerProfile.ProfileSession;
 import game.save.GameSaveManager;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,6 @@ public class GameController {
 
     private static final String UNHANDLED_KEY = "Unhandled key: ";
     private static final int TICK_DURATION = 1000;
-    private static final int START_TIME_REMAINING = 30;
     private static final int TIME_BONUS_MULTIPLIER = 10; // Points per second remaining
 
     private static Timeline tickTimeline;
@@ -62,6 +62,7 @@ public class GameController {
     @FXML private static Text levelCompleteText;
     public TilePane boardTilePane;
     public Level level;
+    private int startTimeRemaining;
     public Player player;
     public Item [][] itemGrid;
     public TextArea textArea;
@@ -70,10 +71,10 @@ public class GameController {
     private HighScoreManager highScoreManager;
     private int score = 0;
     private int currentLevelNumber = 1;
-    private String currentPlayerName = "Player"; // TODO: Get from profile system
+    private String currentPlayerName = ProfileSession.getCurrentName();
     private final ArrayList<ExplosionEffect> activeExplosions = new ArrayList<>();
 
-    private int timeRemaining = START_TIME_REMAINING;
+    private int timeRemaining = startTimeRemaining;
 
     @FXML
     private StackPane rootStackPane;
@@ -132,13 +133,17 @@ public class GameController {
         player = level.getPlayer();
         itemGrid = level.getItemsGrid();
 
-        timeRemaining = START_TIME_REMAINING;
+        // FIXED: timer comes from the Level object
+        startTimeRemaining = level.getRemainingTime();
+        timeRemaining = startTimeRemaining;
+
         score = 0;
 
         saveManager = new GameSaveManager(this);
 
         drawGame();
     }
+
 
     /**
      * Updates the game state and redraws the scene.
@@ -361,6 +366,17 @@ public class GameController {
         } else {
             showLevelCompleteAlert(finalScore);
         }
+        FadeTransition fade = new FadeTransition(Duration.seconds(1.5), levelCompleteText);
+        fade.setFromValue(1.0);
+        fade.setToValue(0.0);
+
+        // After fade-out, hide text and load next level
+        fade.setOnFinished(e -> {
+            levelCompleteText.setVisible(false);
+            loadLevel(currentLevelNumber + 1);
+        });
+
+        fade.play();
     }
 
     /**
@@ -682,7 +698,7 @@ public class GameController {
         this.player = level.getPlayer();
         this.itemGrid = level.getItemsGrid();
 
-        timeRemaining = START_TIME_REMAINING;
+        timeRemaining = startTimeRemaining;
         score = 0;
 
         drawGame();
