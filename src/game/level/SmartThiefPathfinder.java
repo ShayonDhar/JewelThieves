@@ -30,7 +30,6 @@ public class SmartThiefPathfinder {
     /**
      * Finds the shortest path between loot, lever and exit tile.
      * Uses breadth-first search to find the nearest reachable target.
-     *
      * @param source the starting tile where smart thief currently is
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
@@ -126,6 +125,7 @@ public class SmartThiefPathfinder {
      *
      * @param previousTileX X-coordinate tracking array
      * @param previousTileY Y-coordinate tracking array
+     *
      */
     private void initializePreviousTileArrays(int[][] previousTileX, int[][] previousTileY) {
         for (int y = 0; y < level.getLevelHeight(); y++) {
@@ -167,6 +167,7 @@ public class SmartThiefPathfinder {
                     previousTileY[nextY][nextX] = currentY;
                     queue.addLast(new int[]{nextX, nextY});
                 }
+
             }
         }
     }
