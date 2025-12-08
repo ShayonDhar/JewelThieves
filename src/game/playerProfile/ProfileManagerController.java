@@ -1,5 +1,6 @@
 package game.playerProfile;
 
+import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,18 +13,35 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
-import java.util.List;
-
+/**
+ * Controller responsible for managing player profiles in the application.
+ * This class handles loading and displaying existing profiles, creating new ones,
+ * deleting selected profiles, and opening the level menu for the chosen profile.
+ * It interacts with to read and modify stored profile data.
+ *
+ * @author Alex Samuel
+ * @version 1.0
+ */
 public class ProfileManagerController {
 
+    private static final int WIDTH = 950;
+    private static final int HEIGHT = 700;
     @FXML
     private ComboBox<PlayerProfile> profileCombo;
 
+    /**
+     * Initializes the controller after the FXML has been loaded.
+     * Loads and displays all existing profiles.
+     */
     @FXML
     public void initialize() {
         refreshProfiles(null);
     }
 
+    /**
+     * Opens the profile creation window where the user can create a new player profile.
+     * Loads the corresponding FXML layout and displays it in a new window.
+     */
     @FXML
     private void createNewProfile() {
         try {
@@ -45,6 +63,12 @@ public class ProfileManagerController {
         }
     }
 
+    /**
+     * Reloads the list of profiles and updates the ComboBox.
+     * A "Select Player" placeholder is always added at the top.
+     *
+     * @param selected profile to select after refresh, or null to select the placeholder
+     */
     public void refreshProfiles(PlayerProfile selected) {
 
         List<PlayerProfile> profiles = ProfileManager.loadProfiles();
@@ -64,6 +88,10 @@ public class ProfileManagerController {
         }
     }
 
+    /**
+     * Deletes the currently selected profile if it is valid.
+     * Displays an error alert if the user selects the placeholder or nothing.
+     */
     @FXML
     private void deleteSelectedProfile() {
 
@@ -88,18 +116,33 @@ public class ProfileManagerController {
         refreshProfiles(null);
     }
 
+    /**
+     * Closes the profile manager window.
+     */
     @FXML
     private void closeWindow() {
         Stage stage = (Stage) profileCombo.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Displays an alert dialog of the specified type with the given message.
+     *
+     * @param type the type of alert
+     * @param msg the message to display in the alert header
+     */
     private void showAlert(Alert.AlertType type, String msg) {
         Alert alert = new Alert(type);
         alert.setHeaderText(msg);
         alert.showAndWait();
     }
 
+    /**
+     * Opens the level menu for the currently selected profile.
+     * Ensures the user selects a valid profile before navigating.
+     *
+     * @param actionEvent the event that triggered this method
+     */
     @FXML
     public void viewLevelsUnlocked(ActionEvent actionEvent) {
         PlayerProfile selectedProfile = profileCombo.getSelectionModel().getSelectedItem();
@@ -119,7 +162,7 @@ public class ProfileManagerController {
             controller.setProfile(selectedProfile);
 
             Stage stage = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root, 950, 700);
+            Scene scene = new Scene(root, WIDTH, HEIGHT);
             scene.getStylesheets().add(getClass().getResource("levelMenu.css").toExternalForm());
 
             stage.setScene(scene);
@@ -134,5 +177,4 @@ public class ProfileManagerController {
             alert.showAndWait();
         }
     }
-
 }
