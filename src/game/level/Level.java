@@ -5,6 +5,7 @@ import game.TilePosition;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
+import game.entity.npc.NPC;
 import game.item.*;
 import java.util.*;
 import javafx.scene.paint.Color;
@@ -541,6 +542,32 @@ public class Level {
     }
 
     /**
+     * Checks if any thief (non-Flying Assassin NPC) is standing on a door
+     * after all loot and levers are collected.
+     *
+     * @return true if a thief has reached the door and won
+     */
+    public boolean hasThiefWon() {
+        if (!allLootAndLeversCollected()) {
+            return false;
+        }
+
+        for (Entity entity : entities) {
+            if (entity instanceof NPC && entity.isAlive()) {
+                int x = entity.getX();
+                int y = entity.getY();
+                Item item = itemsGrid[y][x];
+
+                if (item instanceof Door) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Updates the state of the level by the specified time step.
      * This includes decreasing remaining time, updating NPC movement,
      * processing bomb countdowns and explosions, and checking win or loss conditions.
@@ -553,6 +580,11 @@ public class Level {
         }
 
         npcManager.updateAllNPCs();
+
+        if (hasThiefWon()) {
+            setLevelFailed(true);
+            GameController.gameOver();
+        }
     }
 
     public Tile[][] getLevelGrid() {
