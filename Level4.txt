@@ -36,7 +36,6 @@ BOMB 6 7 1 false
 BOMB 3 5 1 false
 DOOR 8 9 3 false
 
-EXIT 4 0
-EXIT 4 3
+EXIT 9 3
 
 TIME 70
