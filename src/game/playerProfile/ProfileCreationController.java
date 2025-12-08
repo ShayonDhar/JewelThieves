@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 /**
  * Controller responsible for handling creation of new player profiles.
  * This class manages the input of a profile name, validates it,
- * prevents duplicates, creates a new {@link PlayerProfile}, saves it,
+ * prevents duplicates, creates a new, saves it,
  * and notifies its parent controller to refresh the profile list.
  *
  * @author Alex Samuel
