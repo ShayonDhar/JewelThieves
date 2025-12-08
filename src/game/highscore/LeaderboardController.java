@@ -48,13 +48,44 @@ public class LeaderboardController {
     private void initialize() {
         setupBackground();
         loadAllHighScores();
-
         configureLevelComboBox();
         selectFirstAvailableLevel();
         setupLevelChangeListener();
 
-        // Initial table population
+        // Auto-refresh when window becomes visible/focused
+        rootStackPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            if (newScene != null) {
+                newScene.windowProperty().addListener((obsWin, oldWindow, newWindow) -> {
+                    if (newWindow != null) {
+                        newWindow.focusedProperty().addListener((obsFocus, wasFocused, isNowFocused) -> {
+                            if (isNowFocused) {
+                                refreshLeaderboard();
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
         loadLevelScores(levelComboBox.getValue());
+    }
+
+    /**
+     * Refreshes the leaderboard by reloading all high scores from disk
+     * and updating the display.
+     */
+    @FXML
+    public void refreshLeaderboard() {
+        loadAllHighScores();
+
+        // Refresh the ComboBox items
+        configureLevelComboBox();
+
+        // Reload the currently selected level
+        Integer selectedLevel = levelComboBox.getValue();
+        if (selectedLevel != null) {
+            loadLevelScores(selectedLevel);
+        }
     }
 
     /**
