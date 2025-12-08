@@ -9,12 +9,9 @@ import game.item.*;
 import game.level.Colour;
 import game.level.Level;
 import game.level.Tile;
-import game.playerProfile.PlayerProfile;
-import game.playerProfile.ProfileSession;
-import javafx.scene.paint.Color;
-
 import java.io.PrintWriter;
 import java.util.List;
+import javafx.scene.paint.Color;
 
 /**
  * Utility class for writing game state data to save files.
@@ -29,6 +26,18 @@ public class GameSaveWriter {
     private static final String SHOULD_NOT_BE_INSTANTIATED = "Utility class should not be instantiated";
     private static final String UNKNOWN_ENTITY_SPOTTED = "Warning: Ignoring unknown entity spotted: ";
     private static final String UNKNOWN_ITEM_SPOTTED = "Warning: Ignoring unknown item spotted: ";
+    private static final int CAPACITY = 4;
+    private static final String PLAYER = "PLAYER ";
+    private static final String FLOOR_FOLLOWING_THIEF = "FLOORFOLLOWINGTHIEF ";
+    private static final String ASSASSIN = "ASSASSIN ";
+    private static final String SMART_THIEF = "SMARTTHIEF ";
+    private static final String LOOT = "LOOT ";
+    private static final String CLOCK = "CLOCK ";
+    private static final String LEVER = "LEVER ";
+    private static final String GATE = "GATE ";
+    private static final String BOMB = "BOMB ";
+    private static final String DOOR = "DOOR ";
+    private static final String EXIT = "EXIT ";
 
     /**
      * Private constructor to prevent instantiation.
@@ -56,8 +65,8 @@ public class GameSaveWriter {
                 Color[] colours = tile.getColours();
 
                 // Convert colors back to tile code (4 characters)
-                StringBuilder tileCode = new StringBuilder(4);
-                for (int i = 0; i < 4; i++) {
+                StringBuilder tileCode = new StringBuilder(CAPACITY);
+                for (int i = 0; i < CAPACITY; i++) {
                     tileCode.append(Colour.fromFXColor(colours[i]).getCode());
                 }
 
@@ -110,12 +119,12 @@ public class GameSaveWriter {
      * @param player the player to write
      */
     private static void writePlayer(PrintWriter writer, Player player) {
-        writer.println("PLAYER " +
-                player.getX() + " " +
-                player.getY() + " " +
-                player.getDirection().name() + " " +
-                player.isAlive() + " " +
-                player.isBlocksMovement());
+        writer.println(PLAYER
+                + player.getX() + " "
+                + player.getY() + " "
+                + player.getDirection().name() + " "
+                + player.isAlive() + " "
+                + player.isBlocksMovement());
     }
 
     /**
@@ -125,13 +134,13 @@ public class GameSaveWriter {
      * @param thief the FloorFollowingThief to write
      */
     private static void writeFloorFollowingThief(PrintWriter writer, FloorFollowingThief thief) {
-        writer.println("FLOORFOLLOWINGTHIEF " +
-                thief.getX() + " " +
-                thief.getY() + " " +
-                thief.getDirection().name() + " " +
-                thief.isAlive() + " " +
-                thief.isBlocksMovement() + " " +
-                thief.getFollowingColour().name());
+        writer.println(FLOOR_FOLLOWING_THIEF
+                + thief.getX() + " "
+                + thief.getY() + " "
+                + thief.getDirection().name() + " "
+                + thief.isAlive() + " "
+                + thief.isBlocksMovement() + " "
+                + thief.getFollowingColour().name());
     }
 
     /**
@@ -141,12 +150,12 @@ public class GameSaveWriter {
      * @param assassin the FlyingAssassin to write
      */
     private static void writeFlyingAssassin(PrintWriter writer, FlyingAssassin assassin) {
-        writer.println("ASSASSIN " +
-                assassin.getX() + " " +
-                assassin.getY() + " " +
-                assassin.getDirection().name() + " " +
-                assassin.isAlive() + " " +
-                assassin.isBlocksMovement());
+        writer.println(ASSASSIN
+                + assassin.getX() + " "
+                + assassin.getY() + " "
+                + assassin.getDirection().name() + " "
+                + assassin.isAlive() + " "
+                + assassin.isBlocksMovement());
     }
 
     /**
@@ -156,12 +165,12 @@ public class GameSaveWriter {
      * @param thief the SmartThief to write
      */
     private static void writeSmartThief(PrintWriter writer, SmartThief thief) {
-        writer.println("SMARTTHIEF " +
-                thief.getX() + " " +
-                thief.getY() + " " +
-                thief.getDirection().name() + " " +
-                thief.isAlive() + " " +
-                thief.isBlocksMovement());
+        writer.println(SMART_THIEF
+                + thief.getX() + " "
+                + thief.getY() + " "
+                + thief.getDirection().name() + " "
+                + thief.isAlive() + " "
+                + thief.isBlocksMovement());
     }
 
     /**
@@ -213,12 +222,12 @@ public class GameSaveWriter {
      * @param loot the Loot to write
      */
     private static void writeLoot(PrintWriter writer, Loot loot) {
-        writer.println("LOOT " +
-                loot.getItemID() + " " +
-                loot.getX() + " " +
-                loot.getY() + " " +
-                loot.isOn + " " +
-                loot.getLootType().name());
+        writer.println(LOOT
+                + loot.getItemID() + " "
+                + loot.getX() + " "
+                + loot.getY() + " "
+                + loot.isOn + " "
+                + loot.getLootType().name());
     }
 
     /**
@@ -228,12 +237,12 @@ public class GameSaveWriter {
      * @param clock the Clock to write
      */
     private static void writeClock(PrintWriter writer, Clock clock) {
-        writer.println("CLOCK " +
-                clock.getItemID() + " " +
-                clock.getX() + " " +
-                clock.getY() + " " +
-                clock.isOn + " " +
-                clock.getTimeBonus());
+        writer.println(CLOCK
+                + clock.getItemID() + " "
+                + clock.getX() + " "
+                + clock.getY() + " "
+                + clock.isOn + " "
+                + clock.getTimeBonus());
     }
 
     /**
@@ -243,12 +252,12 @@ public class GameSaveWriter {
      * @param lever the Lever to write
      */
     private static void writeLever(PrintWriter writer, Lever lever) {
-        writer.println("LEVER " +
-                lever.getItemID() + " " +
-                lever.getX() + " " +
-                lever.getY() + " " +
-                lever.isOn + " " +
-                lever.getColour().name());
+        writer.println(LEVER
+                + lever.getItemID() + " "
+                + lever.getX() + " "
+                + lever.getY() + " "
+                + lever.isOn + " "
+                + lever.getColour().name());
     }
 
     /**
@@ -258,12 +267,12 @@ public class GameSaveWriter {
      * @param gate the Gate to write
      */
     private static void writeGate(PrintWriter writer, Gate gate) {
-        writer.println("GATE " +
-                gate.getItemID() + " " +
-                gate.getX() + " " +
-                gate.getY() + " " +
-                gate.isOn + " " +
-                gate.getColour().name());
+        writer.println(GATE
+                + gate.getItemID() + " "
+                + gate.getX() + " "
+                + gate.getY() + " "
+                + gate.isOn + " "
+                + gate.getColour().name());
     }
 
     /**
@@ -273,11 +282,11 @@ public class GameSaveWriter {
      * @param bomb the Bomb to write
      */
     private static void writeBomb(PrintWriter writer, Bomb bomb) {
-        writer.println("BOMB " +
-                bomb.getItemID() + " " +
-                bomb.getX() + " " +
-                bomb.getY() + " " +
-                bomb.isOn);
+        writer.println(BOMB
+                + bomb.getItemID() + " "
+                + bomb.getX() + " "
+                + bomb.getY() + " "
+                + bomb.isOn);
     }
 
     /**
@@ -287,11 +296,11 @@ public class GameSaveWriter {
      * @param door the Door to write
      */
     private static void writeDoor(PrintWriter writer, Door door) {
-        writer.println("DOOR " +
-                door.getItemID() + " " +
-                door.getX() + " " +
-                door.getY() + " " +
-                door.isOn);
+        writer.println(DOOR
+                + door.getItemID() + " "
+                + door.getX() + " "
+                + door.getY() + " "
+                + door.isOn);
     }
 
     /**
@@ -307,7 +316,7 @@ public class GameSaveWriter {
         }
 
         for (Tile exit : exitTiles) {
-            writer.println("EXIT " + exit.getX() + " " + exit.getY());
+            writer.println(EXIT + exit.getX() + " " + exit.getY());
         }
     }
 }

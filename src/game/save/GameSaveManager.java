@@ -3,9 +3,7 @@ package game.save;
 import game.GameController;
 import game.level.Level;
 import game.level.LevelLoader;
-import game.level.Tile;
 import game.playerProfile.ProfileSession;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -22,6 +20,13 @@ import java.io.PrintWriter;
 public class GameSaveManager {
 
     private static final String SAVE_DIRECTORY = "saves/";
+    private static final String TIME = "TIME ";
+    private static final String GAME_SAVED = "Game saved successfully to: ";
+    private static final String ERROR_SAVING_GAME = "Error saving game: ";
+    private static final String FILE_NOT_FOUND = "Save file not found: ";
+    private static final String LOADING_GAME = "Loading game from: ";
+    private static final String TXT = ".txt";
+    private static final String SAVE_FILE_DELETED = "Save file deleted: ";
     private final LevelLoader levelLoader;
 
     /**
@@ -34,6 +39,11 @@ public class GameSaveManager {
         ensureSaveDirectoryExists();
     }
 
+    /**
+     * Constructs a new GameSaveManager,
+     * without a controller.
+     *
+     */
     public GameSaveManager() {
         ensureSaveDirectoryExists();
         this.levelLoader = null;
@@ -68,7 +78,7 @@ public class GameSaveManager {
             GameSaveWriter.writeTileGrid(writer, level);
 
             // Write remaining time
-            writer.println("TIME " + level.getRemainingTime());
+            writer.println(TIME + level.getRemainingTime());
 
             // Write entities (Player and NPCs)
             GameSaveWriter.writeEntities(writer, level);
@@ -79,11 +89,11 @@ public class GameSaveManager {
             // Write exit tiles
             GameSaveWriter.writeExitTiles(writer, level);
 
-            System.out.println("Game saved successfully to: " + fullPath);
+            System.out.println(GAME_SAVED + fullPath);
             return true;
 
         } catch (IOException e) {
-            System.out.println("Error saving game: " + e.getMessage());
+            System.out.println(ERROR_SAVING_GAME + e.getMessage());
             e.printStackTrace();
             return false;
         }
@@ -101,11 +111,11 @@ public class GameSaveManager {
 
         File saveFile = new File(fullPath);
         if (!saveFile.exists()) {
-            System.out.println("Save file not found: " + fullPath);
+            System.out.println(FILE_NOT_FOUND + fullPath);
             return null;
         }
 
-        System.out.println("Loading game from: " + fullPath);
+        System.out.println(LOADING_GAME + fullPath);
         return levelLoader.load(fullPath);
     }
 
@@ -121,7 +131,7 @@ public class GameSaveManager {
             return new String[0];
         }
 
-        File[] files = saveDir.listFiles((dir, name) -> name.endsWith(".txt"));
+        File[] files = saveDir.listFiles((dir, name) -> name.endsWith(TXT));
 
         if (files == null || files.length == 0) {
             return new String[0];
@@ -146,7 +156,7 @@ public class GameSaveManager {
         if (saveFile.exists()) {
             boolean deleted = saveFile.delete();
             if (deleted) {
-                System.out.println("Save file deleted: " + filename);
+                System.out.println(SAVE_FILE_DELETED + filename);
             }
             return deleted;
         }
@@ -171,9 +181,9 @@ public class GameSaveManager {
      */
     public String generateSaveFilename() {
         int saveNumber = 1;
-        while (saveExists(ProfileSession.getCurrentName() + saveNumber + ".txt")) {
+        while (saveExists(ProfileSession.getCurrentName() + saveNumber + TXT)) {
             saveNumber++;
         }
-        return ProfileSession.getCurrentName() + saveNumber + ".txt";
+        return ProfileSession.getCurrentName() + saveNumber + TXT;
     }
 }
