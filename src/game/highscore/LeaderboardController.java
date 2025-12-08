@@ -58,7 +58,7 @@ public class LeaderboardController {
                 newScene.windowProperty().addListener((obsWin, oldWindow, newWindow) -> {
                     if (newWindow != null) {
                         newWindow.focusedProperty().addListener((obsFocus, wasFocused, isNowFocused) -> {
-                            if (isNowFocused) {
+                            if (Boolean.TRUE.equals(isNowFocused)) {
                                 refreshLeaderboard();
                             }
                         });

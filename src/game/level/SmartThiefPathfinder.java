@@ -3,7 +3,6 @@ package game.level;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.item.*;
-
 import java.util.ArrayDeque;
 
 /**
@@ -31,6 +30,7 @@ public class SmartThiefPathfinder {
     /**
      * Finds the shortest path between loot, lever and exit tile.
      * Uses breadth-first search to find the nearest reachable target.
+     *
      * @param source the starting tile where smart thief currently is
      * @return the target tile that lies on the shortest valid path, or null if no reachable target exists
      */
@@ -54,6 +54,7 @@ public class SmartThiefPathfinder {
 
     /**
      * Marks all target tiles for pathfinding (loot, levers, or exits).
+     *
      * @return a 2D boolean array marking target tiles, or null if no targets exist
      */
     private boolean[][] markTargetTiles() {
@@ -122,6 +123,7 @@ public class SmartThiefPathfinder {
 
     /**
      * Initializes the previous tile tracking arrays with -1 (no parent).
+     *
      * @param previousTileX X-coordinate tracking array
      * @param previousTileY Y-coordinate tracking array
      */
@@ -136,6 +138,7 @@ public class SmartThiefPathfinder {
 
     /**
      * Explores all valid neighbouring tiles during BFS.
+     *
      * @param currentX current X coordinate
      * @param currentY current Y coordinate
      * @param visited tracking array for visited tiles
@@ -159,18 +162,18 @@ public class SmartThiefPathfinder {
                         && !visited[nextY][nextX]
                         && !isTileBlocked(nextX, nextY)) {
 
-                        visited[nextY][nextX] = true;
-                        previousTileX[nextY][nextX] = currentX;
-                        previousTileY[nextY][nextX] = currentY;
-                        queue.addLast(new int[]{nextX, nextY});
-                    }
-
+                    visited[nextY][nextX] = true;
+                    previousTileX[nextY][nextX] = currentX;
+                    previousTileY[nextY][nextX] = currentY;
+                    queue.addLast(new int[]{nextX, nextY});
+                }
             }
         }
     }
 
     /**
      * Checks if a tile is blocked by entities or items.
+     *
      * @param x X coordinate of tile
      * @param y Y coordinate of tile
      * @return true if the tile is blocked, false otherwise
@@ -193,6 +196,7 @@ public class SmartThiefPathfinder {
 
     /**
      * Reconstructs the first step from source to goal by backtracking.
+     *
      * @param source the starting tile
      * @param goalX the X coordinate of the goal
      * @param goalY the Y coordinate of the goal
@@ -209,8 +213,8 @@ public class SmartThiefPathfinder {
         int stepY = goalY;
 
         // Walk backwards until we reach the tile immediately after source
-        while (!(previousTileX[stepY][stepX] == startX &&
-                previousTileY[stepY][stepX] == startY)) {
+        while (!(previousTileX[stepY][stepX] == startX
+                && previousTileY[stepY][stepX] == startY)) {
             int prevX = previousTileX[stepY][stepX];
             int prevY = previousTileY[stepY][stepX];
 

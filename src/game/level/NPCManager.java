@@ -8,7 +8,6 @@ import game.entity.npc.FloorFollowingThief;
 import game.entity.npc.FlyingAssassin;
 import game.entity.npc.SmartThief;
 import game.item.*;
-
 import java.util.*;
 
 /**
