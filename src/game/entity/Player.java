@@ -1,6 +1,7 @@
 package game.entity;
 
 import game.GameController;
+import game.entity.npc.FlyingAssassin;
 import game.item.*;
 import game.level.Level;
 import game.level.Tile;
@@ -82,6 +83,11 @@ public class Player extends Entity {
         // If flying assassin on the tile
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
+            return;
+        }
+
+        if(level.checkPlayerShouldDieOnAssassin()) {
+            GameController.gameOver();
             return;
         }
 

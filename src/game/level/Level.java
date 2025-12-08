@@ -5,6 +5,7 @@ import game.TilePosition;
 import game.entity.Direction;
 import game.entity.Entity;
 import game.entity.Player;
+import game.entity.npc.FlyingAssassin;
 import game.entity.npc.NPC;
 import game.item.*;
 import java.util.*;
@@ -495,6 +496,26 @@ public class Level {
                 GameController.gameOver();
             }
         }
+    }
+
+    /**
+     * Checks that when the PLAYER moves, if it's occupying the same tile as a flying assassin.
+     *
+     * @return whether the player died or not.
+     */
+    public boolean checkPlayerShouldDieOnAssassin() {
+        int playerX = player.getX();
+        int playerY = player.getY();
+
+        for (Entity flyingAssassin : entities) {
+            if (flyingAssassin instanceof FlyingAssassin flyingAssassinButBetter) {
+                if (flyingAssassinButBetter.getX() == playerX && flyingAssassinButBetter.getY() == playerY) {
+                    player.die(false);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     /**
