@@ -32,6 +32,7 @@ GATE 6 2 2 false GREEN
 GATE 6 2 5 false GREEN
 GATE 6 5 5 false GREEN
 BOMB 7 5 1 false
+BOMB 7 13 1 false
 DOOR 8 9 3 false
 
 # Exit tiles
