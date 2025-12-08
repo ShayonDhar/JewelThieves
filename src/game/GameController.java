@@ -323,7 +323,6 @@ public class GameController {
                     door.isOn = false;
                     level.removeItemFromGrid(player.getY(), player.getX());
                     handleLevelComplete();
-                    loadLevel(currentLevelNumber + 1);
                 }
             }
 
