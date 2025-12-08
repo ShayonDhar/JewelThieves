@@ -450,8 +450,7 @@ public class Level {
 
         //  Bombs
         if (item instanceof Bomb bomb) {
-            if (bomb.getState() == BombState.WAITING
-                    || bomb.getState() == BombState.COUNTING) {
+            if (bomb.getState() == BombState.WAITING) {
                 bomb.trigger();
             }
             return;

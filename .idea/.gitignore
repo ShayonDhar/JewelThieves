@@ -11,6 +11,6 @@
 # Ignoring the stored checkstyle
 /checkstyle-idea.xml
 # Ignorning the JavaFX project structure library path
-/.idea/libraries/JavaFX.xml
+/libraries/JavaFX.xml
 # Ignorning local path to misc.xml for JavaDoc
 /misc.xml
