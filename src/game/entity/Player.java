@@ -79,6 +79,15 @@ public class Player extends Entity {
             }
         }
 
+        // Check if bomb is on the target tile
+        for (int y = 0; y < items.length; y++) {
+            for (int x = 0; x < items[y].length; x++) {
+                if (items[y][x] instanceof Bomb && targetTile.getY() == y && targetTile.getX() == x) {
+                    return;
+                }
+            }
+        }
+
         // If flying assassin on the tile
         if (targetTile.containsFlyingAssassin()) {
             game.GameController.gameOver();
