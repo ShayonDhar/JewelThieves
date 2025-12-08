@@ -5,22 +5,20 @@ import game.entity.Entity;
 import game.entity.Player;
 import game.entity.npc.NPC;
 import game.highscore.HighScoreManager;
-import game.item.Item;
-import game.item.Loot;
 import game.item.Clock;
-import game.item.Lever;
 import game.item.Door;
 import game.item.Gate;
+import game.item.Item;
+import game.item.Lever;
+import game.item.Loot;
 import game.level.Level;
 import game.level.LevelLoader;
 import game.level.Tile;
 import game.playerProfile.ProfileController;
 import game.playerProfile.ProfileSaveController;
 import game.save.GameSaveManager;
-
-import java.util.List;
 import java.util.ArrayList;
-
+import java.util.List;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -115,6 +113,11 @@ public class GameController {
         boardTilePane.requestFocus();
     }
 
+    /**
+     * Level loader, loads the game.
+     *
+     * @param levelNumber the level that is being loaded.
+     */
     public void loadLevel(int levelNumber) {
         if (saveManager == null) {
             saveManager = new GameSaveManager(this);
@@ -380,9 +383,9 @@ public class GameController {
         alert.setTitle("New High Score!");
         alert.setHeaderText("Congratulations!");
         alert.setContentText(
-                "You made the high score table!\n" +
-                        "Final Score: " + finalScore + "\n\n" +
-                        getHighScoreTableString()
+                "You made the high score table!\n"
+                        + "Final Score: " + finalScore + "\n\n"
+                        + getHighScoreTableString()
         );
         alert.showAndWait();
     }
@@ -397,8 +400,9 @@ public class GameController {
         alert.setTitle("Level Complete");
         alert.setHeaderText("Well Done!");
         alert.setContentText(
-                "Level completed!\n" +
-                        "Final Score: " + finalScore + "\n\n"
+                "Level completed!\n"
+                        + "Final Score: "
+                        + finalScore + "\n\n"
         );
         alert.showAndWait();
     }
@@ -553,8 +557,8 @@ public class GameController {
             Pane root = loader.load();
 
             // Get controller and inject the GameController for callbacks
-            ProfileSaveController Controller = loader.getController();
-            Controller.setGameController(this);
+            ProfileSaveController controller = loader.getController();
+            controller.setGameController(this);
 
             // Create a popup stage for load selection
             Stage profileStage = new Stage();
