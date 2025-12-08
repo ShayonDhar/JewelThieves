@@ -13,8 +13,8 @@ PLAYER 0 0 NORTH true false
 
 #NPCs
 
-ASSASSIN 10 0 SOUTH true false
-ASSASSIN 0 2 EAST true false
+ASSASSIN 10 3 SOUTH true false
+ASSASSIN 5 2 EAST true false
 SMARTTHIEF 2 6 WEST true false
 SMARTTHIEF 6 4 EAST true false
 FLOORFOLLOWINGTHIEF 1 5 EAST true false BLUE
